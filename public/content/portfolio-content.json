@@ -1,0 +1,295 @@
+{
+  "siteProfile": {
+    "name": "XUDONG XING",
+    "title": "Design manager",
+    "blurb": "12+ years of design leadership spanning B2B and B2C ecosystems. Expert in 0-to-1 product incubation, multi-million-dollar monetization, and enterprise platform governance across education, gaming, and creator tools. Holder of 11 patents and an international award winner (iF, Red Dot, MUSE Gold).",
+    "heroImage": "/gallery/Avatar.png",
+    "intro": "I build scalable design systems grounded in logic and methodology. Beyond merely fulfilling functional requirements, my work is rooted in human nature—translating deep behavioral insights into intuitive, empathetic digital experiences."
+  },
+  "homePage": {
+    "eyebrow": "Manifesto & Experience",
+    "title": "Profile",
+    "metaCode": "",
+    "metaLabel": "2026.9.1"
+  },
+  "aboutPage": {
+    "eyebrow": "Featured Projects",
+    "title": "Portfolio",
+    "metaCode": "",
+    "metaLabel": "update 2026.9.1"
+  },
+  "heroLinks": [
+    {
+      "label": "Company",
+      "value": "@TikTok"
+    },
+    {
+      "label": "Title",
+      "value": "Platform OPS Design manager"
+    },
+    {
+      "label": "Email",
+      "href": "mailto:xingxd0@gmail.com",
+      "value": "xingxd0@gmail.com"
+    }
+  ],
+  "experiences": [
+    {
+      "period": "2024 — Present",
+      "company": "TikTok",
+      "location": "San Jose, CA",
+      "role": "Design Manager / Product Design Lead",
+      "description": "Talent & Team Incubation: Direct talent recruitment, performance evaluations, and structured skill development to foster a high-performing design team.\n\nDesign Governance & AI Innovation: Oversee end-to-end design quality while incubating AI-driven solutions to drive patents and global design awards.\n\nOperation & Creator Ecosystems: Lead design for TikTok’s operational middle platforms to optimize internal workflows, while empowering global creators with intuitive tools and data insights."
+    },
+    {
+      "period": "2021 — 2024",
+      "company": "Kuaishou",
+      "location": "Beijing",
+      "role": "Design Manager",
+      "description": "Team Management: Directed talent recruitment, performance evaluations, and structured skill development to foster a high-performing design team across 11 business lines.\n\nBusiness Evolution: Led the integration of mobile and Web platforms, drove the version evolution of creator ecosystems and MCN systems, and spearheaded the progression of operational activity platforms alongside the 0-to-1 incubation of internal data label monitoring systems."
+    },
+    {
+      "period": "2018 — 2021",
+      "company": "ByteDance",
+      "location": "Beijing",
+      "role": "Design Lead / Senior UX Designer",
+      "description": "Education Product Incubation: Led the 0-to-1 product incubation and subsequent experience optimization for adult education business lines, including OpenLanguage, K12 English, and vocabulary-building apps.\n\nCore Business Iteration: Spearheaded design system updates and experience upgrades for Toutiao, daily iterations for search and short-to-long video features, 0-to-1 mini-program incubation, and served as the interaction lead for the 2019 ByteDance Spring Festival campaign."
+    }
+  ],
+  "awards": [
+    {
+      "year": "2027",
+      "title": "Red Dot Design Award",
+      "category": "AI Solution"
+    },
+    {
+      "year": "2026",
+      "title": "iF DESIGN AWARD (Dual Winner)",
+      "category": "Design System & Vibe Coding"
+    },
+    {
+      "year": "2025",
+      "title": "Red Dot Design Award",
+      "category": "Mental Health"
+    },
+    {
+      "year": "Granted",
+      "title": "National Patents 12",
+      "category": "3 Invention Patents"
+    }
+  ],
+  "footerInfo": {
+    "locationLabel": "Location",
+    "locationValue": "San Jose, California",
+    "connectLabel": "Connect",
+    "connectValue": "xingxd0@gmail.com",
+    "connectHref": "mailto:xingxd0@gmail.com",
+    "timeLabel": "Local Time",
+    "timeValue": "22:15:08 CST"
+  },
+  "works": [
+    {
+      "id": "1",
+      "title": "Global AI Design System & Platform Governance",
+      "category": "Platform Governance",
+      "year": "2026",
+      "imageUrl": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop",
+      "description": "Led platform governance and AI design ecosystems across 17 business lines at TikTok San Jose. Optimized cross-continental operational efficiency and digital workflows by defining highly scalable underlying design systems and systems architecture, setting an industry benchmark for complex human-computer collaboration and enterprise digital transformation.",
+      "client": "TikTok (San Jose)",
+      "role": "Product Design Lead",
+      "blocks": [
+        {
+          "id": "1-heading-1",
+          "type": "heading",
+          "content": "Designing a unified AI platform ecosystem"
+        },
+        {
+          "id": "1-paragraph-1",
+          "type": "paragraph",
+          "content": "As a Product Design Lead at TikTok, the primary challenge was aligning cross-continental operational efficiency. We developed a robust AI Design System to unify 17 independent business lines under a single architectural framework."
+        },
+        {
+          "id": "1-image-1",
+          "type": "image",
+          "url": "https://images.unsplash.com/photo-1558655146-d09347e92766?q=80&w=2000&auto=format&fit=crop",
+          "caption": "Platform governance and design system rollout."
+        },
+        {
+          "id": "1-quote-1",
+          "type": "quote",
+          "content": "The system reduced handoff cost while preserving brand consistency at scale."
+        },
+        {
+          "id": "1-paragraph-2",
+          "type": "paragraph",
+          "content": "The new system significantly reduced design-to-development handoff time, ensuring brand consistency while scaling complex internal and external tools globally. The ecosystem focuses on accessibility, predictive UI patterns, and scalable modularity."
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "title": "International Design Awards & Jury Membership",
+      "category": "Awards & Judging",
+      "year": "2025 - 2026",
+      "imageUrl": "https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?q=80&w=2067&auto=format&fit=crop",
+      "description": "Dual winner of the 2026 iF DESIGN AWARD and 2025 Red Dot Laureate. Serving as an active Grand Award Jury Member for international design competitions, focusing on the professional evaluation and standard-setting of human-computer interaction (HCI) and digital products.",
+      "client": "iF, Red Dot, A' Design Award",
+      "role": "Jury Member & Laureate",
+      "blocks": [
+        {
+          "id": "2-heading-1",
+          "type": "heading",
+          "content": "Recognition through global design evaluation"
+        },
+        {
+          "id": "2-paragraph-1",
+          "type": "paragraph",
+          "content": "Recognized for exceptional contributions to digital product design and human-computer interaction. The dual iF DESIGN AWARDS highlight a commitment to solving complex user problems through elegant, intuitive interfaces."
+        },
+        {
+          "id": "2-image-1",
+          "type": "image",
+          "url": "https://images.unsplash.com/photo-1563206767-5b18f218e8de?q=80&w=2000&auto=format&fit=crop",
+          "caption": "Award showcase and jury review process."
+        },
+        {
+          "id": "2-paragraph-2",
+          "type": "paragraph",
+          "content": "Currently serving as a Grand Award Jury Member, responsible for evaluating global submissions on criteria including innovation, functional logic, and aesthetic execution."
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "title": "Kuaishou Social Commerce Experience",
+      "category": "Digital Experience",
+      "year": "2023",
+      "imageUrl": "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=2000&auto=format&fit=crop",
+      "description": "Led the core interaction design team, driving innovative product experiences for Kuaishou's social commerce. Established rigorous design language systems (DLS) to deliver seamless and commercially viable product experiences for millions of active users.",
+      "client": "Kuaishou (Beijing)",
+      "role": "Design Manager",
+      "blocks": [
+        {
+          "id": "3-heading-1",
+          "type": "heading",
+          "content": "Reframing social commerce through interaction design"
+        },
+        {
+          "id": "3-paragraph-1",
+          "type": "paragraph",
+          "content": "Directed the foundational overhaul of the core interaction paradigms, blending short-video discovery with seamless social commerce integration."
+        },
+        {
+          "id": "3-video-1",
+          "type": "video",
+          "url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+          "caption": "Interaction concept demo placeholder."
+        },
+        {
+          "id": "3-paragraph-2",
+          "type": "paragraph",
+          "content": "The initiative resulted in a new design language system that brought visual harmony and interaction consistency to a highly diverse global user base."
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "title": "Global Creator Ops Control Center",
+      "category": "Creator Platform",
+      "year": "2024",
+      "imageUrl": "https://images.unsplash.com/photo-1516321497487-e288fb19713f?q=80&w=2000&auto=format&fit=crop",
+      "description": "Built a unified operational workspace for global, cross-functional teams. Streamlined creator support, campaign management, and cross-market execution, significantly enhancing collaboration efficiency across distributed global teams.",
+      "client": "TikTok Creator Operations",
+      "role": "Design Manager",
+      "blocks": [
+        {
+          "id": "4-heading-1",
+          "type": "heading",
+          "content": "Creating one control center for global creator operations"
+        },
+        {
+          "id": "4-paragraph-1",
+          "type": "paragraph",
+          "content": "This concept project consolidates fragmented creator operations workflows into a single workspace for task routing, campaign coordination, and partner health monitoring."
+        },
+        {
+          "id": "4-image-1",
+          "type": "image",
+          "url": "https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=2000&auto=format&fit=crop",
+          "caption": "Unified creator operations overview."
+        },
+        {
+          "id": "4-paragraph-2",
+          "type": "paragraph",
+          "content": "The system reduces context switching and supports global teams with clearer prioritization, modular dashboards, and faster issue resolution."
+        }
+      ]
+    },
+    {
+      "id": "5",
+      "title": "Design System for Enterprise Ops Tooling",
+      "category": "Design System",
+      "year": "2025",
+      "imageUrl": "https://images.unsplash.com/photo-1558655146-9f40138edfeb?q=80&w=2000&auto=format&fit=crop",
+      "description": "Defined scalable component libraries and governance models for internal enterprise operations tooling. Standardized experience across multiple workflows and markets to systematically elevate enterprise infrastructure efficiency.",
+      "client": "Internal Enterprise Platforms",
+      "role": "Design Lead",
+      "blocks": [
+        {
+          "id": "5-heading-1",
+          "type": "heading",
+          "content": "Standardizing enterprise tooling through a modular design system"
+        },
+        {
+          "id": "5-paragraph-1",
+          "type": "paragraph",
+          "content": "The project establishes a shared UI language for operations products, covering layout rules, component states, token usage, and cross-team contribution patterns."
+        },
+        {
+          "id": "5-image-1",
+          "type": "image",
+          "url": "https://images.unsplash.com/photo-1545239351-1141bd82e8a6?q=80&w=2000&auto=format&fit=crop",
+          "caption": "Systemized patterns for complex ops interfaces."
+        },
+        {
+          "id": "5-paragraph-2",
+          "type": "paragraph",
+          "content": "By unifying patterns and review rules, teams can ship faster while preserving clarity, accessibility, and design quality across business lines."
+        }
+      ]
+    },
+    {
+      "id": "6",
+      "title": "AI-Assisted Moderation Dashboard",
+      "category": "AI Workflow",
+      "year": "2026",
+      "imageUrl": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=2000&auto=format&fit=crop",
+      "description": "Explored next-generation decision-making dashboards combining AI intelligent summaries, multi-dimensional risk signals, and human review workflows. Significantly elevated decision-making efficiency in high-pressure, complex scenarios through refined human-computer interaction (HCI) design.",
+      "client": "Trust & Safety",
+      "role": "Product Design Lead",
+      "blocks": [
+        {
+          "id": "6-heading-1",
+          "type": "heading",
+          "content": "Combining AI signals with human review in one decision flow"
+        },
+        {
+          "id": "6-paragraph-1",
+          "type": "paragraph",
+          "content": "This concept focuses on helping moderation teams scan large volumes of cases through AI summaries, confidence markers, and action recommendations."
+        },
+        {
+          "id": "6-image-1",
+          "type": "image",
+          "url": "https://images.unsplash.com/photo-1516321165247-4aa89a48be28?q=80&w=2000&auto=format&fit=crop",
+          "caption": "AI-assisted decision support for moderation teams."
+        },
+        {
+          "id": "6-paragraph-2",
+          "type": "paragraph",
+          "content": "The interface balances speed and accountability by keeping source evidence visible while streamlining repetitive review and escalation tasks."
+        }
+      ]
+    }
+  ]
+}
