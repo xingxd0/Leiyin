@@ -1,5 +1,5 @@
-import { Home } from '../components/Home';
+import { FrameworkHome } from '../components/FrameworkPages';
 
 export function HomePage() {
-  return <Home />;
+  return <FrameworkHome />;
 }

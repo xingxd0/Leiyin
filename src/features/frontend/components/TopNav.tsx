@@ -1,4 +1,3 @@
-import { motion } from 'motion/react';
 import { NavLink } from 'react-router-dom';
 import { usePortfolioContent } from '../../portfolio/content/PortfolioContentProvider';
 import { navLinks } from '../../../shared/config/navigation';
@@ -14,12 +13,7 @@ export function TopNav() {
     };
 
   return (
-    <motion.header
-      initial={{ y: -20, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-      className="sticky top-0 z-50 flex h-16 w-full items-center justify-between border-b border-gray-100 bg-white/95 px-8 backdrop-blur-sm md:px-12 lg:px-20"
-    >
+    <header className="fixed inset-x-0 top-0 z-50 flex h-16 w-full items-center justify-between border-b border-gray-100 bg-white/95 px-8 backdrop-blur-sm md:px-12 lg:px-20">
       <NavLink
         to="/"
         className="text-[10px] font-black uppercase tracking-[0.4em] text-[#111111] transition-opacity hover:opacity-70"
@@ -60,6 +54,6 @@ export function TopNav() {
           </li>
         ) : null}
       </ul>
-    </motion.header>
+    </header>
   );
 }

@@ -6,3 +6,11 @@ body {
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
+
+.evidence-texture {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.55) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.45) 1px, transparent 1px);
+  background-size: 42px 42px;
+  mask-image: radial-gradient(circle at 50% 45%, black 0%, transparent 70%);
+}

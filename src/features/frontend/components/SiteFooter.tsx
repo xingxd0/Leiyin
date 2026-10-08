@@ -11,7 +11,7 @@ interface SiteFooterProps {
 }
 
 export function SiteFooter({
-  className = 'mt-auto flex flex-col gap-6 border-t border-gray-100 pt-8 md:flex-row md:items-center md:justify-between md:gap-0',
+  className = 'mt-auto grid gap-6 border-t border-gray-100 pt-8 md:grid-cols-3 md:items-start',
   leftLabel,
   leftValue,
   rightLabel,
@@ -23,36 +23,37 @@ export function SiteFooter({
 
   const resolvedHref = rightHref ?? footerInfo.connectHref;
   const resolvedValue = rightValue ?? footerInfo.connectValue;
+  const labelClass = 'text-[9px] font-bold uppercase leading-none tracking-widest text-gray-400';
+  const valueClass = 'mt-3 block text-xs font-semibold leading-none text-[#111111]';
+  const linkClass = `${valueClass} w-fit underline underline-offset-4`;
 
   return (
     <footer className={className}>
-      <div className="flex space-x-12">
-        <div>
-          <p className="mb-1 text-[9px] font-bold uppercase tracking-widest text-gray-400">
-            {leftLabel ?? footerInfo.locationLabel}
-          </p>
-          <p className="text-xs font-semibold">{leftValue ?? footerInfo.locationValue}</p>
-        </div>
-        <div>
-          <p className="mb-1 text-[9px] font-bold uppercase tracking-widest text-gray-400">
-            {rightLabel ?? footerInfo.connectLabel}
-          </p>
-          {resolvedHref?.startsWith('/') ? (
-            <Link to={resolvedHref} className="text-xs font-semibold underline underline-offset-4">
-              {resolvedValue}
-            </Link>
-          ) : resolvedHref ? (
-            <a href={resolvedHref} className="text-xs font-semibold underline underline-offset-4">
-              {resolvedValue}
-            </a>
-          ) : (
-            <p className="text-xs font-semibold">{resolvedValue}</p>
-          )}
-        </div>
+      <div>
+        <p className={labelClass}>
+          {leftLabel ?? footerInfo.locationLabel}
+        </p>
+        <p className={valueClass}>{leftValue ?? footerInfo.locationValue}</p>
+      </div>
+      <div>
+        <p className={labelClass}>
+          {rightLabel ?? footerInfo.connectLabel}
+        </p>
+        {resolvedHref?.startsWith('/') ? (
+          <Link to={resolvedHref} className={linkClass}>
+            {resolvedValue}
+          </Link>
+        ) : resolvedHref ? (
+          <a href={resolvedHref} className={linkClass}>
+            {resolvedValue}
+          </a>
+        ) : (
+          <p className={valueClass}>{resolvedValue}</p>
+        )}
       </div>
       <div className="text-left md:text-right">
-        <p className="mb-1 text-[9px] font-bold uppercase tracking-widest text-gray-400">{footerInfo.timeLabel}</p>
-        <p className="text-xs font-mono font-bold tracking-tighter">{footerInfo.timeValue}</p>
+        <p className={labelClass}>{footerInfo.timeLabel}</p>
+        <p className={`${valueClass} font-mono font-bold tracking-tighter`}>{footerInfo.timeValue}</p>
       </div>
     </footer>
   );
