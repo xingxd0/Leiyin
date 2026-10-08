@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { SiteFooter } from './SiteFooter';
@@ -91,6 +91,13 @@ const leiyinDesignSystem = {
       glowTopLeft: 'pointer-events-none absolute -left-20 top-16 h-64 w-64 rounded-full bg-white/35 blur-3xl',
       glowBottomRight: 'pointer-events-none absolute bottom-0 right-0 h-80 w-80 rounded-full bg-white/30 blur-3xl',
       guideLine: 'pointer-events-none absolute inset-x-8 bottom-8 h-px bg-gradient-to-r from-transparent via-white/80 to-transparent',
+      easterEgg:
+        'pointer-events-none absolute right-[12%] top-[45%] z-[1] hidden max-w-[380px] -rotate-2 select-none md:block xl:right-[18%]',
+      easterEggLabel: 'text-[10px] font-bold uppercase tracking-[0.32em] text-gray-500',
+      easterEggTitle: 'mt-4 text-2xl font-light leading-snug tracking-[-0.04em] text-gray-900',
+      easterEggBody: 'mt-3 text-sm font-semibold leading-7 text-gray-600',
+      easterEggIdleOpacity: 0.18,
+      easterEggRevealedOpacity: 0.72,
       copyPanel: 'relative z-10 max-w-sm space-y-5 p-6 md:p-7 lg:max-w-md',
       desktopCardLayer: 'absolute inset-0 hidden md:block',
       mobileCardLayer: 'relative z-10 mt-10 grid gap-3 md:hidden',
@@ -199,6 +206,7 @@ const evidenceBoardSpecs = [
   ['Drag Boundary', '100vw - 64px / medium', '中等屏幕保留更小页面边距，避免拖拽区域造成横向压迫。'],
   ['Mobile Behavior', 'static stacked cards', '移动端不启用浮动拖拽，改为纵向堆叠，保证阅读优先。'],
   ['Overflow Rule', 'visible', 'Evidence Board 允许卡片破出背景，但默认状态不能遮盖主信息。'],
+  ['Easter Egg Text', '18% -> 72% opacity', '彩蛋是卡片下方的纯文字区域，不使用容器、描边或阴影；首次拖拽证据卡后提高透明度。'],
 ];
 
 const evidenceCardVariantSpecs = Object.entries(leiyinDesignSystem.component.evidenceCard.variants).map(
@@ -580,6 +588,7 @@ function OutlineList({ blocks }: { blocks: TextBlock[] }) {
 
 export function FrameworkHome() {
   const evidenceBoardRef = useRef<HTMLDivElement>(null);
+  const [hasDraggedEvidenceCard, setHasDraggedEvidenceCard] = useState(false);
 
   return (
     <PageShell
@@ -609,6 +618,24 @@ export function FrameworkHome() {
           <div className={leiyinDesignSystem.component.evidenceBoard.glowBottomRight} />
           <div className={leiyinDesignSystem.component.evidenceBoard.guideLine} />
 
+          <motion.div
+            animate={{
+              opacity: hasDraggedEvidenceCard
+                ? leiyinDesignSystem.component.evidenceBoard.easterEggRevealedOpacity
+                : leiyinDesignSystem.component.evidenceBoard.easterEggIdleOpacity,
+            }}
+            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            className={leiyinDesignSystem.component.evidenceBoard.easterEgg}
+          >
+            <span className={leiyinDesignSystem.component.evidenceBoard.easterEggLabel}>Hidden Signal</span>
+            <p className={leiyinDesignSystem.component.evidenceBoard.easterEggTitle}>
+              Proof is not decoration.
+            </p>
+            <p className={leiyinDesignSystem.component.evidenceBoard.easterEggBody}>
+              Move the evidence around to reveal the logic behind the story.
+            </p>
+          </motion.div>
+
           <div className={cx(leiyinDesignSystem.component.evidenceBoard.copyPanel, leiyinDesignSystem.radius.panel, leiyinDesignSystem.surface.heroCopy)}>
             <span className={cx('inline-flex border border-white/80 bg-white/70 px-4 py-2 text-gray-500 shadow-sm backdrop-blur-md', leiyinDesignSystem.radius.chip, leiyinDesignSystem.typography.meta)}>
               Design Leadership Profile
@@ -633,6 +660,7 @@ export function FrameworkHome() {
                   dragConstraints={evidenceBoardRef}
                   dragElastic={0.08}
                   dragMomentum={false}
+                  onDragStart={() => setHasDraggedEvidenceCard(true)}
                   whileDrag={{ scale: 1.03, zIndex: 40 }}
                   initial={{ opacity: 0, y: 26, rotate: 0 }}
                   animate={{ opacity: 1, y: 0 }}
