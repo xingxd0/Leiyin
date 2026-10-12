@@ -83,3 +83,18 @@ npm run preview
 - 日常编辑在本地 `admin` 完成
 - 确认内容无误后导出并覆盖正式 JSON
 - 最后执行 `git add`、`git commit`、`git push`
+
+
+## 拍立得交互 Demo
+
+当前交互版本已同步到 [`public/instant/index.html`](public/instant/index.html)。
+
+- 本地启动现有项目后访问 `http://localhost:3000/instant/index.html`。
+- 该页面为自包含 HTML/CSS/JavaScript，Vite 构建时会作为静态文件复制到 `dist/instant/index.html`；也可直接打开 HTML 文件。
+- 首页支持首屏拍照、照片逐渐显影、连续移入横向照片列表，以及逆向滚动还原。
+- 手机支持纵向滚动和横向手势同步浏览；末尾 More 卡片点击或滑至末尾松手后进入作品 Tab。
+- About Me 是独立页面；作品卡片在手机点击、桌面 hover 时显示概要，通过「查看更多」进入详情。
+- 原色、暖调、黑白、褪色、冷调五种滤镜作用于首页和首页的作品照片；作品 Tab 和详情保持原色。
+- 当前作品为 Demo 示例，尚未完成真机视觉验证。
+
+同步时间：2026-10-12。当前线上交互预览：https://xudong-instant-moments.famousclock5.chatgpt.site
