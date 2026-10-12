@@ -1,0 +1,9 @@
+{
+  "id": "2026-10-01-demo",
+  "title": "Demo work conversation",
+  "source_type": "daily_conversation",
+  "skill": "skills/current.md",
+  "created_at": "2026-10-01T00:00:00Z",
+  "status": "pending",
+  "content": "A: Let's take it one step at a time.\nB: Sounds good. I'll keep you posted.\nA: What is our priority?\nB: The launch is our priority. I'll keep you posted."
+}

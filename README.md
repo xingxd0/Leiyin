@@ -1,100 +1,55 @@
-# Minimalist Designer Portfolio
+# 拾语 Expression System
 
-一个用于个人作品集展示的前端项目，包含：
+一个本地优先的英语表达知识库。GitHub 保存原文、Skill 和处理结果；本地脚本负责分析；`xxd-design.com` 只负责静态展示。
 
-- 前台展示页：`Home`、`About Work`、作品详情页
-- 本地后台：`/admin`，用于维护首页信息、作品列表和详情内容
-- 静态发布内容：通过导出 JSON 和本地图库文件进行最终发布
-- Vercel 部署：连接 GitHub 仓库后自动构建并发布
+## 使用流程
 
-## 技术栈
+1. 把文章或对话保存到 `content/inbox/`，支持 `.json`、`.txt`、`.md`。
+2. 编辑 `skills/current.md` 调整提取规则。
+3. 本地运行：
 
-- `React 19`
-- `TypeScript`
-- `Vite`
-- `React Router`
-- `Tailwind CSS`
-
-## 本地运行
-
-**前置要求：** `Node.js 20+`
-
-1. 安装依赖
-
-```bash
-npm install
+```sh
+python3 scripts/process.py
 ```
 
-1. 启动开发环境
+4. 脚本会更新：
+- `data/cards.json`
+- `data/sources.json`
+- `public/knowledge.json`
 
-```bash
-npm run dev
+5. 提交并推送到 GitHub 后，GitHub Pages 会展示最新知识库。
+
+## 本地学习记录
+
+使用本地后台启动页面，正确率和“熟悉/不熟悉”会写入知识库文件：
+
+```sh
+python3 server.py
 ```
 
-1. 打开页面
+打开 `http://127.0.0.1:8765/`。点击“正确 / 错误”会更新卡片的 `practice` 字段；点击“熟悉 / 不熟悉”会更新或移除 `priority_override` 字段，并同步刷新 `public/knowledge.json`。
 
-- 前台首页：`http://localhost:3000/`
-- 后台编辑：`http://localhost:3000/admin`
+## 目录
 
-## 内容维护流程
+- `content/inbox/`：待处理原文。
+- `content/processed/`：已处理原文副本。
+- `skills/current.md`：当前 Skill / 提取规则。
+- `data/`：长期保存的卡片和来源数据。
+- `public/knowledge.json`：网页读取的静态数据。
+- `server.py`：本地预览和学习记录写入后台。
+- `scripts/process.py`：本地处理脚本。
+- `index.html`、`styles.css`、`app.js`：静态展示网站。
 
-1. 将图片放入 `public/gallery/`
-1. 在后台 `/admin` 编辑首页信息、作品列表和文章内容
-1. 图片路径填写站点路径，例如：`/gallery/Avatar.png`
-1. 后台保存后会先写入本地草稿
-1. 导出发布文件后，用导出的 JSON 覆盖 `public/content/portfolio-content.json`
-1. 将 `public/content/portfolio-content.json` 和新增图库图片一起提交到 Git
+## 当前限制
 
-## 目录说明
+- 第一版提取逻辑是可解释的本地规则模拟，后续会替换为本地模型按 Skill 分析。
+- 线上网页只展示，不提交内容，不直接写 GitHub；本地后台只写入本机 JSON 文件。
+- 运行中的数据库、日志和备份不提交到仓库。
+
+## 归档
+
+旧作品集已保存到分支：
 
 ```text
-src/
-  app/                    应用入口与布局
-  features/frontend/      前台页面与组件
-  features/admin/         本地后台页面与组件
-  features/portfolio/     作品集内容模型与数据提供层
-  shared/                 路由、工具函数、通用配置
-
-public/
-  content/                正式发布的静态内容 JSON
-  gallery/                本地图库
+archive/portfolio-2026-09-09
 ```
-
-## 构建与预览
-
-```bash
-npm run build
-npm run preview
-```
-
-## 部署说明
-
-- 项目已适配 Vercel 部署，默认根路径为 `'/'`
-- 路由已切换为 `BrowserRouter`
-- `vercel.json` 已配置 SPA rewrites，支持刷新 `/work`、`/work/:id`、`/admin`
-- Vercel 推荐构建配置：
-  - Framework Preset: `Vite`
-  - Build Command: `npm run build`
-  - Output Directory: `dist`
-  - Install Command: `npm install`
-
-## 发布建议
-
-- 日常编辑在本地 `admin` 完成
-- 确认内容无误后导出并覆盖正式 JSON
-- 最后执行 `git add`、`git commit`、`git push`
-
-
-## 拍立得交互 Demo
-
-当前交互版本已同步到 [`public/instant/index.html`](public/instant/index.html)。
-
-- 本地启动现有项目后访问 `http://localhost:3000/instant/index.html`。
-- 该页面为自包含 HTML/CSS/JavaScript，Vite 构建时会作为静态文件复制到 `dist/instant/index.html`；也可直接打开 HTML 文件。
-- 首页支持首屏拍照、照片逐渐显影、连续移入横向照片列表，以及逆向滚动还原。
-- 手机支持纵向滚动和横向手势同步浏览；末尾 More 卡片点击或滑至末尾松手后进入作品 Tab。
-- About Me 是独立页面；作品卡片在手机点击、桌面 hover 时显示概要，通过「查看更多」进入详情。
-- 原色、暖调、黑白、褪色、冷调五种滤镜作用于首页和首页的作品照片；作品 Tab 和详情保持原色。
-- 当前作品为 Demo 示例，尚未完成真机视觉验证。
-
-同步时间：2026-10-12。当前线上交互预览：https://xudong-instant-moments.famousclock5.chatgpt.site
