@@ -1,5 +1,5 @@
-import { FrameworkAbout } from '../components/FrameworkPages';
+import { InstantReplicaPage } from '../components/InstantReplicaPage';
 
 export function AboutPage() {
-  return <FrameworkAbout />;
+  return <InstantReplicaPage section="about" />;
 }

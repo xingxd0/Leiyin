@@ -1,5 +1,5 @@
-import { FrameworkCareer } from '../components/FrameworkPages';
+import { InstantReplicaPage } from '../components/InstantReplicaPage';
 
 export function CareerPage() {
-  return <FrameworkCareer />;
+  return <InstantReplicaPage section="works" />;
 }

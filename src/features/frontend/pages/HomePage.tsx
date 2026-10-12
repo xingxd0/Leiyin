@@ -1,5 +1,5 @@
-import { FrameworkHome } from '../components/FrameworkPages';
+import { InstantReplicaPage } from '../components/InstantReplicaPage';
 
 export function HomePage() {
-  return <FrameworkHome />;
+  return <InstantReplicaPage section="home" />;
 }
