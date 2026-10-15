@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "source": {
+    "filename": null,
+    "sha256": null,
+    "page_count": null
+  },
+  "review_context": {
+    "rubric_version": null,
+    "profile_confirmed": false,
+    "confirmed_profile": null,
+    "jd_status": "not_asked",
+    "jd_source": null
+  },
+  "projects": [],
+  "pages": [],
+  "evidence": [],
+  "open_questions": [],
+  "usage": {
+    "images_read": 0,
+    "detail_rereads": 0,
+    "actual_token_usage": null
+  },
+  "record_guidance": {
+    "projects": "项目名称、起止PDF页码、场景、关键页位置；未知填null",
+    "pages": "PDF页码、印刷页码、读取状态（unread/indexed/text_checked/image_checked/unreadable）、文本质量",
+    "evidence": "唯一编号、项目、PDF页码或URL位置、事实摘要、核验方式、局限；不得将猜测写成事实"
+  }
+}

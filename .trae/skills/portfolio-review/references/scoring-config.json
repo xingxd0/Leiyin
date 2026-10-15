@@ -1,0 +1,27 @@
+{
+  "version": "0.1.0-draft",
+  "private": true,
+  "dimensions": {
+    "business_goals": "业务理解与目标定义",
+    "strategy_reasoning": "设计策略与方案推导",
+    "solution_depth": "方案深度与经验匹配",
+    "visual_expression": "视觉设计与表达",
+    "validation": "结果验证与目标闭环",
+    "contribution": "个人贡献与设计价值"
+  },
+  "scale": {"min": 1, "max": 5, "step": 1},
+  "weights": {
+    "logic": {"business_goals": 20, "strategy_reasoning": 25, "solution_depth": 15, "visual_expression": 10, "validation": 15, "contribution": 15},
+    "ai_implementation": {"business_goals": 15, "strategy_reasoning": 20, "solution_depth": 25, "visual_expression": 10, "validation": 15, "contribution": 15},
+    "visual": {"business_goals": 15, "strategy_reasoning": 15, "solution_depth": 15, "visual_expression": 30, "validation": 10, "contribution": 15}
+  },
+  "confirmed": ["six_dimensions", "three_primary_weight_sets", "optional_jd", "dual_scores_with_jd", "profile_confirmation_before_jd", "internal_rules_not_in_deliverable"],
+  "draft_defaults": {
+    "level_selection": "responsibility_based_operator_confirmed_not_years_mapping",
+    "secondary_orientation": "record_only_no_weight_blending",
+    "score_formula": "sum(weight_percent * rating / 5)",
+    "missing_dimension": "withhold_total_no_zero_imputation",
+    "jd_weights": "explicit_evidence_backed_weights_all_dimensions_positive_sum_100",
+    "jd_weight_calibration": "no_automatic_keyword_multiplier_or_unapproved_fixed_shift"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "notice": "SYNTHETIC VALIDATION FIXTURE ONLY. Not a real candidate or portfolio.",
+  "rubric_version": "0.1.0-draft",
+  "profile_confirmed": true,
+  "profile": {"primary_orientation": "logic", "general_level": "L3"},
+  "scope": "Synthetic six-dimension calculation fixture; no portfolio was read.",
+  "general": {
+    "ratings": {"business_goals": 4, "strategy_reasoning": 4, "solution_depth": 3, "visual_expression": 3, "validation": 3, "contribution": 4},
+    "evidence": {
+      "business_goals": "Synthetic fixture, not real evidence.",
+      "strategy_reasoning": "Synthetic fixture, not real evidence.",
+      "solution_depth": "Synthetic fixture, not real evidence.",
+      "visual_expression": "Synthetic fixture, not real evidence.",
+      "validation": "Synthetic fixture, not real evidence.",
+      "contribution": "Synthetic fixture, not real evidence."
+    }
+  },
+  "jd": null
+}
