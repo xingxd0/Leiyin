@@ -5,7 +5,7 @@ const tracks=[
   {title:"AI & What's Next",code:'EXPLORING',color:'#8a77c0'}
 ];
 const views={
-  identity:{title:'身份认证',subtitle:'CLI / Identity',description:'终端已接入。查看今日摘要，选择任务中心或能力作品档案。'},
+  identity:{title:'身份认证',subtitle:'CLI / Identity',description:'Xudong Xing / Product Design Leader'},
   todo:{title:'Personal Growth Roadmap',subtitle:'个人成长路线图',description:'已完成的成就不是终点，而是下一阶段成长的基础。',columns:growthRoadmap},
   model:{title:'能力模型',subtitle:'Capabilities / Work',description:'能力、方法与作品。'},
   pending:{title:'待定',subtitle:'Undefined',description:''}
@@ -20,26 +20,33 @@ function element(tag,cls,text){
   return n;
 }
 let view='identity',filter='all',trigger=null,dimension=0;
-const commandHistory=[];
 const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)');
-const welcomeMessages=[
-  {type:'boot',lines:['> initializing identity...','Loading personal profile...','✓ Identity verified']},
-  {type:'profile',heading:'PROFILE / 001',lines:['Xudong Xing','Product Design Leader','Product Design Manager @ TikTok','12 Years in Product Design','Enterprise SaaS · ByteDance · Kuaishou']},
-  {type:'capabilities',heading:'CAPABILITIES / 002',lines:['[01] Craft — Designing with clarity and precision.','[02] Systems — Turning complexity into scalable solutions.','[03] People — Building teams where people grow.',"[04] AI — Exploring what's next in human-computer interaction."]},
-  {type:'record',heading:'TRACK RECORD / 003',lines:['10 Designers · 11 Business Lines','11 Design Patents',"iF · Red Dot · MUSE · A' Design Awards"]},
-  {type:'philosophy',heading:'PHILOSOPHY / 004',lines:['Find clarity in complexity.','Build systems that scale.','Give people room to grow.']},
-  {type:'complete',lines:['✓ Profile loaded successfully.','Entering Always Becoming workspace_']}
-];
-let welcomeCount=0,welcomeTimer=null,loginTimer=null,loginStep=0,loggedIn=false;
-function stopWelcome(){clearTimeout(welcomeTimer);welcomeTimer=null;}
+let identityController=null,loginTimer=null,loginStep=0,loggedIn=false;
+function stopWelcome(){identityController?.destroy();identityController=null;}
 const routes={identity:'/identity',todo:'/roadmap',model:'/capabilities',pending:'/pending'};
+let activeRoute=null;
 function routeView(){
   return Object.keys(routes).find(key=>`#${routes[key]}`===location.hash)||'identity';
 }
 function syncRoute(){
+  const route=location.hash||'#/login';
+  if(route===activeRoute)return;
+  activeRoute=route;
+  if(route==='#/login'){
+    if(!location.hash)history.replaceState(null,'',`${location.pathname}${location.search}#/login`);
+    if($('cardDialog').open){trigger=null;$('cardDialog').close();}
+    document.title='登录 / Always Becoming';
+    startLogin();
+    return;
+  }
+  clearTimeout(loginTimer);loginTimer=null;
+  stopLoginCrow();
+  if($('loginScreen').open)$('loginScreen').close();
+  loggedIn=true;
   view=routeView();filter='all';
   if(location.hash!==`#${routes[view]}`){
     history.replaceState(null,'',`${location.pathname}${location.search}#${routes[view]}`);
+    activeRoute=location.hash;
   }
   if($('cardDialog').open){trigger=null;$('cardDialog').close();}
   render();
@@ -50,23 +57,15 @@ function navigate(target){
   if(location.hash!==`#${routes[target]}`)history.pushState(null,'',`#${routes[target]}`);
   syncRoute();$(`nav-${target}`).focus({preventScroll:true});
 }
-function scheduleWelcome(){
-  stopWelcome();
-  if(!loggedIn||view!=='identity'||welcomeCount>=welcomeMessages.length)return;
-  welcomeTimer=setTimeout(()=>{
-    welcomeCount++;renderTerminal();
-  },reducedMotion.matches?0:1100);
-}
 function finishLogin(){
   clearTimeout(loginTimer);loginTimer=null;
   stopLoginCrow();
-  loggedIn=true;view=routeView();filter='all';
-  if($('loginScreen').open)$('loginScreen').close();
-  render();$('boardPanel').focus({preventScroll:true});
+  history.replaceState(null,'',`${location.pathname}${location.search}#/identity`);
+  syncRoute();$('boardPanel').focus({preventScroll:true});
 }
 function startLogin(){
   clearTimeout(loginTimer);stopWelcome();stopAscii();
-  loggedIn=false;welcomeCount=0;loginStep=0;commandHistory.length=0;
+  loggedIn=false;loginStep=0;
   $('loginLog').replaceChildren();$('loginProgress').value=0;
   $('loginStatus').textContent='初始化连接';
   if(!$('loginScreen').open)$('loginScreen').showModal();
@@ -132,109 +131,18 @@ function syncAscii(){
 }
 reducedMotion.addEventListener('change',event=>{asciiPaused=event.matches;syncAscii();});
 document.addEventListener('visibilitychange',syncAscii);
-const commandOutputs={
-  help:'可用命令：whoami、about、experience、principles、clear。\n输入 1 或 todo 查看任务；输入 2 或 portfolio 查看能力作品集。',
-  whoami:'Xudong Xing\nProduct Design Leader\nProduct Design Manager @ TikTok',
-  about:'Always Becoming.\n记录积累、探索与下一步。',
-  experience:'12 Years in Product Design\nEnterprise SaaS · ByteDance · Kuaishou\n10 Designers · 11 Business Lines\n11 Design Patents\niF · Red Dot · MUSE · A\' Design Awards',
-  principles:'Find clarity in complexity.\nBuild systems that scale.\nGive people room to grow.'
-};
-function terminalCommand(command){
-  const line=element('p','terminal-command');
-  line.append(element('span','cli-prompt','somebody:~ $ '));
-  command.split(/(\s+)/).forEach((token,index)=>{
-    const kind=/^\s+$/.test(token)?'cli-punctuation':token.startsWith('--')?'cli-argument':index===0?'cli-function':'cli-value';
-    line.append(element('span',kind,token));
-  });
-  return line;
-}
 function renderTerminal(){
   stopWelcome();
-  const previousInput=$('commandInput');
-  const previousOutput=document.querySelector('.terminal-output');
-  const previousScroll=previousOutput?.scrollTop||0;
-  const inputFocused=previousInput&&document.activeElement===previousInput;
-  const inputDraft=inputFocused?previousInput.value:'';
   const terminal=element('section','terminal');
   terminal.setAttribute('aria-label','个人介绍终端');
   const body=element('div','terminal-body');
-  let visual=$('asciiPanel');
-  if(!visual){
-    visual=element('div','ascii-panel');visual.id='asciiPanel';
-    const art=element('div','ascii-art');art.id='asciiArt';
-    art.setAttribute('role','img');art.setAttribute('aria-label','汉字乌鸦居中振翅，分层飞羽明暗变化，树林从右向左移动');
-    visual.append(art);
-  }
-  let output=element('div','terminal-output');
-  output.setAttribute('role','log');output.setAttribute('aria-label','命令输出');
-  const header=element('div','identity-terminal-header');
-  header.append(element('span','','>_ IDENTITY TERMINAL'),element('span','identity-connected','● CONNECTED'));
-  output.append(header);
-  welcomeMessages.slice(0,welcomeCount).forEach(item=>{
-    const section=element('section',`identity-section identity-${item.type}`);
-    if(item.heading)section.append(element('h3','identity-section-label',item.heading));
-    item.lines.forEach((text,index)=>{
-      const cls=item.type==='profile'
-        ? ['identity-name','identity-role','identity-position','identity-muted','identity-muted'][index]
-        : text.startsWith('✓')||text.startsWith('>')?'identity-success'
-        : item.type==='boot'||item.type==='complete'?'identity-muted':'identity-line';
-      section.append(element(item.type==='profile'&&index===0?'h2':'p',cls,text));
-    });
-    output.append(section);
-  });
-  commandHistory.forEach(item=>output.append(terminalCommand(item.command),element('pre','terminal-result',item.result)));
-  if(welcomeCount===welcomeMessages.length){
-    const choices=element('div','terminal-choices');
-    [['todo','1','tasks','查看成长路线图'],['model','2','portfolio','查看我的作品集']].forEach(([target,number,command,title])=>{
-      const button=element('button','terminal-choice');button.type='button';
-      const cursor=element('span','terminal-cursor','▌');cursor.setAttribute('aria-hidden','true');
-      const text=element('span','cli-choice-text');
-      text.append(element('span','cli-punctuation','['),element('span','cli-number',number),element('span','cli-punctuation','] '),element('span','cli-keyword','open '),element('span','cli-value',command),element('span','cli-punctuation',' / '),element('span','cli-choice-label',title));
-      button.append(element('span','choice-marker','>'),text,cursor);
-      button.onclick=()=>navigate(target);choices.append(button);
-    });
-    output.append(choices);
-  }
-  const form=element('form','terminal-form'),label=element('label','','somebody:~ $'),input=element('input');
-  input.id='commandInput';input.name='command';input.autocomplete='off';input.spellcheck=false;
-  input.setAttribute('aria-label','输入个人介绍命令');label.htmlFor=input.id;
-  const submit=element('button','','执行');submit.type='submit';
-  const inputCursor=element('span','terminal-cursor','▌');inputCursor.setAttribute('aria-hidden','true');
-  const inputWrap=element('span','terminal-input');
-  inputWrap.append(input,inputCursor);
-  input.oninput=()=>{inputWrap.classList.toggle('has-value',Boolean(input.value));};
-  form.append(label,inputWrap,submit);
-  form.onsubmit=event=>{
-    event.preventDefault();const command=input.value.trim().toLowerCase();if(!command)return;
-    if(command==='1'||command==='todo'){navigate('todo');return;}
-    if(command==='2'||command==='portfolio'){navigate('model');return;}
-    if(command==='clear')commandHistory.length=0;
-    else commandHistory.push({command,result:commandOutputs[command]||`未识别的命令：${command}\n输入 help 查看可用命令。`});
-    input.value='';renderTerminal();$('commandInput').focus({preventScroll:true});
-  };
-  if(previousOutput){
-    previousOutput.replaceChildren(...output.childNodes);
-    output=previousOutput;
-  }
-  body.append(visual,output);
-  terminal.append(body,form);$('boardPanel').replaceChildren(terminal);
-  const latest=commandHistory.length
-    ? output.querySelector('.terminal-command:last-of-type')
-    : output.querySelector('.identity-section:last-of-type');
-  if(latest){
-    const top=latest.getBoundingClientRect().top-output.getBoundingClientRect().top+output.scrollTop-24;
-    // Leave enough trailing room to bring the newest block to the top.
-    const space=element('div');
-    space.setAttribute('aria-hidden','true');
-    space.style.height=`${Math.max(0,top+output.clientHeight-output.scrollHeight)}px`;
-    output.append(space);
-    // Restore only after the scroll range exists, avoiding a clamped first jump.
-    output.scrollTo({top:previousScroll,behavior:'instant'});
-    output.scrollTo({top:Math.max(0,top),behavior:reducedMotion.matches?'instant':'smooth'});
-  }
-  else output.scrollTo({top:previousScroll,behavior:'instant'});
-  if(inputFocused){input.value=inputDraft;inputWrap.classList.toggle('has-value',Boolean(inputDraft));input.focus({preventScroll:true});}
-  syncAscii();scheduleWelcome();
+  const visual=element('div','ascii-panel');visual.id='asciiPanel';
+  const art=element('div','ascii-art');art.id='asciiArt';
+  art.setAttribute('role','img');art.setAttribute('aria-label','汉字乌鸦振翅，树林从右向左移动');
+  visual.append(art);body.append(visual);
+  terminal.append(body);$('boardPanel').replaceChildren(terminal);
+  identityController=createIdentityTerminal(body,{navigate,reducedMotion});
+  syncAscii();
 }
 function renderModel(){
   const layout=element('section','model-layout'),dimensions=element('div','model-dimensions');
@@ -266,6 +174,11 @@ function render(){
   });
   document.querySelectorAll('[data-filter]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.filter===filter)));
   const data=views[view];
+  document.querySelector('.identity > strong').replaceChildren(
+    document.createTextNode(view==='identity'?'Xudong Xing':'somebody'),element('span','','.')
+  );
+  document.querySelector('.identity > small').textContent=view==='identity'
+    ? 'PRODUCT DESIGN LEADER / ALWAYS BECOMING':'PERSONAL TERMINAL / GUEST ONLINE';
   $('workspace').classList.toggle('identity-workspace',view==='identity');
   $('viewTitle').replaceChildren(document.createTextNode(data.title),element('small','',data.subtitle));
   $('viewDescription').textContent=data.description;
@@ -358,8 +271,5 @@ document.addEventListener('keydown',event=>{
 });
 $('loginScreen').addEventListener('cancel',event=>{event.preventDefault();finishLogin();});
 window.addEventListener('popstate',syncRoute);
-window.addEventListener('hashchange',()=>{
-  if(view!==routeView()||location.hash!==`#${routes[view]}`)syncRoute();
-});
+window.addEventListener('hashchange',syncRoute);
 syncRoute();
-startLogin();

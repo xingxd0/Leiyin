@@ -1,0 +1,79 @@
+/* Identity-only styles retain the site's dark palette and 1200px reading area. */
+.identity-workspace .terminal { grid-template-rows: minmax(0, 1fr); }
+.identity-shell {
+  min-height: 0;
+  min-width: 0;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto auto;
+  font: 13px/1.8 Menlo, Consolas, monospace;
+  background: var(--bg);
+}
+.identity-shell .identity-terminal-header {
+  padding: 14px 22px;
+  border-block: 1px solid var(--line);
+  font-size: 11px;
+  min-height: 48px;
+}
+.identity-session { overflow-wrap: anywhere; }
+.identity-shell .terminal-output { padding: 0; scroll-behavior: auto; }
+.identity-shell .terminal-output > .identity-transcript { padding: 0; max-width: none; }
+.identity-stage { padding: 20px 22px; border-bottom: 1px solid var(--line); }
+.identity-stage > * { max-width: 1156px; }
+.identity-command { color: var(--accent); margin-bottom: 10px; overflow-wrap: anywhere; font-size: 13px; line-height: 1.8; }
+.identity-prompt { color: var(--muted); }
+.identity-output-line { color: var(--ink); margin: 5px 0; line-height: 1.8; overflow-wrap: anywhere; }
+.identity-output-line.identity-heading {
+  color: var(--bright);
+  font: 650 clamp(22px, 2.2vw, 28px)/1.4 var(--font);
+  margin: 8px 0;
+  letter-spacing: -.4px;
+}
+.identity-output-line.identity-role, .identity-output-line.identity-success { color: var(--accent); }
+.identity-field { display: grid; grid-template-columns: 108px minmax(0, 1fr); gap: 16px; margin: 5px 0; line-height: 1.8; }
+.identity-field-label { color: var(--muted); font-size: 11px; padding-top: 2px; }
+.identity-field-value { color: var(--ink); overflow-wrap: anywhere; }
+.identity-detail { display: block; font-size: 12px; color: var(--muted); }
+.identity-career-row { margin: 10px 0; }
+.identity-career-row:first-of-type .identity-field-value { color: var(--bright); }
+.identity-output-line.identity-manifesto { color: var(--bright); font-size: 17px; font-weight: 500; margin: 8px 0; }
+.identity-output-line.identity-status { color: var(--accent); font-size: 16px; margin-top: 14px; }
+.identity-command-cursor, .identity-final-cursor { display: inline-block; animation: identity-cursor 1s steps(1, end) infinite; }
+.identity-command-cursor { width: .6em; }
+.identity-shell[data-state="typing"] .identity-command-cursor { animation: none; }
+.identity-line-enter { animation: identity-output-reveal .22s ease-out both; }
+.identity-controls { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; padding: 10px 22px; max-width: 1200px; }
+.identity-control, .identity-enter {
+  border: 1px solid var(--line);
+  background: transparent;
+  padding: 7px 12px;
+  color: var(--muted);
+  border-radius: 6px;
+  font: inherit;
+  font-size: 11px;
+  min-height: 36px;
+}
+.identity-enter { margin-left: auto; color: var(--accent); border-color: var(--accent-line); background: var(--accent-surface); }
+.identity-control:hover, .identity-enter:hover { color: var(--bright); border-color: var(--accent); }
+.identity-workspace .identity-shell button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.identity-workspace .identity-shell .terminal-form { padding: 10px 22px; font-size: 11px; }
+.identity-shell .terminal-form input { color: var(--ink); }
+.identity-static-copy { position: absolute; width: 1px; height: 1px; padding: 0 !important; overflow: hidden; clip-path: inset(50%); white-space: pre-wrap; }
+@keyframes identity-output-reveal { from { opacity: 0; } to { opacity: 1; } }
+@keyframes identity-cursor { 50% { opacity: 0; } }
+@media (max-width: 850px) {
+  .identity-shell { font-size: 12px; }
+  .identity-shell .identity-terminal-header { padding: 10px 16px; font-size: 10px; gap: 8px; }
+  .identity-stage { padding: 16px; }
+  .identity-field { grid-template-columns: 82px minmax(0, 1fr); gap: 8px; }
+  .identity-field-label { font-size: 10px; }
+  .identity-command { font-size: 12px; }
+  .identity-output-line.identity-manifesto { font-size: 15px; }
+  .identity-controls { padding: 8px 16px; gap: 8px; }
+  .identity-enter { margin-left: 0; }
+  .identity-workspace .identity-shell .terminal-form { padding: 8px 16px; gap: 6px; }
+  .identity-shell .terminal-form label { width: auto; }
+  .identity-shell .terminal-form input { width: 0; flex: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .identity-line-enter, .identity-command-cursor, .identity-final-cursor { animation: none; }
+}

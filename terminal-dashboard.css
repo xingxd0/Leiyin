@@ -128,14 +128,21 @@ footer { font-size: 9px; }
 }
 .identity-workspace .terminal-output {
   width: 100%;
-  max-width: 1200px;
+  max-width: none;
   justify-self: start;
   text-align: left;
   overflow: auto;
   overflow-anchor: none;
   scrollbar-gutter: stable;
-  padding: 24px 22px;
+  padding: 24px 0;
 }
+.identity-workspace .terminal-output > :not(.identity-section) {
+  max-width: 1200px;
+  padding-left: 22px;
+  padding-right: 22px;
+}
+.identity-workspace .identity-section { padding-left: 22px; padding-right: 22px; }
+.identity-workspace .identity-section > * { max-width: 1156px; }
 .identity-workspace .terminal-form {
   width: 100%;
   max-width: 1200px;
@@ -157,6 +164,16 @@ footer { font-size: 9px; }
 .identity-position, .identity-line { color: #d5d7dc; }
 .identity-muted { color: var(--muted); }
 .identity-philosophy .identity-line { color: var(--bright); font-weight: 600; }
+.identity-section > * { animation: identity-reveal .35s ease-out both; }
+.identity-section > :nth-child(2) { animation-delay: .08s; }
+.identity-section > :nth-child(3) { animation-delay: .16s; }
+.identity-section > :nth-child(4) { animation-delay: .24s; }
+.identity-section > :nth-child(5) { animation-delay: .32s; }
+.identity-section > :nth-child(6) { animation-delay: .4s; }
+@keyframes identity-reveal { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .identity-section > * { animation: none; }
+}
 
 .identity-workspace {
   --cli-blue: #82b7f8;
