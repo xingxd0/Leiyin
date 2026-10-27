@@ -1,0 +1,43 @@
+@font-face{font-family:TerminalCrow;src:url("./terminal-crow-font.ttf") format("truetype");font-weight:600;font-display:block}
+.login-screen,.identity-workspace{--crow-text:#b5c0d1;--crow-muted:#8490a1;--crow-bright:#d1daea;--crow-line:#354153}
+.login-screen{color:var(--crow-text)}
+.login-grid{background-image:linear-gradient(#8490a108 1px,transparent 1px),linear-gradient(90deg,#8490a108 1px,transparent 1px)}
+.login-code,.login-console h1 span,.login-bottom{color:var(--crow-muted)}
+.login-console h1{color:var(--crow-bright)}
+.login-console .login-intro,.login-log{color:var(--crow-text)}
+.login-console progress,.login-console progress::-webkit-progress-bar{background:#273140}
+.login-console progress::-webkit-progress-value{background:var(--crow-text)}
+.login-console progress::-moz-progress-bar{background:var(--crow-text)}
+.login-bottom button{color:var(--crow-text);border-color:var(--crow-line);background:#19212e}
+.login-console .login-note{color:var(--crow-muted);border-color:var(--crow-line)}
+.identity-workspace .terminal-command,.identity-workspace .terminal-form label,.identity-workspace .terminal-choice,.identity-workspace .welcome-skip{color:var(--crow-text)}
+.identity-workspace .terminal-result,.identity-workspace .terminal-form input{color:var(--crow-bright)}
+.identity-workspace .terminal-form input{caret-color:var(--crow-bright)}
+.identity-workspace .terminal-form button,.identity-workspace .choice-marker{color:var(--crow-muted)}
+.identity-workspace .terminal-cursor,.identity-workspace .terminal-choice:hover,.identity-workspace .terminal-choice:focus-visible,.identity-workspace .terminal-choice:hover .choice-marker,.identity-workspace .terminal-choice:focus-visible .choice-marker{color:var(--crow-bright)}
+.identity-workspace .welcome-skip{border-color:var(--crow-line)}
+.login-screen button:focus-visible,.identity-workspace button:focus-visible,.identity-workspace input:focus-visible,.identity-workspace a:focus-visible{outline:2px solid var(--crow-bright);outline-offset:3px}
+.terminal-crow-scene{position:relative;width:100%;height:100%;overflow:hidden;background:#03070d;isolation:isolate}
+.crow-forest{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.crow-tree-layer{position:absolute;left:0;bottom:-15px;white-space:pre;font:14px/22px 'Songti SC','SimSun',serif;letter-spacing:0;color:#223541;opacity:.3;will-change:transform}
+.crow-tree-layer.depth-0{bottom:30%;opacity:.16;line-height:17px}
+.crow-tree-layer.depth-1{bottom:8%;opacity:.22;line-height:20px}
+.crow-tree-layer.depth-2{opacity:.32}
+.crow-floating{position:absolute;inset:0;z-index:1;display:grid;place-items:center;pointer-events:none}
+.crow-viewport{position:relative;width:100%;max-width:620px;aspect-ratio:1}
+.crow-glyph-frame{position:absolute;inset:0;width:1024px;height:1024px;transform-origin:0 0;font:600 14px/16px TerminalCrow,serif;font-variant-east-asian:normal;text-shadow:none}
+.crow-glyph-frame span{position:absolute;display:block;width:16px;height:16px;text-align:center;white-space:nowrap}
+.crow-layer{position:absolute;inset:0;transform-origin:0 0}
+.login-art-panel{position:relative;width:min(620px,45vw);height:min(620px,80vh);align-self:center}
+#loginCrow{width:100%;height:100%;min-height:200px;background:transparent}
+.login-art-panel .ascii-toggle{position:absolute;bottom:16px;left:24px;padding:8px 12px;background:transparent;border:1px solid var(--crow-line);color:var(--crow-text);font:10px Menlo,monospace}
+.login-screen[open]{display:flex;align-items:center;justify-content:center;gap:3vw}
+.login-screen .login-console{margin:24px 0;flex:0 1 580px;background:transparent;border:0;box-shadow:none}
+.login-art-panel button:focus-visible{outline:2px solid var(--crow-bright);outline-offset:3px}
+@media(max-width:850px){
+  .login-screen[open]{display:block}
+  .login-art-panel{width:100%;height:230px;max-width:580px;margin:auto}
+  .login-screen .login-console{margin:12px auto 24px}
+  .board-header .preview-tag{display:inline-block}
+}
+@media(prefers-reduced-motion:reduce){.crow-tree-layer{will-change:auto}}

@@ -1,0 +1,19 @@
+{
+  "source": "crow-ascii-84-v3",
+  "frameCount": 84,
+  "fps": 24,
+  "ticksPerLoop": 720,
+  "durationSeconds": 30,
+  "reusedSequence": [
+    "cruise",
+    "glide",
+    "fast",
+    "bank",
+    "tuck",
+    "cruise"
+  ],
+  "crossActionTransitions": "not generated; direct switching of existing poses",
+  "authorization": "User: 不满意，但可以凑活用。把这些内容放在个人终端的登录页面和cli页面上。",
+  "quality": "provisional use, not final visual acceptance",
+  "sha256": "e16c5cd66429c6ec98089b3ee0f82e53ac6625dd04d60cb823050a69c26483c9"
+}
