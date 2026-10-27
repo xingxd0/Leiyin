@@ -2,7 +2,11 @@
 const identityStages = [
   {id:'identity',command:'whoami',pauseAfter:450,lines:[
     {type:'heading',text:'Xudong (Daniel) Xing'},
-    {type:'role',text:'Product Design Manager @ TikTok | AI Products, Design Systems , Enterprise UX',tag:'ISTJ'}
+    {type:'role',text:'Product Design Manager @ TikTok | AI Products, Design Systems, Enterprise UX',tag:'ISTJ'}
+  ]},
+  {id:'focus',command:'cat /focus/current',pauseAfter:650,lines:[
+    {type:'text',text:'I’m exploring how AI changes the way people work—and how design can make that change clearer, more useful, and more human.'},
+    {type:'text',text:'My focus: clear interactions, reusable systems, and teams that can grow with the work.'}
   ]},
   {id:'profile',command:'cat /profile/current',pauseAfter:650,lines:[
     {type:'field',label:'ROLE',value:'Product Design Manager'},
@@ -241,7 +245,7 @@ function createIdentityTerminal(host, {navigate, reducedMotion, timing = {}}) {
       input.value='';return;
     }
     if (!['completed','skipped'].includes(shell.dataset.state)) showAll();
-    const aliases={whoami:'identity',profile:'profile',experience:'career',expertise:'expertise',recognition:'recognition',principles:'manifesto'};
+    const aliases={whoami:'identity',profile:'profile',focus:'focus',experience:'career',expertise:'expertise',recognition:'recognition',principles:'manifesto'};
     const stage=identityStages.find(item=>item.command===command||item.id===aliases[command]);
     const result=commandNode({id:'query',command});
     result.text.textContent=command;
@@ -249,7 +253,7 @@ function createIdentityTerminal(host, {navigate, reducedMotion, timing = {}}) {
     else result.section.append(make('p','identity-output-line',command==='about'
       ? 'Always Becoming. A design leader who finds clarity in complexity, builds scalable systems, and helps people grow.'
       : command==='help'
-      ? 'Commands: whoami, about, profile, experience, expertise, recognition, principles, clear. Type 1 for roadmap or 2 for portfolio.'
+      ? 'Commands: whoami, about, profile, focus, experience, expertise, recognition, principles, clear. Type 1 for roadmap or 2 for portfolio.'
       : `Unknown command: ${command}. Type help for available commands.`));
     input.value='';follow=true;followOutput();
   };

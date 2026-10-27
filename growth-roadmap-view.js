@@ -1,4 +1,4 @@
-import {growthRoadmap} from './growth-roadmap.js?v=20261027-xd-todo';
+import {growthRoadmap} from './growth-roadmap.js?v=20261027-purpose';
 
 const $=id=>document.getElementById(id);
 function element(tag,cls,text){
@@ -60,7 +60,7 @@ function roadmapCardOpen(card){
 function matchingRoadmapTasks(card,column,includeStatus=true){
   const query=roadmapState.query.toLocaleLowerCase();
   return card.tasks.filter(task=>{
-    const text=[column.name,column.desc,card.title,card.category,card.desc,task.title,task.subtitle,task.note,task.nextStep,task.statusLabel,...task.workflow,...(task.detail||[]),...(task.works||[]).map(work=>`${work.year||''} ${work.name}`)].join(' ').toLocaleLowerCase();
+    const text=[column.name,column.desc,card.title,card.category,card.desc,task.title,task.subtitle,task.why,task.note,task.nextStep,task.statusLabel,...task.workflow,...(task.detail||[]),...(task.works||[]).map(work=>`${work.year||''} ${work.name}`)].join(' ').toLocaleLowerCase();
     return (!query||text.includes(query))&&(!includeStatus||roadmapState.status==='all'||roadmapState.status===task.status);
   }).sort((a,b)=>Number(a.status==='done')-Number(b.status==='done'));
 }
@@ -89,6 +89,7 @@ function openRoadmapTask(task,card,button){
   if(card.id==='awards'&&task.status==='done'){
     content.append(renderRoadmapWorks(task));
   }else if(task.workflow.length)content.append(renderRoadmapStages(task));
+  if(task.why)content.append(element('p','roadmap-detail-note',`Why: ${task.why}`));
   if(task.nextStep)content.append(element('p','roadmap-detail-note',`Next step: ${task.nextStep}`));
   if(task.note)content.append(element('p','roadmap-detail-note',task.note));
   if(task.detail){
@@ -160,6 +161,9 @@ function renderRoadmapTask(task,card){
   status.append(label);
   if(Number.isFinite(task.progress))status.append(element('span','roadmap-percent',`${task.progress}%`));
   item.append(status);
+  if(task.why){
+    const why=element('p','roadmap-why');why.append(element('span','','Why: '),document.createTextNode(task.why));item.append(why);
+  }
   if(task.nextStep){
     const note=element('p','roadmap-next-action');
     note.append(element('span','','Next step: '),document.createTextNode(task.nextStep));item.append(note);

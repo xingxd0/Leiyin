@@ -239,3 +239,6 @@ main.roadmap-workspace {
 }
 .roadmap-workspace .roadmap-command-submit { flex-shrink: 0; padding: 5px 9px; border: 1px solid var(--line); border-radius: 4px; color: var(--roadmap-green); background: transparent; font: inherit; }
 .roadmap-workspace .roadmap-command-feedback { margin-top: 8px; color: var(--roadmap-muted); font: 11px/1.6 var(--roadmap-mono); overflow-wrap: anywhere; }
+
+.roadmap-workspace .roadmap-why { margin-top: 10px; color: var(--ink); font-size: 11px; line-height: 1.8; overflow-wrap: anywhere; }
+.roadmap-workspace .roadmap-why > span { color: var(--roadmap-green); }
