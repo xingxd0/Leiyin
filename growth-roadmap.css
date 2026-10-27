@@ -56,7 +56,7 @@ main.roadmap-workspace {
 .roadmap-workspace .roadmap-flag { color: var(--roadmap-muted); }
 .roadmap-workspace .roadmap-command small { color: var(--roadmap-muted); font: 10px var(--font); }
 .roadmap-workspace .roadmap-toolbar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin: 22px 0; }
-.roadmap-workspace .roadmap-filters { display: flex; gap: 2px; padding: 3px; border: 1px solid var(--line); border-radius: 7px; background: var(--roadmap-control); }
+.roadmap-workspace .roadmap-filters { display: flex; flex-wrap: wrap; gap: 2px; max-width: 100%; padding: 3px; border: 1px solid var(--line); border-radius: 7px; background: var(--roadmap-control); }
 .roadmap-workspace .roadmap-filter { display: inline-flex; align-items: center; justify-content: center; gap: 7px; padding: 7px 10px; border: 1px solid transparent; border-radius: 5px; background: transparent; color: var(--roadmap-muted); font-size: 11px; white-space: nowrap; }
 .roadmap-workspace .roadmap-filter-count { color: var(--roadmap-subtle); font: 10px var(--roadmap-mono); }
 .roadmap-workspace .roadmap-filter:hover { color: var(--bright); }
@@ -92,14 +92,15 @@ main.roadmap-workspace {
 .roadmap-workspace .roadmap-card-body { padding: 0 15px 12px; }
 .roadmap-workspace .roadmap-item { --item-accent: var(--roadmap-subtle); padding: 13px 0; border-top: 1px solid var(--line); }
 .roadmap-workspace .roadmap-item[data-status=preparing] { --item-accent: var(--roadmap-amber); }
-.roadmap-workspace .roadmap-item[data-status=submitted] { --item-accent: var(--roadmap-blue); }
+.roadmap-workspace .roadmap-item[data-status=ongoing] { --item-accent: var(--roadmap-amber); }
+.roadmap-workspace .roadmap-item[data-status=review],
+.roadmap-workspace .roadmap-item[data-status=confirmed] { --item-accent: var(--roadmap-blue); }
 .roadmap-workspace .roadmap-item[data-status=done] { --item-accent: var(--roadmap-green); }
 .roadmap-workspace .roadmap-item-top { display: flex; gap: 9px; align-items: center; }
 .roadmap-workspace .roadmap-logo { box-sizing: border-box; display: grid; place-items: center; width: var(--roadmap-logo-size); height: var(--roadmap-logo-size); flex: 0 0 var(--roadmap-logo-size); padding: 0; border: 1px solid var(--line); border-radius: var(--roadmap-logo-radius); color: var(--ink); background: var(--surface-active); font: 12px var(--roadmap-mono); overflow: hidden; }
 .roadmap-workspace .roadmap-logo > :is(svg, img) { display: block; width: var(--roadmap-logo-art-size); height: var(--roadmap-logo-art-size); object-fit: contain; }
 .roadmap-workspace .roadmap-logo-if { background: #ed1725; border-color: #ed1725; }
-.roadmap-workspace .roadmap-logo-reddot { background: #fff; border-color: #fff; }
-.roadmap-workspace .roadmap-logo-muse { background: #e1dbc7; border-color: #e1dbc7; color: #383a31; font: 17px Georgia, serif; }
+.roadmap-workspace :is(.roadmap-logo-reddot, .roadmap-logo-muse) { background: #fff; border-color: #fff; }
 .roadmap-workspace .roadmap-logo-placeholder { border-style: dashed; background: var(--roadmap-control); color: var(--roadmap-subtle); }
 .roadmap-workspace .roadmap-item-name { flex: 1; min-width: 0; }
 .roadmap-workspace .roadmap-item-title { display: block; max-width: 100%; padding: 0; border: 0; border-radius: 2px; background: transparent; color: var(--bright); font-size: 12px; line-height: 1.5; font-weight: 550; text-align: left; overflow-wrap: anywhere; }
@@ -135,6 +136,12 @@ main.roadmap-workspace {
 .roadmap-workspace .roadmap-step.finished .roadmap-step-node { border-color: var(--roadmap-green); background: var(--roadmap-green); }
 .roadmap-workspace .roadmap-next-action { margin-top: 8px; color: var(--ink); font-size: 10px; line-height: 1.8; }
 .roadmap-workspace .roadmap-next-action span { color: var(--roadmap-amber); }
+.roadmap-workspace .roadmap-next-action { overflow-wrap: anywhere; }
+.roadmap-workspace .roadmap-stages { display: flex; flex-wrap: wrap; gap: 5px 7px; margin: 12px 0; padding: 0; list-style: none; color: var(--roadmap-muted); font: 10px/1.7 var(--roadmap-mono); }
+.roadmap-workspace .roadmap-stages li { overflow-wrap: anywhere; }
+.roadmap-workspace .roadmap-stages li:not(:last-child)::after { content: " >"; color: var(--roadmap-subtle); }
+.roadmap-workspace .roadmap-optional { display: inline-block; margin-top: 5px; padding: 1px 5px; border: 1px solid var(--line); border-radius: 4px; color: var(--roadmap-muted); font: 9px/1.5 var(--roadmap-mono); }
+.roadmap-workspace .roadmap-detail-list { padding-left: 20px; color: var(--ink); font-size: 12px; line-height: 1.9; }
 .roadmap-workspace .roadmap-empty { padding: 25px 12px; border: 1px dashed var(--line); border-radius: 8px; color: var(--roadmap-subtle); font-size: 11px; line-height: 1.8; text-align: center; }
 .roadmap-workspace .roadmap-footer { display: flex; justify-content: space-between; gap: 20px; margin-top: 22px; padding-top: 16px; border-top: 1px solid var(--line); color: var(--roadmap-subtle); font: 9px/1.8 var(--roadmap-mono); }
 @container (max-width: 1050px) {
@@ -172,7 +179,9 @@ main.roadmap-workspace {
   .roadmap-workspace .roadmap-card, .roadmap-workspace .roadmap-card-toggle .roadmap-icon { transition: none; }
 }
 
-.roadmap-workspace .roadmap-dialog { border-radius: 12px; background: var(--surface); }
+.roadmap-workspace .roadmap-dialog { width: min(560px, calc(100vw - 32px)); max-height: calc(100dvh - 40px); padding: 24px; overflow: auto; overflow-wrap: anywhere; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); color: var(--ink); }
+.roadmap-workspace .roadmap-dialog h2 { margin-block: 18px 12px; color: var(--bright); font-size: 20px; line-height: 1.4; }
+.roadmap-workspace .roadmap-dialog::backdrop { background: #0009; }
 .roadmap-workspace .roadmap-dialog-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .roadmap-workspace .roadmap-dialog-top button { width: 36px; height: 36px; padding: 0; border: 0; border-radius: 4px; background: transparent; font-size: 24px; }
 .roadmap-workspace .roadmap-dialog-top button:hover { background: var(--surface-active); }

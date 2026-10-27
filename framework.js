@@ -6,7 +6,7 @@ const tracks=[
 ];
 const views={
   identity:{title:'身份认证',subtitle:'CLI / Identity',description:'Xudong Xing / Product Design Leader'},
-  todo:{title:'Always becoming',subtitle:'个人成长路线图',description:'把想成为的自己，拆成正在发生的小事。'},
+  todo:{title:'todolist',subtitle:'Always Becoming',description:'A work in progress, by design.'},
   model:{title:'能力模型',subtitle:'Capabilities / Work',description:'能力、方法与作品。'},
   pending:{title:'待定',subtitle:'Undefined',description:''}
 };
@@ -23,9 +23,10 @@ let view='identity',filter='all',trigger=null,dimension=0;
 const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)');
 let identityController=null,loginTimer=null,loginStep=0,loggedIn=false;
 function stopWelcome(){identityController?.destroy();identityController=null;}
-const routes={identity:'/identity',todo:'/roadmap',model:'/capabilities',pending:'/pending'};
+const routes={identity:'/identity',todo:'/todol',model:'/capabilities',pending:'/pending'};
 let activeRoute=null;
 function routeView(){
+  if(location.hash==='#/roadmap')return 'todo';
   return Object.keys(routes).find(key=>`#${routes[key]}`===location.hash)||'identity';
 }
 function syncRoute(){
@@ -200,7 +201,7 @@ function render(){
     empty.append(element('span','eyebrow','04 / UNDEFINED'));
     $('boardPanel').append(empty);return;
   }
-  import('./growth-roadmap-view.js?v=20261027-award-images').then(({renderRoadmap})=>{
+  import('./growth-roadmap-view.js?v=20261027-real-items').then(({renderRoadmap})=>{
     if(view==='todo')renderRoadmap($('boardPanel'));
   }).catch(error=>console.error('Growth roadmap:',error));
 }

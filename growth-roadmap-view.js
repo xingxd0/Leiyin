@@ -1,4 +1,4 @@
-import {growthRoadmap} from './growth-roadmap.js';
+import {growthRoadmap} from './growth-roadmap.js?v=20261027-real-items';
 
 const $=id=>document.getElementById(id);
 function element(tag,cls,text){
@@ -8,7 +8,7 @@ function element(tag,cls,text){
   return node;
 }
 let roadmapTrigger=null;
-const roadmapStatuses={notstarted:'未开始',preparing:'准备中',submitted:'已提交',done:'已完成'};
+const roadmapStatuses={notstarted:'Not started',preparing:'Preparing',ongoing:'In progress',review:'In review',confirmed:'Confirmed',done:'Completed'};
 const roadmapState={status:'all',query:'',open:{}};
 const roadmapCards=growthRoadmap.flatMap(column=>column.cards);
 const roadmapTasks=roadmapCards.flatMap(card=>card.tasks);
@@ -36,31 +36,46 @@ function roadmapCardOpen(card){
 function matchingRoadmapTasks(card,column,includeStatus=true){
   const query=roadmapState.query.toLocaleLowerCase();
   return card.tasks.filter(task=>{
-    const text=[column.name,column.desc,card.title,card.category,card.desc,task.title,task.subtitle,task.note,roadmapStatuses[task.status]].join(' ').toLocaleLowerCase();
+    const text=[column.name,column.desc,card.title,card.category,card.desc,task.title,task.subtitle,task.note,task.nextStep,task.statusLabel,...task.workflow,...(task.detail||[])].join(' ').toLocaleLowerCase();
     return (!query||text.includes(query))&&(!includeStatus||roadmapState.status==='all'||roadmapState.status===task.status);
   });
 }
 function roadmapLogo(task){
   const logo=element('span',`roadmap-logo roadmap-logo-${['if','reddot','muse'].includes(task.logo)?task.logo:'placeholder'}`);
   logo.setAttribute('aria-hidden','true');
-  if(['if','reddot'].includes(task.logo)){
+  if(['if','reddot','muse'].includes(task.logo)){
     const image=element('img');
     image.src=new URL(`./logo/${task.logo}.png`,import.meta.url).href;
     image.alt='';
     image.width=24;image.height=24;image.decoding='async';
     logo.append(image);
-  }else logo.textContent=task.logo==='muse'?'M':task.logo;
+  }else logo.textContent=task.logo;
   return logo;
 }
 function openRoadmapTask(task,card,button){
   roadmapTrigger=button;$('roadmapDialogTitle').textContent=task.title;
-  $('roadmapDialogText').textContent=`${card.title} / ${roadmapStatuses[task.status]}。${task.subtitle}。`;
-  const label=element('p','roadmap-detail-label');
-  label.append(element('span','','事项进度'),element('span','',`${task.progress}%`));
-  const bar=element('progress','roadmap-progress');bar.max=100;bar.value=task.progress;
-  bar.setAttribute('aria-label',`${task.title}：事项进度`);
-  $('roadmapDialogProgress').replaceChildren(label,bar,element('p','roadmap-detail-note',task.note));
+  $('roadmapDialogText').textContent=`${card.title} / ${task.statusLabel}${task.subtitle?' · '+task.subtitle:''}`;
+  const content=$('roadmapDialogProgress');content.replaceChildren();
+  if(task.status==='done'){
+    const label=element('p','roadmap-detail-label');
+    label.append(element('span','','Completed'),element('span','','100%'));
+    content.append(label);
+  }
+  if(task.workflow.length)content.append(renderRoadmapStages(task));
+  if(task.nextStep)content.append(element('p','roadmap-detail-note',`Next step: ${task.nextStep}`));
+  if(task.note)content.append(element('p','roadmap-detail-note',task.note));
+  if(task.detail){
+    const list=element('ul','roadmap-detail-list');
+    task.detail.forEach(text=>list.append(element('li','',text)));content.append(list);
+  }
+  if(task.optional)content.append(element('p','roadmap-item-meta','Optional'));
   $('roadmapDialog').showModal();
+}
+function renderRoadmapStages(task){
+  const steps=element('ol','roadmap-stages');
+  steps.setAttribute('aria-label',`${task.title}: stages`);
+  task.workflow.forEach(text=>steps.append(element('li','',text)));
+  return steps;
 }
 function renderRoadmapTask(task,card){
   const item=element('article',`roadmap-item${task.featured?' roadmap-item-featured':''}`);
@@ -69,7 +84,9 @@ function renderRoadmapTask(task,card){
   const details=element('button','roadmap-item-title',task.title);
   details.type='button';details.setAttribute('aria-haspopup','dialog');
   details.onclick=()=>openRoadmapTask(task,card,details);
-  name.append(details,element('p','roadmap-item-meta',task.subtitle));
+  name.append(details);
+  if(task.subtitle)name.append(element('p','roadmap-item-meta',task.subtitle));
+  if(task.optional)name.append(element('span','roadmap-optional','Optional'));
   top.append(roadmapLogo(task),name);
   // Only explicitly supplied web destinations become outbound links.
   let url;
@@ -81,33 +98,22 @@ function renderRoadmapTask(task,card){
     link.append(roadmapIcon('arrow'));top.append(link);
   }
   item.append(top);
-  if(task.workflow){
-    const steps=element('ol','roadmap-steps');steps.setAttribute('aria-label',`${task.title}申请流程`);
-    const active=task.progress===100?task.workflow.length:task.progress>=75?2:task.progress>=50?1:task.progress>0?0:-1;
-    task.workflow.forEach((label,index)=>{
-      const step=element('li',`roadmap-step${index<active?' finished':index===active?' active':''}`);
-      if(index===active)step.setAttribute('aria-current','step');
-      const node=element('span','roadmap-step-node');node.setAttribute('aria-hidden','true');
-      step.append(node,element('span','',label));steps.append(step);
-    });
-    item.append(steps);
-  }
+  if(task.workflow.length)item.append(renderRoadmapStages(task));
   const status=element('div','roadmap-item-status'),label=element('span','roadmap-status');
-  label.append(task.status==='done'?roadmapIcon('check'):element('span','roadmap-dot'),document.createTextNode(roadmapStatuses[task.status]));
-  status.append(label,element('span','roadmap-percent',`${task.progress}%`));item.append(status);
-  if(task.status!=='done'){
-    const bar=element('progress','roadmap-progress');bar.max=100;bar.value=task.progress;
-    bar.setAttribute('aria-label',`${task.title}独立进度`);item.append(bar);
-  }
-  if(task.featured&&task.note){
+  label.append(task.status==='done'?roadmapIcon('check'):element('span','roadmap-dot'),document.createTextNode(task.statusLabel));
+  status.append(label);
+  if(task.status==='done')status.append(element('span','roadmap-percent','100%'));
+  item.append(status);
+  if(task.nextStep){
     const note=element('p','roadmap-next-action');
-    note.append(element('span','','下一步 '),document.createTextNode(task.note));item.append(note);
+    note.append(element('span','','Next step: '),document.createTextNode(task.nextStep));item.append(note);
   }
+  if(task.note)item.append(element('p','roadmap-item-meta',task.note));
   return item;
 }
 function updateRoadmapCollapse(){
   const visible=roadmapCards.filter(card=>document.getElementById(`roadmap-body-${card.id}`));
-  $('roadmapCollapse').lastChild.textContent=visible.some(roadmapCardOpen)?'折叠全部':'展开全部';
+  $('roadmapCollapse').lastChild.textContent=visible.some(roadmapCardOpen)?'Collapse all':'Expand all';
   $('roadmapCollapse').disabled=!visible.length;
 }
 function renderRoadmapCard(card,tasks){
@@ -130,7 +136,7 @@ function renderRoadmapCard(card,tasks){
 function updateRoadmap(){
   const baseTasks=growthRoadmap.flatMap(column=>column.cards.flatMap(card=>matchingRoadmapTasks(card,column,false)));
   $('roadmapFilters').replaceChildren();
-  [['all','全部'],...Object.entries(roadmapStatuses)].forEach(([status,label])=>{
+  [['all','All'],...Object.entries(roadmapStatuses)].forEach(([status,label])=>{
     const button=element('button','roadmap-filter');button.type='button';button.dataset.status=status;
     button.setAttribute('aria-pressed',String(roadmapState.status===status));
     button.append(element('span','',label),element('span','roadmap-filter-count',status==='all'?baseTasks.length:baseTasks.filter(task=>task.status===status).length));
@@ -152,14 +158,14 @@ function updateRoadmap(){
     const text=element('div'),title=element('h2','',column.name);title.id=`roadmap-column-${column.id}`;
     text.append(element('p','roadmap-column-kicker',column.kicker),title);heading.append(glyph,text);
     const count=element('span','roadmap-column-count',String(cards.length).padStart(2,'0'));
-    count.setAttribute('aria-label',`${cards.length} 个目标`);header.append(heading,count);
+    count.setAttribute('aria-label',`${cards.length} groups`);header.append(heading,count);
     section.append(header,element('p','roadmap-column-description',column.desc));
     if(cards.length)section.append(...cards.map(({card,tasks})=>renderRoadmapCard(card,tasks)));
-    else section.append(element('p','roadmap-empty','当前筛选下暂无事项'));
+    else section.append(element('p','roadmap-empty','No items match this filter.'));
     $('roadmapColumns').append(section);
   });
   $('roadmapResult').hidden=roadmapState.status==='all'&&!roadmapState.query;
-  $('roadmapResult').textContent=`显示 ${visibleCount} / ${roadmapTasks.length} 个事项${roadmapState.status!=='all'?' · '+roadmapStatuses[roadmapState.status]:''}${roadmapState.query?' · 搜索「'+roadmapState.query+'」':''}`;
+  $('roadmapResult').textContent=`Showing ${visibleCount} / ${roadmapTasks.length} items${roadmapState.status!=='all'?' · '+roadmapStatuses[roadmapState.status]:''}${roadmapState.query?' · Search: '+roadmapState.query:''}`;
   updateRoadmapCollapse();
 }
 function prepareRoadmapFilter(){
@@ -168,42 +174,42 @@ function prepareRoadmapFilter(){
 }
 export function renderRoadmap(host){
   const layout=element('div','roadmap-layout'),hero=element('header','roadmap-hero');
+  layout.lang='en';
   const intro=element('div','roadmap-intro');
   intro.append(element('p','roadmap-eyebrow','[ PERSONAL EVOLUTION SYSTEM ]'));
-  const title=element('h1','','Always becoming');title.append(element('span','roadmap-cursor','_'));
-  const subtitle=element('p','roadmap-subtitle','把想成为的自己，拆成正在发生的小事。');
-  subtitle.append(element('span','roadmap-english',' / A work in progress, by design.'));
+  const title=element('h1','','todolist');title.append(element('span','roadmap-cursor','_'));
+  const subtitle=element('p','roadmap-subtitle','Always Becoming · A work in progress, by design.');
   intro.append(title,subtitle);
-  const stats=element('dl','roadmap-stats');stats.setAttribute('aria-label','事项统计');
-  [[growthRoadmap.length,'成长方向'],[roadmapCards.length,'成长目标'],[roadmapTasks.length,'独立事项'],[roadmapTasks.filter(task=>task.status==='done').length,'已完成事项']].forEach(([value,label])=>{
+  const stats=element('dl','roadmap-stats');stats.setAttribute('aria-label','Item statistics');
+  [[growthRoadmap.length,'Directions'],[roadmapCards.length,'Groups'],[roadmapTasks.length,'Items'],[roadmapTasks.filter(task=>task.status==='done').length,'Completed']].forEach(([value,label])=>{
     const stat=element('div','roadmap-stat');stat.append(element('dt','',label),element('dd','',String(value).padStart(2,'0')));stats.append(stat);
   });
   hero.append(intro,stats);
   const command=element('div','roadmap-command'),line=element('p');
   line.append(element('span','roadmap-prompt','somebody:~ $ '),element('span','','becoming '),element('span','roadmap-flag','--view board'),element('span','',' ↵'));
-  command.append(line,element('small','','● 每一步，都在成为。'));
-  const toolbar=element('section','roadmap-toolbar');toolbar.setAttribute('aria-label','看板筛选');
+  command.append(line,element('small','','● Every step, still becoming.'));
+  const toolbar=element('section','roadmap-toolbar');toolbar.setAttribute('aria-label','Board filters');
   const filters=element('div','roadmap-filters');filters.id='roadmapFilters';
-  filters.setAttribute('role','group');filters.setAttribute('aria-label','按事项状态筛选');
+  filters.setAttribute('role','group');filters.setAttribute('aria-label','Filter by status');
   const tools=element('div','roadmap-tools'),search=element('label','roadmap-search'),input=element('input');
-  input.type='search';input.placeholder='搜索目标、事项…';input.autocomplete='off';input.value=roadmapState.query;
-  input.setAttribute('aria-label','搜索目标或事项');
+  input.type='search';input.placeholder='Search items...';input.autocomplete='off';input.value=roadmapState.query;
+  input.setAttribute('aria-label','Search groups or items');
   input.oninput=()=>{roadmapState.query=input.value.trim();prepareRoadmapFilter();};
   search.append(roadmapIcon('search'),input);
   const collapse=element('button','roadmap-collapse');collapse.id='roadmapCollapse';collapse.type='button';
-  collapse.append(roadmapIcon('collapse'),element('span','','折叠全部'));
+  collapse.append(roadmapIcon('collapse'),element('span','','Collapse all'));
   collapse.onclick=()=>{
     const visible=roadmapCards.filter(card=>document.getElementById(`roadmap-body-${card.id}`));
     const next=!visible.some(roadmapCardOpen);visible.forEach(card=>{roadmapState.open[card.id]=next;});updateRoadmap();
   };
   tools.append(search,collapse);toolbar.append(filters,tools);
   const result=element('p','roadmap-result');result.id='roadmapResult';result.setAttribute('role','status');
-  const columns=element('section','roadmap-columns');columns.id='roadmapColumns';columns.setAttribute('aria-label','四个成长方向的目标看板');
+  const columns=element('section','roadmap-columns');columns.id='roadmapColumns';columns.setAttribute('aria-label','Four directions of personal growth');
   const footer=element('div','roadmap-footer');footer.append(element('span','','● PROGRESS IS PERSONAL. KEEP BECOMING.'),element('span','','NO FINISH LINE.'));
   const dialog=element('dialog','roadmap-dialog');dialog.id='roadmapDialog';dialog.setAttribute('aria-labelledby','roadmapDialogTitle');
-  const dialogTop=element('div','roadmap-dialog-top'),close=element('button','','×');close.type='button';close.setAttribute('aria-label','关闭事项详情');
+  const dialogTop=element('div','roadmap-dialog-top'),close=element('button','','×');close.type='button';close.setAttribute('aria-label','Close item details');
   close.onclick=()=>dialog.close();dialog.addEventListener('close',()=>roadmapTrigger?.focus({preventScroll:true}));
-  dialogTop.append(element('span','roadmap-category','事项详情'),close);
+  dialogTop.append(element('span','roadmap-category','ITEM DETAILS'),close);
   const dialogTitle=element('h2');dialogTitle.id='roadmapDialogTitle';
   const dialogText=element('p');dialogText.id='roadmapDialogText';
   const dialogProgress=element('div');dialogProgress.id='roadmapDialogProgress';
