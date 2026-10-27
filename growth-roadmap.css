@@ -96,10 +96,9 @@ main.roadmap-workspace {
 .roadmap-workspace .roadmap-item[data-status=done] { --item-accent: var(--roadmap-green); }
 .roadmap-workspace .roadmap-item-top { display: flex; gap: 9px; align-items: center; }
 .roadmap-workspace .roadmap-logo { box-sizing: border-box; display: grid; place-items: center; width: var(--roadmap-logo-size); height: var(--roadmap-logo-size); flex: 0 0 var(--roadmap-logo-size); padding: 0; border: 1px solid var(--line); border-radius: var(--roadmap-logo-radius); color: var(--ink); background: var(--surface-active); font: 12px var(--roadmap-mono); overflow: hidden; }
-.roadmap-workspace .roadmap-logo > svg { display: block; width: var(--roadmap-logo-art-size); height: var(--roadmap-logo-art-size); }
+.roadmap-workspace .roadmap-logo > :is(svg, img) { display: block; width: var(--roadmap-logo-art-size); height: var(--roadmap-logo-art-size); object-fit: contain; }
 .roadmap-workspace .roadmap-logo-if { background: #ed1725; border-color: #ed1725; }
-.roadmap-workspace .roadmap-logo-reddot { background: #f4f1ec; border-color: #f4f1ec; }
-.roadmap-workspace .roadmap-logo-reddot svg { fill: none; stroke: #d84137; stroke-width: 1.5; }
+.roadmap-workspace .roadmap-logo-reddot { background: #fff; border-color: #fff; }
 .roadmap-workspace .roadmap-logo-muse { background: #e1dbc7; border-color: #e1dbc7; color: #383a31; font: 17px Georgia, serif; }
 .roadmap-workspace .roadmap-logo-placeholder { border-style: dashed; background: var(--roadmap-control); color: var(--roadmap-subtle); }
 .roadmap-workspace .roadmap-item-name { flex: 1; min-width: 0; }
