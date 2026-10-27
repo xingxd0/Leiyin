@@ -43,7 +43,21 @@ function matchingRoadmapTasks(card,column,includeStatus=true){
 function roadmapLogo(task){
   const logo=element('span',`roadmap-logo roadmap-logo-${['if','reddot','muse'].includes(task.logo)?task.logo:'placeholder'}`);
   logo.setAttribute('aria-hidden','true');
-  if(task.logo==='reddot'){
+  if(task.logo==='if'){
+    const icon=document.createElementNS('http://www.w3.org/2000/svg','svg');
+    icon.setAttribute('viewBox','0 0 452 452');
+    icon.setAttribute('aria-hidden','true');
+    // Geometry follows the left square in the supplied reference, without its white margin.
+    [['rect',{width:452,height:452,fill:'#ed1725'}],
+      ['circle',{cx:130.5,cy:130.5,r:40.5,fill:'#fff'}],
+      ['path',{d:'M95 190h72v167H95zM190 95h72v262h-72zM285 95h72v72h-72zM285 190h72v72h-72z',fill:'#fff'}]
+    ].forEach(([tag,attributes])=>{
+      const shape=document.createElementNS('http://www.w3.org/2000/svg',tag);
+      Object.entries(attributes).forEach(([name,value])=>shape.setAttribute(name,value));
+      icon.append(shape);
+    });
+    logo.append(icon);
+  }else if(task.logo==='reddot'){
     const icon=document.createElementNS('http://www.w3.org/2000/svg','svg');
     icon.setAttribute('viewBox','0 0 32 32');
     [['circle',{cx:16,cy:16,r:11}],['ellipse',{cx:16,cy:16,rx:6,ry:11,transform:'rotate(35 16 16)'}],['ellipse',{cx:16,cy:16,rx:11,ry:5,transform:'rotate(-30 16 16)'}]].forEach(([tag,attributes])=>{
@@ -51,7 +65,7 @@ function roadmapLogo(task){
       Object.entries(attributes).forEach(([name,value])=>shape.setAttribute(name,value));icon.append(shape);
     });
     logo.append(icon);
-  }else logo.textContent=task.logo==='muse'?'M':task.logo==='if'?'iF':task.logo;
+  }else logo.textContent=task.logo==='muse'?'M':task.logo;
   return logo;
 }
 function openRoadmapTask(task,card,button){
