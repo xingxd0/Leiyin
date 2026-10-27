@@ -30,12 +30,10 @@ export const growthRoadmap=[
       task('reddot-2027','Prepare for the Red Dot Award 2027','preparing','Preparing',[],{logo:'reddot',progress:10}),
       task('muse-entry','Apply for the MUSE Design Awards','preparing','Preparing',[],{logo:'muse',progress:40})
     ]},
-    {id:'jury',category:'JURY',title:'Design Jury & Review',desc:'Contribute design judgment and learn from a wider range of work.',open:true,tasks:[
+    {id:'talk-judge',category:'TALK & JUDGE',title:'Talk & Judge',desc:'Share design experience and contribute professional judgment.',open:true,tasks:[
       task('muse-jury','MUSE Design Awards — Juror','review','Awaiting review',['Application','Materials','Committee review','Decision'],{logo:'muse',progress:90,nextStep:"Await the committee's decision"}),
       task('a-jury',"A' Design Award — Juror",'review','Awaiting review',['Application','Preliminary evaluation passed','Panel review (January 2027)','Decision'],{logo:'adesign',progress:90,nextStep:'Await panel review in January 2027'}),
-      task('uci-jury','UC Irvine — Design Juror','preparing','Working toward this opportunity',[],{logo:'UCI',nextStep:'Work toward a design-juror opportunity at UC Irvine'})
-    ]},
-    {id:'speaking',category:'SHARING',title:'Talks & Public Sharing',desc:'Turn design experience into shareable points of view.',open:true,tasks:[
+      task('uci-jury','UC Irvine — Design Juror','preparing','Working toward this opportunity',[],{logo:'UCI',nextStep:'Work toward a design-juror opportunity at UC Irvine'}),
       task('cafa-talk','Prepare for a Talk at the Central Academy of Fine Arts (CAFA), Beijing, China','preparing','Preparing',['Topic confirmed','PR clearance','Talk draft','Review','On stage'],{logo:'T',subtitle:'TikTok and the Influence of Global Culture',nextStep:'Submit PR clearance in January 2027; on stage mid-March 2027 (tentative), Beijing'}),
       task('community-talk','Community Sessions / Workshops','notstarted','Not started',['Topic','Outreach','Live session'],{logo:'W',optional:true,nextStep:'Choose one discussion topic and define a concrete takeaway before planning an event'}),
       task('design-article','A Design Retrospective Article','notstarted','Not started',['Topic','Draft','Publish'],{logo:'Aa',optional:true,nextStep:'Choose one real design decision and collect the evidence for a retrospective'})
@@ -44,8 +42,7 @@ export const growthRoadmap=[
   {id:'craft',name:'Craft & Innovation',kicker:'02 / PUSH THE CRAFT',desc:'Polish the details. Explore new answers.',icon:'craft',cards:[
     {id:'case-studies',category:'PORTFOLIO',title:'Selected Work & Case Studies',desc:'Not just outcomes — the reasoning behind them.',open:true,tasks:[
       task('workbench-case','AI Agent Workbench — Flagship Case Study','preparing','Preparing',['Problem framing','Process','Design impact'],{logo:'C1',nextStep:'Confirm which screens and outcomes can be shared, then outline the case study. Reuse this evidence for the award submissions.'}),
-      task('portfolio-site','Personal Portfolio Site — Always Becoming','ongoing','In progress',['Style direction','Layout build','Content','Launch'],{logo:'AB',subtitle:'Built with an AI pair-programmer',nextStep:'Confirm the first set of public case studies and finish their content. Target launch: December 31, 2026'}),
-      task('interaction-study','Interaction Details Study','notstarted','Not started',['Collect','Prototype','Case write-up'],{logo:'C2',optional:true})
+      task('interaction-study','CUI × GUI in AI Products','notstarted','Not started',['Research','Prototypes','Validation'],{logo:'C2',optional:true,subtitle:'Explore how conversation and visual interfaces work together.'})
     ]},
     {id:'systems',category:'DESIGN SYSTEMS',title:'Reusable Design Methods',desc:'Do it right once — and make it the starting point for next time.',open:true,tasks:[
       task('enterprise-system','Enterprise Operations-Platform Design System','ongoing','In progress',['Audit','Standards','Components','Adoption'],{logo:'UI',nextStep:'Define the next component or guideline deliverables and how their adoption will be checked'}),

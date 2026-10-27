@@ -1,4 +1,4 @@
-import {growthRoadmap} from './growth-roadmap.js?v=20261027-award-progress';
+import {growthRoadmap} from './growth-roadmap.js?v=20261027-bottom-dock';
 
 const $=id=>document.getElementById(id);
 function element(tag,cls,text){
@@ -9,7 +9,7 @@ function element(tag,cls,text){
 }
 let roadmapTrigger=null;
 const roadmapStatuses={notstarted:'Not started',preparing:'Preparing',ongoing:'In progress',review:'Awaiting review',confirmed:'Confirmed',done:'Completed'};
-const roadmapState={status:'all',query:'',open:{}};
+const roadmapState={status:'all',query:'',open:{},more:{}};
 const roadmapCards=growthRoadmap.flatMap(column=>column.cards);
 const roadmapTasks=roadmapCards.flatMap(card=>card.tasks);
 function roadmapIcon(name){
@@ -158,7 +158,21 @@ function renderRoadmapCard(card,tasks){
   toggle.append(element('span','',card.title),roadmapIcon('chevron'));heading.append(toggle);
   header.append(heading,element('p','roadmap-card-description',card.desc));
   const body=element('div','roadmap-card-body');body.id=`roadmap-body-${card.id}`;
-  body.hidden=!roadmapCardOpen(card);body.append(...tasks.map(task=>renderRoadmapTask(task,card)));
+  body.hidden=!roadmapCardOpen(card);
+  const expanded=roadmapState.more[card.id]||roadmapState.query||roadmapState.status!=='all';
+  tasks.forEach((task,index)=>{
+    const item=renderRoadmapTask(task,card);item.hidden=!expanded&&index>=4;body.append(item);
+  });
+  if(!expanded&&tasks.length>4){
+    const more=element('button','roadmap-show-more',`Show more (${tasks.length-4})`);more.type='button';
+    more.setAttribute('aria-controls',body.id);
+    more.onclick=()=>{
+      roadmapState.more[card.id]=true;
+      body.querySelectorAll('.roadmap-item').forEach(item=>{item.hidden=false;});
+      body.querySelectorAll('.roadmap-item')[4].querySelector('button').focus({preventScroll:true});more.remove();
+    };
+    body.append(more);
+  }
   toggle.onclick=()=>{
     roadmapState.open[card.id]=!roadmapCardOpen(card);body.hidden=!roadmapCardOpen(card);
     toggle.setAttribute('aria-expanded',String(roadmapCardOpen(card)));updateRoadmapCollapse();
@@ -217,24 +231,26 @@ export function renderRoadmap(host){
     const stat=element('div','roadmap-stat');stat.append(element('dt','',label),element('dd','',String(value).padStart(2,'0')));stats.append(stat);
   });
   hero.append(intro,stats);
-  const command=element('div','roadmap-command'),line=element('p');
-  line.append(element('span','roadmap-prompt','somebody:~ $ '),element('span','','becoming '),element('span','roadmap-flag','--view board'),element('span','',' ↵'));
-  command.append(line,element('small','','● Every step, still becoming.'));
   const toolbar=element('section','roadmap-toolbar');toolbar.setAttribute('aria-label','Board filters');
   const filters=element('div','roadmap-filters');filters.id='roadmapFilters';
   filters.setAttribute('role','group');filters.setAttribute('aria-label','Filter by status');
   const tools=element('div','roadmap-tools'),search=element('label','roadmap-search'),input=element('input');
   input.type='search';input.placeholder='Search items...';input.autocomplete='off';input.value=roadmapState.query;
   input.setAttribute('aria-label','Search groups or items');
-  input.oninput=()=>{roadmapState.query=input.value.trim();prepareRoadmapFilter();};
-  search.append(roadmapIcon('search'),input);
+  input.oninput=()=>{roadmapState.query=input.value.trim();search.classList.toggle('has-value',Boolean(input.value));prepareRoadmapFilter();};
+  search.classList.toggle('has-value',Boolean(input.value));
+  const prompt=element('span','roadmap-prompt','somebody:~ $');prompt.setAttribute('aria-hidden','true');
+  const cursor=element('span','roadmap-input-cursor','▌');cursor.setAttribute('aria-hidden','true');
+  const entry=element('span','roadmap-search-entry');entry.append(input,cursor);
+  search.append(prompt,entry);
   const collapse=element('button','roadmap-collapse');collapse.id='roadmapCollapse';collapse.type='button';
   collapse.append(roadmapIcon('collapse'),element('span','','Collapse all'));
   collapse.onclick=()=>{
     const visible=roadmapCards.filter(card=>document.getElementById(`roadmap-body-${card.id}`));
-    const next=!visible.some(roadmapCardOpen);visible.forEach(card=>{roadmapState.open[card.id]=next;});updateRoadmap();
+    const next=!visible.some(roadmapCardOpen);visible.forEach(card=>{roadmapState.open[card.id]=next;if(next)roadmapState.more[card.id]=true;});updateRoadmap();
   };
-  tools.append(search,collapse);toolbar.append(filters,tools);
+  tools.append(collapse);toolbar.append(filters,tools);
+  const dock=element('div','roadmap-dock');dock.append(toolbar,search);
   const result=element('p','roadmap-result');result.id='roadmapResult';result.setAttribute('role','status');
   const columns=element('section','roadmap-columns');columns.id='roadmapColumns';columns.setAttribute('aria-label','Four directions of personal growth');
   const footer=element('div','roadmap-footer');footer.append(element('span','','● PROGRESS IS PERSONAL. KEEP BECOMING.'),element('span','','NO FINISH LINE.'));
@@ -246,5 +262,5 @@ export function renderRoadmap(host){
   const dialogText=element('p');dialogText.id='roadmapDialogText';
   const dialogProgress=element('div');dialogProgress.id='roadmapDialogProgress';
   dialog.append(dialogTop,dialogTitle,dialogText,dialogProgress);
-  layout.append(hero,command,toolbar,result,columns,footer,dialog);host.replaceChildren(layout);updateRoadmap();
+  layout.append(hero,result,columns,footer,dialog);host.replaceChildren(layout,dock);updateRoadmap();
 }
