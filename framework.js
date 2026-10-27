@@ -201,7 +201,7 @@ function render(){
     empty.append(element('span','eyebrow','04 / UNDEFINED'));
     $('boardPanel').append(empty);return;
   }
-  import('./growth-roadmap-view.js?v=20261027-ny-logo').then(({renderRoadmap})=>{
+  import('./growth-roadmap-view.js?v=20261027-content-review').then(({renderRoadmap})=>{
     if(view==='todo')renderRoadmap($('boardPanel'));
   }).catch(error=>console.error('Growth roadmap:',error));
 }

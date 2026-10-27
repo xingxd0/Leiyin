@@ -1,4 +1,4 @@
-import {growthRoadmap} from './growth-roadmap.js?v=20261027-ny-logo';
+import {growthRoadmap} from './growth-roadmap.js?v=20261027-content-review';
 
 const $=id=>document.getElementById(id);
 function element(tag,cls,text){
@@ -8,7 +8,7 @@ function element(tag,cls,text){
   return node;
 }
 let roadmapTrigger=null;
-const roadmapStatuses={notstarted:'Not started',preparing:'Preparing',ongoing:'In progress',review:'In review',confirmed:'Confirmed',done:'Completed'};
+const roadmapStatuses={notstarted:'Not started',preparing:'Preparing',ongoing:'In progress',review:'Awaiting review',confirmed:'Confirmed',done:'Completed'};
 const roadmapState={status:'all',query:'',open:{}};
 const roadmapCards=growthRoadmap.flatMap(column=>column.cards);
 const roadmapTasks=roadmapCards.flatMap(card=>card.tasks);
@@ -71,7 +71,7 @@ function openRoadmapTask(task,card,button){
     const list=element('ul','roadmap-detail-list');
     task.detail.forEach(text=>list.append(element('li','',text)));content.append(list);
   }
-  if(task.optional)content.append(element('p','roadmap-item-meta','Optional'));
+  if(task.optional)content.append(element('p','roadmap-item-meta',task.status==='notstarted'?'Backlog':'Optional'));
   $('roadmapDialog').showModal();
 }
 function renderRoadmapStages(task){
@@ -116,7 +116,7 @@ function renderRoadmapTask(task,card){
   details.onclick=()=>openRoadmapTask(task,card,details);
   name.append(details);
   if(task.subtitle)name.append(element('p','roadmap-item-meta',task.subtitle));
-  if(task.optional)name.append(element('span','roadmap-optional','Optional'));
+  if(task.optional)name.append(element('span','roadmap-optional',task.status==='notstarted'?'Backlog':'Optional'));
   top.append(roadmapLogo(task),name);
   // Only explicitly supplied web destinations become outbound links.
   let url;
@@ -210,10 +210,10 @@ export function renderRoadmap(host){
   const intro=element('div','roadmap-intro');
   intro.append(element('p','roadmap-eyebrow','[ PERSONAL EVOLUTION SYSTEM ]'));
   const title=element('h1','','todolist');title.append(element('span','roadmap-cursor','_'));
-  const subtitle=element('p','roadmap-subtitle','Always Becoming · A work in progress, by design.');
+  const subtitle=element('p','roadmap-subtitle','Always Becoming · A work in progress, by design. Updated October 27, 2026.');
   intro.append(title,subtitle);
   const stats=element('dl','roadmap-stats');stats.setAttribute('aria-label','Item statistics');
-  [[growthRoadmap.length,'Directions'],[roadmapCards.length,'Groups'],[roadmapTasks.length,'Items'],[roadmapTasks.filter(task=>task.status==='done').length,'Completed']].forEach(([value,label])=>{
+  [[growthRoadmap.length,'Directions'],[roadmapCards.length,'Groups'],[roadmapTasks.length,'Items'],[roadmapTasks.filter(task=>task.status==='done').length,'Completed items']].forEach(([value,label])=>{
     const stat=element('div','roadmap-stat');stat.append(element('dt','',label),element('dd','',String(value).padStart(2,'0')));stats.append(stat);
   });
   hero.append(intro,stats);
