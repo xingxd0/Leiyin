@@ -1,4 +1,4 @@
-import {growthRoadmap} from './growth-roadmap.js?v=20261027-real-items';
+import {growthRoadmap} from './growth-roadmap.js?v=20261027-ny-logo';
 
 const $=id=>document.getElementById(id);
 function element(tag,cls,text){
@@ -36,14 +36,15 @@ function roadmapCardOpen(card){
 function matchingRoadmapTasks(card,column,includeStatus=true){
   const query=roadmapState.query.toLocaleLowerCase();
   return card.tasks.filter(task=>{
-    const text=[column.name,column.desc,card.title,card.category,card.desc,task.title,task.subtitle,task.note,task.nextStep,task.statusLabel,...task.workflow,...(task.detail||[])].join(' ').toLocaleLowerCase();
+    const text=[column.name,column.desc,card.title,card.category,card.desc,task.title,task.subtitle,task.note,task.nextStep,task.statusLabel,...task.workflow,...(task.detail||[]),...(task.works||[]).map(work=>`${work.year||''} ${work.name}`)].join(' ').toLocaleLowerCase();
     return (!query||text.includes(query))&&(!includeStatus||roadmapState.status==='all'||roadmapState.status===task.status);
   });
 }
 function roadmapLogo(task){
-  const logo=element('span',`roadmap-logo roadmap-logo-${['if','reddot','muse'].includes(task.logo)?task.logo:'placeholder'}`);
+  const isBrand=['if','reddot','muse','adesign','london','ny'].includes(task.logo);
+  const logo=element('span',`roadmap-logo roadmap-logo-${isBrand?task.logo:'placeholder'}`);
   logo.setAttribute('aria-hidden','true');
-  if(['if','reddot','muse'].includes(task.logo)){
+  if(isBrand){
     const image=element('img');
     image.src=new URL(`./logo/${task.logo}.png`,import.meta.url).href;
     image.alt='';
@@ -61,7 +62,9 @@ function openRoadmapTask(task,card,button){
     label.append(element('span','','Completed'),element('span','','100%'));
     content.append(label);
   }
-  if(task.workflow.length)content.append(renderRoadmapStages(task));
+  if(card.id==='awards'&&task.status==='done'){
+    content.append(renderRoadmapWorks(task));
+  }else if(task.workflow.length)content.append(renderRoadmapStages(task));
   if(task.nextStep)content.append(element('p','roadmap-detail-note',`Next step: ${task.nextStep}`));
   if(task.note)content.append(element('p','roadmap-detail-note',task.note));
   if(task.detail){
@@ -77,12 +80,39 @@ function renderRoadmapStages(task){
   task.workflow.forEach(text=>steps.append(element('li','',text)));
   return steps;
 }
+function renderRoadmapWorks(task){
+  if(!task.works?.length)return element('p','roadmap-stages',`Work: ${task.workName||'To be added'}`);
+  const list=element('ul','roadmap-works');
+  list.setAttribute('aria-label',`${task.title}: awarded works`);
+  task.works.forEach(work=>{
+    const row=element('li');
+    if(work.year)row.append(element('span','roadmap-work-year',String(work.year)));
+    let url;
+    try{url=new URL(work.url);}catch{}
+    if(url&&['https:','http:'].includes(url.protocol)){
+      const link=element('a','roadmap-work-link',work.name);
+      link.href=url.href;link.target='_blank';link.rel='noopener noreferrer';
+      link.setAttribute('aria-label',`${work.name} (opens in a new tab)`);
+      row.append(link);
+    }else{
+      const name=element('span','roadmap-work-pending',work.name);
+      name.title='Link to be added';row.append(name);
+    }
+    list.append(row);
+  });
+  return list;
+}
 function renderRoadmapTask(task,card){
   const item=element('article',`roadmap-item${task.featured?' roadmap-item-featured':''}`);
   item.dataset.item=task.id;item.dataset.status=task.status;
   const top=element('div','roadmap-item-top'),name=element('div','roadmap-item-name');
   const details=element('button','roadmap-item-title',task.title);
   details.type='button';details.setAttribute('aria-haspopup','dialog');
+  if(task.awardCount){
+    const badge=element('span','roadmap-award-count',`×${task.awardCount}`);
+    badge.setAttribute('aria-label',`${task.awardCount} awards`);
+    details.append(badge);
+  }
   details.onclick=()=>openRoadmapTask(task,card,details);
   name.append(details);
   if(task.subtitle)name.append(element('p','roadmap-item-meta',task.subtitle));
@@ -98,7 +128,9 @@ function renderRoadmapTask(task,card){
     link.append(roadmapIcon('arrow'));top.append(link);
   }
   item.append(top);
-  if(task.workflow.length)item.append(renderRoadmapStages(task));
+  if(card.id==='awards'&&task.status==='done'){
+    item.append(renderRoadmapWorks(task));
+  }else if(task.workflow.length)item.append(renderRoadmapStages(task));
   const status=element('div','roadmap-item-status'),label=element('span','roadmap-status');
   label.append(task.status==='done'?roadmapIcon('check'):element('span','roadmap-dot'),document.createTextNode(task.statusLabel));
   status.append(label);

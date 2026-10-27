@@ -4,7 +4,7 @@ const identityStages = [
     {type:'heading',text:'Xudong (Daniel) Xing'},
     {type:'role',text:'Product Design Manager @ TikTok | AI Products, Design Systems , Enterprise UX'}
   ]},
-  {id:'profile',command:'cat /profile/current',pauseAfter:2500,lines:[
+  {id:'profile',command:'cat /profile/current',pauseAfter:650,lines:[
     {type:'field',label:'ROLE',value:'Product Design Manager'},
     {type:'field',label:'COMPANY',value:'TikTok'},
     {type:'field',label:'TEAM',value:'Operations Platform & Design System'},
@@ -12,7 +12,7 @@ const identityStages = [
     {type:'field',label:'EXPERIENCE',value:'12+ Years in Product Design & Leadership'},
     {type:'field',label:'LEADERSHIP',value:'10 Designers Across China & US'}
   ]},
-  {id:'career',command:'cat /career/history',pauseAfter:3200,lines:[
+  {id:'career',command:'cat /career/history',pauseAfter:1350,lines:[
     {type:'career',label:'2023—NOW',value:'TikTok',detail:'Product Design Manager'},
     {type:'career',label:'2021—2023',value:'Kuaishou',detail:'Design Lead'},
     {type:'career',label:'2019—2021',value:'ByteDance',detail:'Design Lead'},
@@ -20,18 +20,18 @@ const identityStages = [
     {type:'career',label:'2016—2018',value:'58.com',detail:'Senior Product Designer'},
     {type:'career',label:'2014—2016',value:'Yonyou',detail:'Product Designer'}
   ]},
-  {id:'expertise',command:'ls /expertise',pauseAfter:2400,lines:[
+  {id:'expertise',command:'ls /expertise',pauseAfter:1200,lines:[
     {type:'field',label:'CRAFT',value:'Experience Quality & Design Excellence'},
     {type:'field',label:'SYSTEMS',value:'Scalable Design Systems & Complex Platforms'},
     {type:'field',label:'PEOPLE',value:'Team Leadership, Mentorship & Growth'},
     {type:'field',label:'AI',value:'AI-powered Products & Emerging Experiences'}
   ]},
-  {id:'recognition',command:'cat /recognition/highlights',pauseAfter:2200,lines:[
+  {id:'recognition',command:'cat /recognition/highlights',pauseAfter:900,lines:[
     {type:'recognition',text:'MUSE Design Award',detail:'Individual Recognition'},
     {type:'recognition',text:'Red Dot Design Award / iF Design Award',detail:'Selected Team Achievements'},
     {type:'text',text:'11 Design Patents'}
   ]},
-  {id:'manifesto',command:'cat /manifesto',pauseAfter:1800,lines:[
+  {id:'manifesto',command:'cat /manifesto',pauseAfter:100,lines:[
     {type:'manifesto',text:'Find clarity in complexity.'},
     {type:'manifesto',text:'Build systems that scale.'},
     {type:'manifesto',text:'Give people room to grow.'}
@@ -75,13 +75,12 @@ function createIdentityTerminal(host, {navigate, reducedMotion, timing = {}}) {
   const announcement = make('span','identity-static-copy');
   announcement.setAttribute('role','status');
   const controls = make('div','identity-controls');
-  const replay = make('button','identity-control','Replay');
-  const skip = make('button','identity-control','Skip intro');
   const enter = make('button','identity-enter','[ ENTER WORKSPACE → ]');
-  [replay,skip,enter].forEach(button=>button.type='button');
+  enter.type='button';
+  controls.hidden = true;
   enter.hidden = true;
   enter.onclick = () => navigate('todo');
-  controls.append(replay,skip,enter);
+  controls.append(enter);
   const form = make('form','terminal-form');
   const label = make('label','','xudong:~ $');
   const input = make('input');
@@ -176,7 +175,7 @@ function createIdentityTerminal(host, {navigate, reducedMotion, timing = {}}) {
     return node;
   }
   function complete(state) {
-    setState(state);skip.hidden=true;enter.hidden=false;
+    setState(state);controls.hidden=false;enter.hidden=false;
     announcement.textContent='Identity introduction complete. Enter workspace is available.';
     followOutput();
   }
@@ -225,13 +224,11 @@ function createIdentityTerminal(host, {navigate, reducedMotion, timing = {}}) {
     if (destroyed) return;
     cancelSession();cancelScroll();
     transcript.replaceChildren();output.scrollTop=0;follow=true;
-    announcement.textContent='';skip.hidden=false;enter.hidden=true;setState('idle');
+    announcement.textContent='';controls.hidden=true;enter.hidden=true;setState('idle');
     if (reducedMotion.matches) {showAll('completed');follow=false;output.scrollTop=0;return;}
     session=new AbortController();
     run(session.signal);
   }
-  replay.onclick=start;
-  skip.onclick=()=>{showAll();enter.focus({preventScroll:true});};
   form.onsubmit=event=>{
     event.preventDefault();
     const command=input.value.trim().toLowerCase();

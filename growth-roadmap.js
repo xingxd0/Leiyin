@@ -6,11 +6,26 @@ const task=(id,title,status,statusLabel,workflow=[],extra={})=>({
 export const growthRoadmap=[
   {id:'influence',name:'Design Influence',kicker:'01 / MAKE AN IMPACT',desc:'Let design travel. Let impact stay.',icon:'award',cards:[
     {id:'awards',category:'RECOGNITION',title:'International Design Awards',desc:'11 international design awards · 11 Chinese patents (3 invention + 8 design)',open:true,tasks:[
-      task('reddot','Red Dot Award 2026 ×2','done','Won',['Submission','Judging','Award'],{subtitle:'Brands & Communication Design',logo:'reddot'}),
-      task('if','iF Design Award 2026 ×2','done','Won',['Submission','Judging','Award'],{logo:'if'}),
-      task('a-design',"A' Design Award 2026",'done','Won',['Submission','Judging','Award'],{subtitle:'Bronze',logo:"A'"}),
-      task('indigo','Indigo Design Award 2026','done','Shortlisted',['Submission','Judging','Shortlist'],{subtitle:'Shortlist',logo:'I'}),
-      task('awards-2025','2025 International Awards ×5','done','Won',[],{subtitle:"Red Dot / MUSE Gold (SoulNest) / London Gold / NY Silver / A'",logo:'muse'}),
+      task('reddot','Red Dot Award','done','Won',[],{logo:'reddot',awardCount:2,works:[
+        {year:2026,name:'Tmates',url:''},
+        {year:2025,name:'SoulNest',url:''}
+      ]}),
+      task('if','iF Design Award','done','Won',[],{logo:'if',awardCount:2,works:[
+        {year:2026,name:'Semi Design System',url:''},
+        {year:2026,name:'TikTok Customer Service Platform',url:''}
+      ]}),
+      task('a-design',"A' Design Award",'done','Won',[],{logo:'adesign',awardCount:1,works:[
+        {year:2026,name:'CollabAgents',url:''}
+      ]}),
+      task('muse-2025','MUSE Design Awards','done','Won',[],{logo:'muse',awardCount:1,works:[
+        {year:2025,name:'SoulNest',url:''}
+      ]}),
+      task('london-2025','London Design Awards','done','Won',[],{logo:'london',awardCount:1,works:[
+        {year:2025,name:'CollabAgents',url:''}
+      ]}),
+      task('ny-2025','NY Product Design Awards','done','Won',[],{logo:'ny',awardCount:1,works:[
+        {year:2025,name:'SoulNest',url:''}
+      ]}),
       task('award-entries','AI Agent Workbench · Eight-Award Full-Coverage Entries','preparing','In preparation',['Materials','Submissions','Judging','Results'],{
         featured:true,optional:true,logo:'+',
         nextStep:'Confirm which interfaces can go public; nearest deadlines — Webby early bird Oct 30, iF Nov 2',
@@ -20,7 +35,7 @@ export const growthRoadmap=[
     {id:'jury',category:'JURY',title:'Jury Seats',desc:'Trade winning work for a jury seat — and let the seat amplify the next win.',open:true,tasks:[
       task('muse-jury','MUSE Design Awards — Juror','review','Under committee review',['Application','Materials','Committee review','Decision'],{logo:'muse',nextStep:"Await the committee's decision"}),
       task('stevie-jury','Stevie Awards — Juror','review','Pending review',['Application (all 9 programs)','Review','2027 judging pool'],{logo:'S',nextStep:'Await review'}),
-      task('a-jury',"A' Design Award — Juror",'review','Awaiting panel review',['Application','Preliminary evaluation passed','Panel review (January 2027)','Decision'],{logo:"A'",nextStep:'Panel review in January 2027'}),
+      task('a-jury',"A' Design Award — Juror",'review','Awaiting panel review',['Application','Preliminary evaluation passed','Panel review (January 2027)','Decision'],{logo:'adesign',nextStep:'Panel review in January 2027'}),
       task('uci-jury','UC Irvine — Design Juror','confirmed','Confirmed (date tentative)',['Invitation','Date confirmation','On-site judging'],{logo:'UCI',nextStep:'Late March 2027; confirm the exact date'})
     ]},
     {id:'speaking',category:'SHARING',title:'Talks & Public Sharing',desc:'Turn design experience into shareable points of view.',open:true,tasks:[
