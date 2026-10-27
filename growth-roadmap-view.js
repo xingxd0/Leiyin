@@ -1,4 +1,4 @@
-import {growthRoadmap} from './growth-roadmap.js?v=20261027-content-review';
+import {growthRoadmap} from './growth-roadmap.js?v=20261027-award-progress';
 
 const $=id=>document.getElementById(id);
 function element(tag,cls,text){
@@ -57,9 +57,9 @@ function openRoadmapTask(task,card,button){
   roadmapTrigger=button;$('roadmapDialogTitle').textContent=task.title;
   $('roadmapDialogText').textContent=`${card.title} / ${task.statusLabel}${task.subtitle?' · '+task.subtitle:''}`;
   const content=$('roadmapDialogProgress');content.replaceChildren();
-  if(task.status==='done'){
+  if(Number.isFinite(task.progress)){
     const label=element('p','roadmap-detail-label');
-    label.append(element('span','','Completed'),element('span','','100%'));
+    label.append(element('span','',task.status==='done'?'Completed':'Progress'),element('span','',`${task.progress}%`));
     content.append(label);
   }
   if(card.id==='awards'&&task.status==='done'){
@@ -134,7 +134,7 @@ function renderRoadmapTask(task,card){
   const status=element('div','roadmap-item-status'),label=element('span','roadmap-status');
   label.append(task.status==='done'?roadmapIcon('check'):element('span','roadmap-dot'),document.createTextNode(task.statusLabel));
   status.append(label);
-  if(task.status==='done')status.append(element('span','roadmap-percent','100%'));
+  if(Number.isFinite(task.progress))status.append(element('span','roadmap-percent',`${task.progress}%`));
   item.append(status);
   if(task.nextStep){
     const note=element('p','roadmap-next-action');

@@ -26,21 +26,17 @@ export const growthRoadmap=[
       task('ny-2025','NY Product Design Awards','done','Completed',[],{logo:'ny',awardCount:1,works:[
         {year:2025,name:'SoulNest',url:''}
       ]}),
-      task('award-entries','AI Agent Workbench — Award Submissions','preparing','Preparing',['Materials','Submissions','Judging','Results'],{
-        featured:true,optional:true,logo:'+',
-        nextStep:'Confirm the public-disclosure scope, then check eligibility and current deadlines for each prospective entry. Reuse the flagship case-study materials.',
-        note:'Eight prospective award programs; individual submissions are not yet confirmed. Previously noted dates to verify: Webby early bird — October 30, 2026; iF — November 2, 2026.',
-        detail:['The Webby Awards, 31st','iF DESIGN AWARD 2027','UX Design Awards Spring 2027','MUSE Design Awards 2027','French Design Awards 2027','Indigo Design Award 2027','C-IDEA 2027','ADC Annual Awards, 106th']
-      })
+      task('if-team','Help the Team Apply for the iF DESIGN AWARD','preparing','Preparing',[],{logo:'if',progress:80}),
+      task('reddot-2027','Prepare for the Red Dot Award 2027','preparing','Preparing',[],{logo:'reddot',progress:10}),
+      task('muse-entry','Apply for the MUSE Design Awards','preparing','Preparing',[],{logo:'muse',progress:40})
     ]},
     {id:'jury',category:'JURY',title:'Design Jury & Review',desc:'Contribute design judgment and learn from a wider range of work.',open:true,tasks:[
-      task('muse-jury','MUSE Design Awards — Juror','review','Awaiting review',['Application','Materials','Committee review','Decision'],{logo:'muse',nextStep:"Await the committee's decision; record the notification date when confirmed"}),
-      task('stevie-jury','Stevie Awards — Juror','review','Awaiting review',['Application (all 9 programs)','Review','2027 judging pool'],{logo:'S',nextStep:'Await the review outcome; record the notification date when confirmed'}),
-      task('a-jury',"A' Design Award — Juror",'review','Awaiting review',['Application','Preliminary evaluation passed','Panel review (January 2027)','Decision'],{logo:'adesign',nextStep:'Panel review in January 2027'}),
-      task('uci-jury','UC Irvine — Design Juror','confirmed','Confirmed',['Invitation','Date confirmation','On-site judging'],{logo:'UCI',nextStep:'Late March 2027; confirm the exact date'})
+      task('muse-jury','MUSE Design Awards — Juror','review','Awaiting review',['Application','Materials','Committee review','Decision'],{logo:'muse',progress:90,nextStep:"Await the committee's decision"}),
+      task('a-jury',"A' Design Award — Juror",'review','Awaiting review',['Application','Preliminary evaluation passed','Panel review (January 2027)','Decision'],{logo:'adesign',progress:90,nextStep:'Await panel review in January 2027'}),
+      task('uci-jury','UC Irvine — Design Juror','preparing','Working toward this opportunity',[],{logo:'UCI',nextStep:'Work toward a design-juror opportunity at UC Irvine'})
     ]},
     {id:'speaking',category:'SHARING',title:'Talks & Public Sharing',desc:'Turn design experience into shareable points of view.',open:true,tasks:[
-      task('cafa-talk','Talk at the Central Academy of Fine Arts · "TikTok and the Influence of Global Culture"','preparing','Preparing',['Topic confirmed','PR clearance','Talk draft','Review','On stage'],{logo:'T',nextStep:'Submit PR clearance in January 2027; on stage mid-March 2027 (tentative), Beijing'}),
+      task('cafa-talk','Prepare for a Talk at the Central Academy of Fine Arts (CAFA), Beijing, China','preparing','Preparing',['Topic confirmed','PR clearance','Talk draft','Review','On stage'],{logo:'T',subtitle:'TikTok and the Influence of Global Culture',nextStep:'Submit PR clearance in January 2027; on stage mid-March 2027 (tentative), Beijing'}),
       task('community-talk','Community Sessions / Workshops','notstarted','Not started',['Topic','Outreach','Live session'],{logo:'W',optional:true,nextStep:'Choose one discussion topic and define a concrete takeaway before planning an event'}),
       task('design-article','A Design Retrospective Article','notstarted','Not started',['Topic','Draft','Publish'],{logo:'Aa',optional:true,nextStep:'Choose one real design decision and collect the evidence for a retrospective'})
     ]}
