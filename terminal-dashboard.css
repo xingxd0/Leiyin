@@ -95,14 +95,93 @@ main { grid-template-rows: 88px 76px minmax(0, 1fr) 38px; padding-inline: 22px; 
 #cardDialog { border-radius: 14px; background: var(--surface); box-shadow: 0 24px 90px #0008; }
 #cardDialog h2 { font-weight: 650; }
 footer { font-size: 9px; }
+.column { grid-template-rows: 156px minmax(0, 1fr); }
+.column-heading { overflow: auto; }
+.roadmap-subtitle { color: var(--ink); font-size: 11px; margin-top: 5px; }
+.roadmap-goal { color: var(--muted); font-size: 11px; line-height: 1.65; margin-top: 8px; }
+.roadmap-milestones { margin: 14px 0 0; padding: 12px 12px 12px 26px; background: var(--accent-surface); border: 1px solid var(--accent-line); border-radius: 8px; color: var(--ink); font-size: 11px; line-height: 1.8; overflow-wrap: anywhere; }
+.roadmap-milestones li::marker { color: var(--accent); }
+.roadmap-detail-title { margin-top: 22px; font-size: 12px; color: var(--bright); }
+.roadmap-more { flex-shrink: 0; padding: 11px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--ink); font-size: 11px; }
+.roadmap-more:hover { background: var(--surface-active); border-color: var(--accent-line); }
+.task-card { overflow-wrap: anywhere; }
+.card-meta { flex-wrap: wrap; }
 
 /* Keep both animation and command output on one uninterrupted background. */
 .terminal-crow-scene { background: var(--bg); }
 .login-screen, .identity-workspace { --crow-text: #bbc4d2; --crow-muted: #929ca9; --crow-bright: #e0e5ed; --crow-line: #2b333e; }
+.login-screen .login-log { color: var(--accent); }
+.login-screen { border: 0; outline: none; box-shadow: none; border-radius: 0; }
+.login-screen .login-console progress::-webkit-progress-value { background: var(--accent); }
+.login-screen .login-console progress::-moz-progress-bar { background: var(--accent); }
 .login-art-panel .ascii-toggle { border-radius: 8px; }
-.identity-workspace .terminal-form { padding: 14px 22px; }
+.identity-workspace .terminal-body {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: 32% minmax(0, 1fr);
+  overflow: hidden;
+}
+.identity-workspace .ascii-panel { border-right: 0; border-bottom: 0; }
+.identity-workspace .crow-floating {
+  width: 100%;
+  max-width: 1200px;
+  right: auto;
+}
+.identity-workspace .terminal-output {
+  width: 100%;
+  max-width: 1200px;
+  justify-self: start;
+  text-align: left;
+  overflow: auto;
+  overflow-anchor: none;
+  scrollbar-gutter: stable;
+  padding: 24px 22px;
+}
+.identity-workspace .terminal-form {
+  width: 100%;
+  max-width: 1200px;
+  justify-self: start;
+  padding: 14px 22px;
+}
 .identity-workspace .terminal-form button { border: 1px solid var(--line); border-radius: 6px; padding: 7px 12px; }
 .identity-workspace .terminal-form button:hover { background: var(--surface-active); color: var(--bright); }
+
+/* Editor-inspired syntax colors, scoped to identity commands. */
+.identity-terminal-header { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding-bottom: 20px; color: var(--muted); font-size: 11px; letter-spacing: .5px; }
+.identity-connected, .identity-success, .identity-role { color: var(--accent); }
+.identity-connected { font-size: 10px; white-space: nowrap; }
+.identity-section { padding: 22px 0; border-top: 1px solid var(--line); }
+.identity-section-label { margin: 0 0 12px; color: var(--muted); font-size: 10px; font-weight: 400; letter-spacing: .6px; }
+.identity-section p { margin: 5px 0; font-size: 13px; line-height: 1.8; overflow-wrap: anywhere; }
+.identity-section .identity-name { margin: 0 0 10px; font: 650 clamp(24px, 3vw, 36px)/1.2 var(--font); letter-spacing: -.8px; color: var(--bright); }
+.identity-section .identity-role { font-size: 16px; }
+.identity-position, .identity-line { color: #d5d7dc; }
+.identity-muted { color: var(--muted); }
+.identity-philosophy .identity-line { color: var(--bright); font-weight: 600; }
+
+.identity-workspace {
+  --cli-blue: #82b7f8;
+  --cli-orange: #f3a27c;
+  --cli-pink: #f2849e;
+  --cli-yellow: #e5d779;
+  --cli-green: #80cfa4;
+  --cli-gray: #959da8;
+}
+.identity-workspace .cli-prompt,
+.identity-workspace .cli-punctuation,
+.identity-workspace .terminal-form label,
+.identity-workspace .choice-marker { color: var(--cli-gray); }
+.identity-workspace .cli-function { color: var(--cli-blue); }
+.identity-workspace .cli-argument { color: var(--cli-orange); }
+.identity-workspace .cli-keyword { color: var(--cli-pink); }
+.identity-workspace .cli-number { color: var(--cli-yellow); }
+.identity-workspace .cli-value,
+.identity-workspace .cli-choice-label { color: var(--cli-green); }
+.identity-workspace .terminal-result { color: #d5d7dc; }
+.identity-workspace .terminal-form input { color: var(--cli-blue); caret-color: var(--accent); }
+.identity-workspace .terminal-cursor { color: var(--accent); }
+.identity-workspace .terminal-choice:hover .cli-choice-label,
+.identity-workspace .terminal-choice:focus-visible .cli-choice-label { color: #b4efce; text-decoration: underline; text-underline-offset: 4px; }
+.identity-workspace .terminal-choice:focus-visible { outline: 1px solid var(--accent); outline-offset: 4px; border-radius: 2px; }
 
 @media (min-width: 1450px) {
   .columns { gap: 16px; }

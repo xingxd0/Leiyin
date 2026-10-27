@@ -59,17 +59,26 @@ export async function createCrow(host, {paused = false, isCurrent = () => true} 
   const treeLayers = [0, 1, 2].map(depth => {
     const layer = document.createElement('div');
     layer.className = `crow-tree-layer depth-${depth}`;
-    const rows = Array.from({length: 22}, (_, row) =>
-      Array.from({length: 100}, (_, col) => {
+    forest.append(layer);
+    return layer;
+  });
+  let forestColumns = 0;
+  function fitForest() {
+    // Include an extra 24-character tile for the scrolling offset.
+    const columns = Math.ceil(host.clientWidth / 336) * 24 + 24;
+    if (columns === forestColumns) return;
+    forestColumns = columns;
+    treeLayers.forEach((layer, depth) => {
+      const rows = Array.from({length: 22}, (_, row) =>
+      Array.from({length: columns}, (_, col) => {
         const tree = (col + depth * 7) % 24;
         const crown = row > 3 + depth && row < 16 && Math.abs(tree - 12) < Math.min(8, row / 2);
         return tree === 12 && row > 8 ? '木' : crown ? (row + col) % 3 === 0 ? '枝' : '林' : '　';
       }).join('')
     ).join('\n');
-    layer.textContent = rows + '\n';
-    forest.append(layer);
-    return layer;
-  });
+      layer.textContent = rows + '\n';
+    });
+  }
   const floating = document.createElement('div');
   floating.className = 'crow-floating';
   const viewport = document.createElement('div');
@@ -81,7 +90,8 @@ export async function createCrow(host, {paused = false, isCurrent = () => true} 
   floating.append(viewport);
   host.append(forest, floating);
   const observer = new ResizeObserver(() => {
-    const size = Math.min(host.clientWidth, host.clientHeight, 620);
+    fitForest();
+    const size = Math.min(floating.clientWidth, host.clientHeight, 620);
     viewport.style.width = `${size}px`;
     bird.style.transform = `scale(${size / 1024})`;
   });
