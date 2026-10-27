@@ -1,4 +1,4 @@
-import {growthRoadmap} from './growth-roadmap.js?v=20261027-bottom-dock';
+import {growthRoadmap} from './growth-roadmap.js?v=20261027-xd-todo';
 
 const $=id=>document.getElementById(id);
 function element(tag,cls,text){
@@ -11,6 +11,30 @@ let roadmapTrigger=null;
 const roadmapStatuses={notstarted:'Not started',preparing:'Preparing',ongoing:'In progress',review:'Awaiting review',confirmed:'Confirmed',done:'Completed'};
 const roadmapState={status:'all',query:'',open:{},more:{}};
 const roadmapCards=growthRoadmap.flatMap(column=>column.cards);
+const customTodoKey='leiyin.todol.custom.v1';
+const customTodo=(record)=>({id:record.id,title:record.title,status:'notstarted',statusLabel:'Not started',workflow:[],logo:'+',local:true});
+let customTodoRecords=[];
+try{
+  const records=JSON.parse(localStorage.getItem(customTodoKey)||'[]');
+  if(Array.isArray(records))customTodoRecords=records.filter(record=>record&&typeof record.id==='string'&&record.id.startsWith('local-')&&typeof record.title==='string'&&record.title.trim()&&record.title.length<=500&&roadmapCards.some(card=>card.id===record.cardId)).slice(0,200);
+}catch{}
+customTodoRecords.forEach(record=>roadmapCards.find(card=>card.id===record.cardId).tasks.push(customTodo(record)));
+const roadmapAliases={团队建设:'team',团队建设与协作:'team',作品与案例:'case-studies',专业探索:'case-studies',设计方法:'systems',专利:'patents',设计奖项:'awards',国际设计奖项:'awards',评委与分享:'talk-judge',人才成长:'mentoring',领导力:'leadership',AI设计观察:'ai-observation',下一代交互:'next-interface',持续学习:'learning'};
+function addRoadmapCommand(command){
+  const match=command.match(/^\/xd\s+增加到\s*(.+?)\s*的\s*todo\s*为\s*([\s\S]+)$/i);
+  if(!match)return {message:'Usage: /xd 增加到团队建设的todo为…',ok:false};
+  const target=match[1].trim(),title=match[2].trim();
+  const card=roadmapCards.find(card=>card.id===roadmapAliases[target]||card.id.toLowerCase()===target.toLowerCase()||card.title.toLowerCase()===target.toLowerCase());
+  if(!card)return {message:'Group not found. Use a card title or 团队建设.',ok:false};
+  if(!title||title.length>500)return {message:'Enter a todo between 1 and 500 characters.',ok:false};
+  if(customTodoRecords.length>=200)return {message:'This browser has reached the 200 custom-todo limit.',ok:false};
+  const record={id:`local-${crypto.randomUUID()}`,cardId:card.id,title};
+  try{localStorage.setItem(customTodoKey,JSON.stringify([...customTodoRecords,record]));}
+  catch{return {message:'Could not save in this browser. Nothing was added.',ok:false};}
+  customTodoRecords.push(record);const item=customTodo(record);card.tasks.push(item);roadmapTasks.push(item);
+  roadmapState.status='all';roadmapState.query='';roadmapState.open[card.id]=true;roadmapState.more[card.id]=true;
+  return {message:`Added to ${card.title}. Saved in this browser only.`,ok:true};
+}
 const roadmapTasks=roadmapCards.flatMap(card=>card.tasks);
 function roadmapIcon(name){
   const paths={
@@ -234,15 +258,30 @@ export function renderRoadmap(host){
   const toolbar=element('section','roadmap-toolbar');toolbar.setAttribute('aria-label','Board filters');
   const filters=element('div','roadmap-filters');filters.id='roadmapFilters';
   filters.setAttribute('role','group');filters.setAttribute('aria-label','Filter by status');
-  const tools=element('div','roadmap-tools'),search=element('label','roadmap-search'),input=element('input');
-  input.type='search';input.placeholder='Search items...';input.autocomplete='off';input.value=roadmapState.query;
-  input.setAttribute('aria-label','Search groups or items');
-  input.oninput=()=>{roadmapState.query=input.value.trim();search.classList.toggle('has-value',Boolean(input.value));prepareRoadmapFilter();};
+  const tools=element('div','roadmap-tools'),search=element('form','roadmap-search'),input=element('input');
+  const feedback=element('p','roadmap-command-feedback');feedback.setAttribute('role','status');feedback.hidden=true;
+  input.type='search';input.placeholder='Search or /xd …';input.autocomplete='off';input.value=roadmapState.query;
+  input.setAttribute('aria-label','Search groups or add a todo with /xd');
+  input.oninput=()=>{
+    roadmapState.query=/^\/xd(?:\s|$)/i.test(input.value.trim())?'':input.value.trim();
+    feedback.hidden=true;search.classList.toggle('has-value',Boolean(input.value));prepareRoadmapFilter();
+  };
+  search.onsubmit=event=>{
+    event.preventDefault();if(event.isComposing)return;
+    const command=input.value.trim();if(!/^\/xd(?:\s|$)/i.test(command))return;
+    const result=addRoadmapCommand(command);feedback.textContent=result.message;feedback.hidden=false;
+    if(result.ok){
+      input.value='';search.classList.remove('has-value');updateRoadmap();
+      const counts=layout.querySelectorAll('.roadmap-stat dd');counts[2].textContent=String(roadmapTasks.length).padStart(2,'0');
+    }
+    input.focus({preventScroll:true});
+  };
   search.classList.toggle('has-value',Boolean(input.value));
   const prompt=element('span','roadmap-prompt','somebody:~ $');prompt.setAttribute('aria-hidden','true');
   const cursor=element('span','roadmap-input-cursor','▌');cursor.setAttribute('aria-hidden','true');
   const entry=element('span','roadmap-search-entry');entry.append(input,cursor);
-  search.append(prompt,entry);
+  const submit=element('button','roadmap-command-submit','↵');submit.type='submit';submit.setAttribute('aria-label','Submit XD command');
+  search.append(prompt,entry,submit);
   const collapse=element('button','roadmap-collapse');collapse.id='roadmapCollapse';collapse.type='button';
   collapse.append(roadmapIcon('collapse'),element('span','','Collapse all'));
   collapse.onclick=()=>{
@@ -250,7 +289,7 @@ export function renderRoadmap(host){
     const next=!visible.some(roadmapCardOpen);visible.forEach(card=>{roadmapState.open[card.id]=next;if(next)roadmapState.more[card.id]=true;});updateRoadmap();
   };
   tools.append(collapse);toolbar.append(filters,tools);
-  const dock=element('div','roadmap-dock');dock.append(toolbar,search);
+  const dock=element('div','roadmap-dock');dock.append(toolbar,search,feedback);
   const result=element('p','roadmap-result');result.id='roadmapResult';result.setAttribute('role','status');
   const columns=element('section','roadmap-columns');columns.id='roadmapColumns';columns.setAttribute('aria-label','Four directions of personal growth');
   const footer=element('div','roadmap-footer');footer.append(element('span','','● PROGRESS IS PERSONAL. KEEP BECOMING.'),element('span','','NO FINISH LINE.'));
