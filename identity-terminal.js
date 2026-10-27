@@ -1,8 +1,8 @@
 /* Identity storytelling is local content, not authentication or a system shell. */
 const identityStages = [
-  {id:'identity',command:'whoami',pauseAfter:1200,lines:[
-    {type:'heading',text:'XUDONG (DANIEL) XING'},
-    {type:'role',text:'Product Design Leader · Builder · Thinker'}
+  {id:'identity',command:'whoami',pauseAfter:450,lines:[
+    {type:'heading',text:'Xudong (Daniel) Xing'},
+    {type:'role',text:'Product Design Manager @ TikTok | AI Products, Design Systems , Enterprise UX'}
   ]},
   {id:'profile',command:'cat /profile/current',pauseAfter:2500,lines:[
     {type:'field',label:'ROLE',value:'Product Design Manager'},
