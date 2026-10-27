@@ -78,3 +78,5 @@
 @media (prefers-reduced-motion: reduce) {
   .identity-line-enter, .identity-command-cursor, .identity-final-cursor { animation: none; }
 }
+
+.identity-shell .identity-personality-tag { display: inline-block; margin-left: 10px; padding: 1px 7px; border: 1px solid var(--line); border-radius: 4px; color: var(--muted); font: 10px/1.6 Menlo, Consolas, monospace; letter-spacing: .6px; vertical-align: middle; white-space: nowrap; }

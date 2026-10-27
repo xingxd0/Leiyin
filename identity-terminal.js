@@ -2,7 +2,7 @@
 const identityStages = [
   {id:'identity',command:'whoami',pauseAfter:450,lines:[
     {type:'heading',text:'Xudong (Daniel) Xing'},
-    {type:'role',text:'Product Design Manager @ TikTok | AI Products, Design Systems , Enterprise UX'}
+    {type:'role',text:'Product Design Manager @ TikTok | AI Products, Design Systems , Enterprise UX',tag:'ISTJ'}
   ]},
   {id:'profile',command:'cat /profile/current',pauseAfter:650,lines:[
     {type:'field',label:'ROLE',value:'Product Design Manager'},
@@ -68,7 +68,7 @@ function createIdentityTerminal(host, {navigate, reducedMotion, timing = {}}) {
   staticCopy.textContent = identityStages.map(stage =>
     `${stage.command}\n${stage.lines.map(line =>
       line.label ? `${line.label}: ${line.value}${line.detail ? `, ${line.detail}` : ''}`
-        : `${line.text}${line.detail ? `, ${line.detail}` : ''}${line.type==='status'?'_':''}`
+        : `${line.text}${line.tag ? ` · ${line.tag}` : ''}${line.detail ? `, ${line.detail}` : ''}${line.type==='status'?'_':''}`
     ).join('\n')}`
   ).join('\n\n');
   output.append(staticCopy,transcript);
@@ -168,6 +168,7 @@ function createIdentityTerminal(host, {navigate, reducedMotion, timing = {}}) {
       node.append(value);
     } else {
       node=make(line.type==='heading'?'h2':'p',`identity-output-line identity-${line.type}`,line.text);
+      if (line.tag) node.append(make('span','identity-personality-tag',line.tag));
       if (line.detail) node.append(make('span','identity-detail',line.detail));
       if (line.type==='status') node.append(make('span','identity-final-cursor','_'));
     }
