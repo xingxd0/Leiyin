@@ -6,7 +6,7 @@ const tracks=[
 ];
 const views={
   identity:{title:'身份认证',subtitle:'CLI / Identity',description:'Xudong Xing / Product Design Leader'},
-  todo:{title:'Personal Growth Roadmap',subtitle:'个人成长路线图',description:'已完成的成就不是终点，而是下一阶段成长的基础。',columns:growthRoadmap},
+  todo:{title:'Always becoming',subtitle:'个人成长路线图',description:'把想成为的自己，拆成正在发生的小事。'},
   model:{title:'能力模型',subtitle:'Capabilities / Work',description:'能力、方法与作品。'},
   pending:{title:'待定',subtitle:'Undefined',description:''}
 };
@@ -180,6 +180,7 @@ function render(){
   document.querySelector('.identity > small').textContent=view==='identity'
     ? 'PRODUCT DESIGN LEADER / ALWAYS BECOMING':'PERSONAL TERMINAL / GUEST ONLINE';
   $('workspace').classList.toggle('identity-workspace',view==='identity');
+  $('workspace').classList.toggle('roadmap-workspace',view==='todo');
   $('viewTitle').replaceChildren(document.createTextNode(data.title),element('small','',data.subtitle));
   $('viewDescription').textContent=data.description;
   const isTodo=view==='todo';
@@ -199,57 +200,9 @@ function render(){
     empty.append(element('span','eyebrow','04 / UNDEFINED'));
     $('boardPanel').append(empty);return;
   }
-  $('boardPanel').append(element('div','columns'));document.querySelector('.columns').id='columns';
-  $('columns').style.setProperty('--columns',data.columns.length);
-  $('columns').replaceChildren();
-  // Growth directions have no aggregate completion percentage.
-  data.columns.forEach((column,index)=>{
-    const section=element('section','column');section.style.setProperty('--track',column.color);
-    const header=element('header','column-heading'),meta=element('span','column-code');
-    meta.append(element('span','',`0${index+1} / ${column.code}`),element('i'));
-    const heading=element('h2','',column.title);
-    header.append(meta,heading,element('p','roadmap-subtitle',column.subtitle),element('p','roadmap-goal',column.goal));section.setAttribute('aria-label',column.title);
-    const list=element('div','card-list');
-    const cards=column.cards.filter(card=>filter==='all'||(filter==='done'?card.completed:!card.completed));
-    cards.forEach((card,cardIndex)=>{
-      const button=element('button',`task-card${card.completed?' done':''}`);button.type='button';
-      if(filter==='all'&&cardIndex>=3)button.hidden=true;
-      const status=card.status;
-      const meta=element('span','card-meta');
-      meta.append(element('span','',card.stage),element('span','card-state',status));
-      button.append(meta,element('span','card-title',card.title),element('span','card-copy',card.description));
-      const milestones=element('ul','roadmap-milestones');
-      card.milestones.slice(0,3).forEach(text=>milestones.append(element('li','',text)));
-      button.append(milestones);
-      const bottom=element('span','card-bottom');
-      bottom.append(element('span','',String(cardIndex+1).padStart(2,'0')),element('span','','查看详情 ↗'));
-      button.append(bottom);
-      button.onclick=()=>{
-        trigger=button;$('dialogTitle').textContent=card.title;
-        $('dialogText').textContent=`${column.subtitle} / ${card.status}。${card.description}`;
-        $('dialogProgress').replaceChildren();
-        const milestones=element('ul','roadmap-milestones');
-        card.milestones.forEach(text=>milestones.append(element('li','',text)));
-        $('dialogProgress').append(element('h3','roadmap-detail-title','成果与阶段节点'),milestones);
-        $('cardDialog').showModal();
-      };
-      list.append(button);
-    });
-    if(filter==='all'&&cards.length>3){
-      const more=element('button','roadmap-more',`查看全部 ${cards.length} 项`);
-      more.type='button';more.setAttribute('aria-expanded','false');
-      more.onclick=()=>{
-        const expanded=more.getAttribute('aria-expanded')!=='true';
-        list.querySelectorAll('.task-card').forEach((card,i)=>card.hidden=!expanded&&i>=3);
-        more.setAttribute('aria-expanded',String(expanded));
-        more.textContent=expanded?'收起':`查看全部 ${cards.length} 项`;
-      };
-      list.append(more);
-    }
-    if(!cards.length)list.append(element('p','empty','暂无任务'));
-    section.append(header,list);$('columns').append(section);
-  });
-  $('boardPanel').scrollTop=0;$('boardPanel').scrollLeft=0;
+  import('./growth-roadmap-view.js').then(({renderRoadmap})=>{
+    if(view==='todo')renderRoadmap($('boardPanel'));
+  }).catch(error=>console.error('Growth roadmap:',error));
 }
 document.querySelectorAll('[data-view]').forEach(button=>{
   button.onclick=()=>navigate(button.dataset.view);
