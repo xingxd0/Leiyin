@@ -7,7 +7,7 @@ const tracks=[
 const views={
   identity:{title:'身份认证',subtitle:'CLI / Identity',description:'Xudong Xing / Product Design Leader'},
   todo:{title:'todolist',subtitle:'Always Becoming',description:'A work in progress, by design.'},
-  model:{title:'能力模型',subtitle:'Capabilities / Work',description:'能力、方法与作品。'},
+  model:{title:'Workshop',subtitle:'Work & Experiments',description:'能力、方法与作品。'},
   pending:{title:'待定',subtitle:'Undefined',description:''}
 };
 // Configure each tab independently after image direction is confirmed.
