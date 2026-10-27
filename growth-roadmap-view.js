@@ -38,7 +38,7 @@ function matchingRoadmapTasks(card,column,includeStatus=true){
   return card.tasks.filter(task=>{
     const text=[column.name,column.desc,card.title,card.category,card.desc,task.title,task.subtitle,task.note,task.nextStep,task.statusLabel,...task.workflow,...(task.detail||[]),...(task.works||[]).map(work=>`${work.year||''} ${work.name}`)].join(' ').toLocaleLowerCase();
     return (!query||text.includes(query))&&(!includeStatus||roadmapState.status==='all'||roadmapState.status===task.status);
-  });
+  }).sort((a,b)=>Number(a.status==='done')-Number(b.status==='done'));
 }
 function roadmapLogo(task){
   const isBrand=['if','reddot','muse','adesign','london','ny'].includes(task.logo);

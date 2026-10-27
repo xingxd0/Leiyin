@@ -5,7 +5,7 @@ const task=(id,title,status,statusLabel,workflow=[],extra={})=>({
 });
 export const growthRoadmap=[
   {id:'influence',name:'Design Influence',kicker:'01 / MAKE AN IMPACT',desc:'Let design travel. Let impact stay.',icon:'award',cards:[
-    {id:'awards',category:'RECOGNITION',title:'International Design Awards',desc:'11 international design awards · 11 Chinese patents (3 invention + 8 design)',open:true,tasks:[
+    {id:'awards',category:'RECOGNITION',title:'International Design Awards',desc:'8 international design awards · 11 Chinese patents (3 invention + 8 design)',open:true,tasks:[
       task('reddot','Red Dot Award','done','Won',[],{logo:'reddot',awardCount:2,works:[
         {year:2026,name:'Tmates',url:''},
         {year:2025,name:'SoulNest',url:''}
