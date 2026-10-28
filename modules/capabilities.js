@@ -1,18 +1,18 @@
 // Existing visual studies remain explicitly labeled demos until real projects are supplied.
 const tiles=[
-  {q:0,r:0,title:'Holographic foil',label:'VISUAL DEMO',symbol:'✦',text:'A study of spectrum, reflected light, and the holographic finish from the original Workshop board.',tone:'lilac'},
-  {q:1,r:0,title:'Typography play',label:'TYPE DEMO',symbol:'Aa',text:'An expressive typography study built around the reminder to stay curious.',tone:'pink'},
-  {q:0,r:1,title:'Small ideas',label:'SKETCH DEMO',symbol:'⌁',text:'A sketch-style composition exploring simple shapes and new visual directions.',tone:'lime'},
-  {q:-1,r:1,title:'Work in progress',label:'STATUS STUDY',symbol:'◌',text:'A status study for unfinished experiments. Real Skills and incubated projects will be added when they are ready to share.',tone:'green'},
-  {q:-1,r:0,title:'A note to self',label:'PAPER DEMO',symbol:'↗',text:'Good things start with a little mess. A paper-note study of color and typography.',tone:'paper'},
-  {q:0,r:-1,title:'More possibilities',label:'EDITORIAL DEMO',symbol:'+',text:'Less polish. More possibilities. An editorial note about making room for early ideas.',tone:'lilac'},
+  {q:-1,r:-1,title:'Holographic foil',label:'VISUAL DEMO',symbol:'✦',text:'A study of spectrum, reflected light, and the holographic finish from the original Workshop board.',tone:'lilac'},
+  {q:1,r:1,title:'Typography play',label:'TYPE DEMO',symbol:'Aa',text:'An expressive typography study built around the reminder to stay curious.',tone:'pink'},
+  {q:0,r:2,title:'Small ideas',label:'SKETCH DEMO',symbol:'⌁',text:'A sketch-style composition exploring simple shapes and new visual directions.',tone:'lime'},
+  {q:-2,r:1,title:'Work in progress',label:'STATUS STUDY',symbol:'◌',text:'A status study for unfinished experiments. Real Skills and incubated projects will be added when they are ready to share.',tone:'green'},
+  {q:2,r:0,title:'A note to self',label:'PAPER DEMO',symbol:'↗',text:'Good things start with a little mess. A paper-note study of color and typography.',tone:'paper'},
+  {q:-2,r:2,title:'More possibilities',label:'EDITORIAL DEMO',symbol:'+',text:'Less polish. More possibilities. An editorial note about making room for early ideas.',tone:'lilac'},
   {q:1,r:-1,title:'Credits & thanks',label:'INSPIRATION',symbol:'♡',text:'Thanks to simeydotme for the holographic inspiration behind the original sticker studies.',tone:'paper',url:'https://github.com/simeydotme/pokemon-cards-css'}
 ];
 function element(tag,cls,text){const node=document.createElement(tag);if(cls)node.className=cls;if(text!==undefined)node.textContent=text;return node;}
 export function renderPage(host){
   const page=element('section','workshop-page hex-workshop');page.lang='en';
-  const header=element('header','hex-header');header.append(element('span','eyebrow','WORKSHOP / A WORLD IN THE MAKING'),element('h2','','Small ideas. New territories.'),element('p','','Explore a tile. Discover what is taking shape.'));
-  const toolbar=element('div','hex-toolbar'),help=element('p','','Select a filled tile to explore. Empty land is reserved for future work.');
+  const header=element('header','hex-header');header.append(element('span','eyebrow','WORKSHOP / A WORLD IN THE MAKING'),element('h2','','Small ideas. New territories.'),element('p','','Tools, experiments, and things made along the way.'));
+  const toolbar=element('div','hex-toolbar'),help=element('p','','Three territories, one board. Select a tile to explore; demo content is labeled.');
   const controls=element('div','hex-controls');controls.setAttribute('aria-label','Map controls');
   const viewport=element('div','hex-viewport');viewport.setAttribute('role','region');viewport.setAttribute('aria-label','Workshop hexagonal map. Scroll to explore.');viewport.tabIndex=0;
   const world=element('div','hex-world'),canvas=element('div','hex-canvas');world.append(canvas);viewport.append(world);
@@ -32,6 +32,24 @@ export function renderPage(host){
   const label=element('p','eyebrow'),title=element('h2'),description=element('p'),link=element('a','hex-link','Open source inspiration ↗');title.id='hexDetailTitle';link.target='_blank';link.rel='noopener noreferrer';
   dialog.append(close,label,title,description,link);let trigger=null;
   dialog.addEventListener('close',()=>trigger?.focus({preventScroll:true}));
+  // Shared hex edges cancel within each territory, leaving a dashed perimeter.
+  const regions=[{name:'🛠️ Tools',x:450,y:72},{name:'🚧 In the making',x:180,y:470},{name:'📦 Outputs',x:710,y:470}];
+  const regionFor=(q,r)=>r<0?0:q<0?1:2;
+  const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+  svg.classList.add('hex-regions');svg.setAttribute('viewBox','0 0 900 760');svg.setAttribute('aria-hidden','true');
+  regions.forEach((region,index)=>{
+    const edges=new Map();
+    for(let q=-3;q<=3;q++)for(let r=-3;r<=3;r++){
+      if(Math.abs(q+r)>3||regionFor(q,r)!==index)continue;
+      const cx=450+Math.sqrt(3)*76*(q+r/2),cy=380+114*r;
+      const points=Array.from({length:6},(_,i)=>{const a=(i*60-90)*Math.PI/180;return [cx+76*Math.cos(a),cy+76*Math.sin(a)];});
+      points.forEach((a,i)=>{const b=points[(i+1)%6],key=[a,b].map(p=>p.map(n=>n.toFixed(2)).join(',')).sort().join(':');if(edges.has(key))edges.delete(key);else edges.set(key,[a,b]);});
+    }
+    const path=document.createElementNS(svg.namespaceURI,'path');
+    path.setAttribute('d',[...edges.values()].map(([a,b])=>`M${a.join(',')}L${b.join(',')}`).join(' '));svg.append(path);
+    const heading=element('span','hex-region-label',region.name);heading.style.left=`${region.x}px`;heading.style.top=`${region.y}px`;canvas.append(heading);
+  });
+  canvas.append(svg);
   const nodes=new Map();
   for(let q=-3;q<=3;q++)for(let r=-3;r<=3;r++){
     if(Math.abs(q+r)>3)continue;
