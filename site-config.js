@@ -10,7 +10,7 @@ const siteConfig = {
   images: {identity:null,todo:null,model:null,pending:null},
   modules: {
     todo: './growth-roadmap-view.js?v=20261028-input',
-    model: './modules/capabilities.js?v=20261028-3d',
+    model: './modules/capabilities.js?v=20261028-small',
     pending: './modules/pending.js'
   }
 };
