@@ -102,29 +102,36 @@ export function renderPage(host){
       if(widget!==null)service.remove(widget);
       verification.replaceChildren();
       widget=service.render(verification,{
-        sitekey:guestbookConfig.siteKey,action:'guestbook',theme:'dark',size:'compact',
+        sitekey:guestbookConfig.siteKey,action:'guestbook',theme:'dark',size:'compact',appearance:'interaction-only',
         callback:value=>{if(active){token=value;verifyStatus.hidden=true;retry.hidden=true;syncSubmit();}},
         'expired-callback':()=>{if(active){token='';verifyStatus.hidden=false;verifyStatus.textContent='Verification expired. Please verify again.';retry.hidden=false;syncSubmit();}},
         'error-callback':()=>{if(active){token='';verifyStatus.hidden=false;verifyStatus.textContent='Verification failed to load. Please retry.';retry.hidden=false;syncSubmit();}}
       });
     }catch{if(active&&request===verifyRequest){verifyStatus.textContent='Verification could not load. Please retry.';retry.hidden=false;}}
   }
-  retry.onclick=setupVerification;reload.onclick=()=>loadMessages(Boolean(seen.size));more.onclick=()=>loadMessages(true);
+  retry.onclick=()=>{verification.hidden=false;retry.textContent='Retry verification';setupVerification();};reload.onclick=()=>loadMessages(Boolean(seen.size));more.onclick=()=>loadMessages(true);
   form.onsubmit=async event=>{
     event.preventDefault();if(sending||!token)return;
     const nickname=name.value.trim(),text=content.value.trim();
     if(!nickname||[...nickname].length>20||!text||[...text].length>500){showFeedback('Use 1–20 characters for your nickname and 1–500 for your message.');return;}
+    let accepted=false;
     sending=true;syncSubmit();name.disabled=true;content.disabled=true;
     try{
       const result=await api('/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nickname,content:text,token})});
       if(!active)return;
       if(result.status!=='pending')throw new Error('Unexpected response. Please check before retrying.');
+      accepted=true;
       try{localStorage.setItem('leiyin.guestbook.nickname',nickname);}catch{}
       content.value='';count.textContent='0 / 500';showFeedback('Thanks! Your message is awaiting review and will appear once approved.');
     }catch(error){if(active)showFeedback(error.name==='AbortError'?'The request timed out; it may have been received. Please wait before retrying.':error.message);}
     finally{
       token='';sending=false;
-      if(active){name.disabled=false;content.disabled=false;syncSubmit();setupVerification();}
+      if(active){
+        name.disabled=false;content.disabled=false;syncSubmit();
+        verification.hidden=true;verifyStatus.hidden=false;
+        verifyStatus.textContent=accepted?'Your message was received. Verification is only needed again for a new message.':'Before retrying, renew verification using the button below.';
+        retry.textContent=accepted?'Write another message':'Retry verification';retry.hidden=false;
+      }
     }
   };
   loadMessages();setupVerification();
