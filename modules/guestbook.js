@@ -102,6 +102,13 @@ export function renderPage(host){
     const delta=event.deltaY*(event.deltaMode===1?16:event.deltaMode===2?page.clientHeight:1);
     setZoom(zoom*Math.exp(-delta*.0015),event.clientX,event.clientY);
   },{passive:false,signal:events.signal});
+  function fitNickname(entry){
+    const front=entry.querySelector('.guestbook-front'),nickname=front.querySelector('.guestbook-nickname');
+    const style=getComputedStyle(front),label=front.querySelector('.guestbook-front-label'),action=front.querySelector('.guestbook-note-action');
+    const available=front.clientHeight-parseFloat(style.paddingTop)-parseFloat(style.paddingBottom)-label.offsetHeight-action.offsetHeight-2*parseFloat(style.rowGap);
+    let size=entry.classList.contains('has-long-nickname')?16:24;nickname.style.fontSize=`${size}px`;
+    while(size>10&&(nickname.scrollHeight>available||nickname.scrollWidth>nickname.clientWidth)){nickname.style.fontSize=`${--size}px`;}
+  }
   function layoutStickers(){
     const width=page.clientWidth,cardWidth=Math.min(180,width-40),columns=Math.max(1,Math.floor((width-32)/(cardWidth+65)));
     let bottom=page.clientHeight;
@@ -110,7 +117,7 @@ export function renderPage(host){
       const x=saved&&Number.isFinite(saved.x)?saved.x*width:28+(index%columns)*(cardWidth+65)+((Math.floor(index/columns)%2)*32);
       const y=saved&&Number.isFinite(saved.y)?saved.y:(width<650?340:240)+Math.floor(index/columns)*230+(index%columns)*28;
       const left=Math.max(12,Math.min(width-cardWidth-12,x)),top=Math.max(16,y);
-      entry.style.left=`${left}px`;entry.style.top=`${top}px`;entry.style.width=`${cardWidth}px`;bottom=Math.max(bottom,top+230);
+      entry.style.left=`${left}px`;entry.style.top=`${top}px`;entry.style.width=`${cardWidth}px`;fitNickname(entry);bottom=Math.max(bottom,top+230);
     });
     list.style.height=`${bottom}px`;scene.style.width=`${width}px`;scene.style.height=`${bottom}px`;scene.style.transform=`scale(${zoom})`;world.style.width=`${width*zoom}px`;world.style.height=`${bottom*zoom}px`;zoomStatus.textContent=`${Math.round(zoom*100)}%`;
   }

@@ -101,3 +101,16 @@ main.guestbook-workspace { grid-template-rows: minmax(0,1fr); padding: 0; }
 
 .guestbook-page .has-long-nickname .guestbook-nickname { font-size: 16px; line-height: 1.15; }
 .guestbook-page .guestbook-front { gap: 10px; }
+
+/* Keep the entire text block inside the silhouette's inscribed safe area. */
+.guestbook-page .guestbook-front { align-items: center; justify-content: center; gap: 8px; text-align: center; }
+.guestbook-page .guestbook-front > .guestbook-front-label,
+.guestbook-page .guestbook-front > .guestbook-nickname,
+.guestbook-page .guestbook-front > .guestbook-note-action { flex: 0 0 auto; max-width: 100%; margin: 0; }
+.guestbook-page .guestbook-front .guestbook-nickname { width: 100%; min-width: 0; overflow-wrap: anywhere; line-height: 1.15; }
+.guestbook-page .guestbook-sticker[data-shape="round"] .guestbook-face,
+.guestbook-page .guestbook-sticker[data-shape="pebble"] .guestbook-face { padding: 32px 27px; }
+.guestbook-page .guestbook-sticker[data-shape="badge"] .guestbook-face { padding: 34px 24px 22px; }
+.guestbook-page .guestbook-back { gap: 6px; }
+.guestbook-page .guestbook-back .guestbook-message-meta { flex-wrap: wrap; justify-content: center; flex-shrink: 0; }
+.guestbook-page .guestbook-back .guestbook-note-action { margin-top: 0; flex-shrink: 0; }
