@@ -11,6 +11,6 @@ const siteConfig = {
   modules: {
     todo: './growth-roadmap-view.js?v=20261028-input',
     model: './modules/capabilities.js?v=20261028-region-copy',
-    pending: './modules/guestbook.js?v=20261028-verification-retry'
+    pending: './modules/guestbook.js?v=20261028-owner-preview'
   }
 };

@@ -24,15 +24,24 @@ function element(tag,cls,text){
   if(text!==undefined)node.textContent=text;
   return node;
 }
+let browserKey;
+function getBrowserKey(){
+  if(browserKey)return browserKey;
+  try{const saved=localStorage.getItem('leiyin.guestbook.key.v1');if(/^[a-f0-9]{64}$/.test(saved||''))return browserKey=saved;}catch{}
+  browserKey=Array.from(crypto.getRandomValues(new Uint8Array(32)),byte=>byte.toString(16).padStart(2,'0')).join('');
+  try{localStorage.setItem('leiyin.guestbook.key.v1',browserKey);}catch{}
+  return browserKey;
+}
 export function renderPage(host){
   let active=true,loading=false,sending=false,token='',widget=null,nextCursor=null;
-  let verifyRequest=0;
+  let verifyRequest=0,listRequest=0;
+  const ownerKey=getBrowserKey();
   const controllers=new Set(),seen=new Set();
   const page=element('section','guestbook-page');page.lang='en';
   const intro=element('header','guestbook-intro');
   intro.append(element('span','eyebrow','04 / LEAVE A NOTE'),element('h2','','A little hello goes a long way.'),element('p','','A thought, a question, or just a hello. Leave something behind.'));
   const grid=element('div','guestbook-grid'),composer=element('section','guestbook-composer');
-  composer.append(element('h3','','Leave a message'),element('p','guestbook-hint','Messages are public after review. Please leave out private or sensitive information.'));
+  composer.append(element('h3','','Leave a message'),element('p','guestbook-hint','Your note appears here right away for you. It becomes public after review. Please leave out private information.'));
   const form=element('form');
   const nameLabel=element('label','','Nickname'),name=element('input');
   name.id='guestbookNickname';name.name='nickname';name.required=true;name.autocomplete='nickname';nameLabel.htmlFor=name.id;
@@ -61,37 +70,39 @@ export function renderPage(host){
     const controller=new AbortController();controllers.add(controller);
     const timer=setTimeout(()=>controller.abort(),15000);
     try{
-      const response=await fetch(`${guestbookConfig.apiBase}${path}`,{...options,signal:controller.signal,credentials:'omit'});
+      const response=await fetch(`${guestbookConfig.apiBase}${path}`,{...options,headers:{...options.headers,'X-Guestbook-Key':ownerKey},signal:controller.signal,credentials:'omit'});
       const body=await response.json();
       if(!response.ok)throw new Error(response.status===429?'Too many attempts. Please wait a minute and verify again.':body.error||'Unable to complete the request.');
       return body;
     }finally{clearTimeout(timer);controllers.delete(controller);}
   }
+  function renderMessage(message,prepend=false){
+    if(!message||!Number.isSafeInteger(message.id)||typeof message.nickname!=='string'||typeof message.content!=='string'||seen.has(message.id))return;
+    seen.add(message.id);
+    const entry=element('article','guestbook-message'),meta=element('div','guestbook-message-meta');
+    meta.append(element('strong','',message.nickname));
+    const date=new Date(`${String(message.created_at||'').replace(' ','T')}${/[zZ]|[+-]\d\d:\d\d$/.test(message.created_at)?'':'Z'}`);
+    if(!Number.isNaN(date.valueOf())){
+      const time=element('time','',new Intl.DateTimeFormat('en',{dateStyle:'medium'}).format(date));time.dateTime=date.toISOString();meta.append(time);
+    }
+    if(message.visibility==='private')meta.append(element('span','guestbook-private','Only visible to you'));
+    entry.dataset.messageId=String(message.id);entry.append(meta,element('p','',message.content));if(prepend)list.prepend(entry);else list.append(entry);
+  }
   async function loadMessages(append=false){
-    if(loading)return;loading=true;more.disabled=true;reload.hidden=true;
+    if(loading)return;const request=++listRequest;loading=true;more.disabled=true;reload.hidden=true;
     listStatus.hidden=false;listStatus.textContent='Loading messages…';
     try{
       const cursor=append?nextCursor:null;
       const data=await api(`/messages${cursor?'?before='+encodeURIComponent(cursor):''}`);
-      if(!active)return;
+      if(!active||request!==listRequest)return;
       if(!Array.isArray(data.items))throw new Error('Unexpected response. Please try again.');
       if(!append){list.replaceChildren();seen.clear();}
-      for(const message of data.items){
-        if(!Number.isSafeInteger(message.id)||typeof message.nickname!=='string'||typeof message.content!=='string'||seen.has(message.id))continue;
-        seen.add(message.id);
-        const entry=element('article','guestbook-message'),meta=element('div','guestbook-message-meta');
-        meta.append(element('strong','',message.nickname));
-        const date=new Date(`${message.created_at.replace(' ','T')}${/[zZ]|[+-]\d\d:\d\d$/.test(message.created_at)?'':'Z'}`);
-        if(!Number.isNaN(date.valueOf())){
-          const time=element('time','',new Intl.DateTimeFormat('en',{dateStyle:'medium'}).format(date));time.dateTime=date.toISOString();meta.append(time);
-        }
-        entry.append(meta,element('p','',message.content));list.append(entry);
-      }
+      data.items.forEach(message=>renderMessage(message));
       nextCursor=typeof data.nextCursor==='string'?data.nextCursor:null;
       more.hidden=!nextCursor;listStatus.hidden=seen.size>0;
-      if(!seen.size)listStatus.textContent='No published notes yet. You can leave the first one.';
-    }catch(error){if(active){listStatus.hidden=false;listStatus.textContent=error.name==='AbortError'?'The request timed out. Please try again.':'Messages could not load. Please try again.';reload.hidden=false;}}
-    finally{loading=false;if(active)more.disabled=false;}
+      if(!seen.size)listStatus.textContent='No notes yet. You can leave the first one.';
+    }catch(error){if(active&&request===listRequest){listStatus.hidden=false;listStatus.textContent=error.name==='AbortError'?'The request timed out. Please try again.':'Messages could not load. Please try again.';reload.hidden=false;}}
+    finally{if(request===listRequest){loading=false;if(active)more.disabled=false;}}
   }
   async function setupVerification(){
     const request=++verifyRequest;token='';syncSubmit();retry.hidden=true;verifyStatus.hidden=false;
@@ -121,8 +132,11 @@ export function renderPage(host){
       if(!active)return;
       if(result.status!=='pending')throw new Error('Unexpected response. Please check before retrying.');
       accepted=true;
+      ++listRequest;loading=false;
+      if(result.item){renderMessage(result.item,true);listStatus.hidden=true;}
       try{localStorage.setItem('leiyin.guestbook.nickname',nickname);}catch{}
-      content.value='';count.textContent='0 / 500';showFeedback('Thanks! Your message is awaiting review and will appear once approved.');
+      content.value='';count.textContent='0 / 500';showFeedback('Message sent. Thanks for leaving a note.');
+      loadMessages();
     }catch(error){if(active)showFeedback(error.name==='AbortError'?'The request timed out; it may have been received. Please wait before retrying.':error.message);}
     finally{
       token='';sending=false;

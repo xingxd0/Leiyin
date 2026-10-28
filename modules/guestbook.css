@@ -27,3 +27,5 @@
   .guestbook-page .guestbook-composer, .guestbook-page .guestbook-messages { padding: 14px; }
   .guestbook-page input, .guestbook-page textarea { font-size: 16px; }
 }
+
+.guestbook-page .guestbook-private { padding: 2px 6px; border: 1px solid var(--line); border-radius: var(--radius-control); color: var(--muted); font-size: 10px; }
