@@ -1,0 +1,121 @@
+/* Playground occupies the complete workspace, with notes above its background. */
+main.playground-workspace { grid-template-rows: minmax(0,1fr); padding: 0; }
+.playground-workspace > .board-header, .playground-workspace > .toolbar, .playground-workspace > footer { display: none; }
+.playground-workspace #boardPanel { height: 100%; overflow: hidden; }
+.playground-page { position: relative; isolation: isolate; width: 100%; height: 100%; overflow: auto; min-height: 300px; background: var(--workshop-board); background-image: radial-gradient(var(--workshop-grid) 1px,transparent 1px); background-size: 22px 22px; }
+.playground-page .playground-intro { position: absolute; inset: 38px 32px auto; z-index: 0; pointer-events: none; }
+.playground-page h2 { font: 600 clamp(30px,4vw,64px)/1.15 var(--font-sans); color: var(--bright); margin: 12px 0; letter-spacing: -1.5px; }
+.playground-page p { color: var(--muted); font: 13px/1.8 var(--font-sans); }
+.playground-page h3 { color: var(--bright); font-size: 20px; }
+.playground-page .playground-grid, .playground-page .playground-messages { display: contents; }
+.playground-page #playgroundMessagesTitle { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.playground-page .playground-messages > .playground-hint { position: absolute; top: 165px; left: 32px; right: 32px; pointer-events: none; }
+.playground-page .playground-messages > [role="status"] { top: 210px; }
+.playground-page .playground-list { position: absolute; inset: 0 0 auto; min-height: 100%; pointer-events: none; z-index: 1; }
+.playground-page button { padding: 11px 16px; border: 1px solid var(--line); border-radius: var(--radius-control); background: var(--bg); color: var(--ink); cursor: pointer; }
+.playground-page button:hover { color: var(--accent); border-color: var(--accent); }
+.playground-page button:disabled { opacity: .5; cursor: not-allowed; }
+.playground-page .playground-add { position: absolute; top: 26px; right: 24px; z-index: 2; border-style: dashed; }
+.playground-page .playground-messages > .playground-secondary { position: relative; margin: 245px 16px 16px 32px; z-index: 1; }
+.playground-page .playground-wall-feedback { position: sticky; top: calc(100% - 50px); width: fit-content; margin: 0 auto; padding: 8px 14px; background: var(--surface); border-radius: var(--radius-control); z-index: 0; pointer-events: none; }
+.playground-page .playground-wall-feedback:empty { display: none; }
+/* White paper, with independent tilt and flip transforms. */
+.playground-page .playground-sticker { position: absolute; height: 225px; perspective: 1000px; pointer-events: auto; touch-action: none; user-select: none; }
+.playground-page button.playground-flip { display: block; width: 100%; height: 100%; padding: 0; border: 0; border-radius: 5px; background: transparent; color: var(--workshop-ink); cursor: grab; transform-style: preserve-3d; transform: rotate(var(--note-angle)) rotateX(var(--tilt-x,0deg)) rotateY(var(--tilt-y,0deg)); transition: transform .15s; }
+.playground-page .playground-sticker-inner { position: absolute; inset: 0; display: block; transform-style: preserve-3d; transition: transform .5s; }
+.playground-page .is-flipped .playground-sticker-inner { transform: rotateY(180deg); }
+.playground-page .playground-face { position: absolute; inset: 0; display: flex; flex-direction: column; gap: 14px; padding: 25px 22px 18px; border-radius: 5px 5px 18px 5px; background: var(--brand-paper); color: var(--workshop-ink); box-shadow: var(--workshop-shadow); backface-visibility: hidden; -webkit-backface-visibility: hidden; text-align: left; }
+.playground-page .playground-back { transform: rotateY(180deg); }
+.playground-page .playground-front { justify-content: center; }
+.playground-page .playground-front-label, .playground-page .playground-note-action { font: 9px/1.5 var(--font-mono); letter-spacing: 1px; }
+.playground-page .playground-nickname { overflow-wrap: anywhere; font: 650 28px/1.2 var(--font-sans); }
+.playground-page .playground-note-action { margin-top: auto; }
+.playground-page .playground-tape { position: absolute; width: 60px; height: 17px; top: -8px; left: calc(50% - 30px); background: var(--workshop-tape); transform: rotate(-5deg); }
+.playground-page .playground-message-meta { display: flex; justify-content: space-between; gap: 8px; font: 600 11px/1.4 var(--font-sans); overflow-wrap: anywhere; }
+.playground-page time { font-size: 9px; font-weight: 400; }
+.playground-page .playground-note-full { display: block; flex: 1; min-height: 0; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; font: 13px/1.6 var(--font-sans); user-select: text; }
+.playground-page .playground-private { font: 9px var(--font-sans); }
+.playground-page .playground-face::after { content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; background: radial-gradient(circle at var(--shine-x,25%) var(--shine-y,15%),var(--brand-paper),transparent 60%),linear-gradient(125deg,transparent 15%,var(--workshop-lilac) 30%,var(--workshop-lime) 45%,var(--brand-paper) 50%,transparent 70%); opacity: .14; transition: opacity .2s; }
+.playground-page .playground-sticker:hover .playground-face::after { opacity: .38; }
+.playground-page .playground-face > span, .playground-page .playground-face > strong { position: relative; z-index: 1; }
+.playground-page .playground-face > .playground-tape { position: absolute; }
+.playground-page .playground-flip:focus-visible { outline: 3px solid var(--accent); outline-offset: 6px; }
+.playground-page .is-dragging .playground-flip { cursor: grabbing; transform: rotate(0deg) scale(1.03); transition: none; }
+/* Compose only in a modal. */
+.playground-page dialog.playground-composer { width: min(540px,calc(100vw - 32px)); max-height: calc(100dvh - 40px); overflow-y: auto; margin: auto; padding: 24px; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-panel); }
+.playground-page .playground-composer-close { display: block; margin-left: auto; }
+.playground-page dialog::backdrop { background: var(--workshop-board); opacity: .8; }
+.playground-page form { display: grid; gap: 12px; margin-top: 20px; }
+.playground-page label { font-size: 12px; color: var(--ink); }
+.playground-page input, .playground-page textarea { min-width: 0; width: 100%; padding: 12px; background: var(--bg); color: var(--bright); border: 1px solid var(--line); border-radius: var(--radius-control); font: 14px/1.6 var(--font-sans); }
+.playground-page textarea { resize: vertical; min-height: 150px; }
+.playground-page .playground-count { text-align: right; font-size: 11px; color: var(--muted); }
+.playground-page .playground-verification { min-width: 0; }
+.playground-page .playground-submit { color: var(--accent); }
+.playground-page .playground-feedback { color: var(--ink); }
+@media (max-width: 650px) {
+  .playground-page .playground-intro { inset: 24px 20px auto; }
+  .playground-page .playground-intro h2 { max-width: 250px; font-size: 34px; }
+  .playground-page .playground-intro > p { max-width: 250px; }
+  .playground-page .playground-add { position: relative; top: auto; right: auto; margin: 215px 20px 0; }
+  .playground-page .playground-messages > .playground-hint { left: 20px; top: 265px; }
+  .playground-page .playground-messages > [role="status"] { top: 310px; }
+  .playground-page input, .playground-page textarea { font-size: 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .playground-page .playground-sticker-inner, .playground-page button.playground-flip, .playground-page .playground-face::after { transition: none; }
+  .playground-page button.playground-flip { transform: rotate(var(--note-angle)); }
+}
+/* Curated die-cut silhouettes and foil finishes are stable for each message. */
+.playground-page .playground-world { position: relative; min-width: 100%; min-height: 100%; }
+.playground-page .playground-scene { position: relative; transform-origin: top left; }
+.playground-page .playground-sticker { height: 180px; --sticker-shape: 6px 6px 24px 6px; --front-color: var(--workshop-lilac); --back-color: var(--workshop-pink); }
+.playground-page .playground-sticker[data-tone="1"] { --front-color: var(--workshop-lime); --back-color: var(--workshop-lilac); }
+.playground-page .playground-sticker[data-tone="2"] { --front-color: var(--workshop-pink); --back-color: var(--workshop-lime); }
+.playground-page .playground-sticker[data-shape="pebble"] { --sticker-shape: 48% 38% 45% 25% / 35% 28% 38% 32%; }
+.playground-page .playground-sticker[data-shape="round"] { --sticker-shape: 50%; }
+.playground-page .playground-sticker[data-shape="ticket"] { --sticker-shape: 30px 8px 30px 8px; height: 155px; }
+.playground-page .playground-sticker[data-shape="postcard"] { --sticker-shape: 5px; height: 205px; }
+.playground-page .playground-sticker[data-shape="badge"] { --sticker-shape: 45% 45% 15% 15%; height: 195px; }
+.playground-page .playground-face { border: 6px solid var(--brand-paper); border-radius: var(--sticker-shape); background: var(--front-color); padding: 20px 16px 15px; overflow: hidden; }
+.playground-page .playground-back { background: var(--back-color); }
+.playground-page .playground-tape { display: none; }
+.playground-page .playground-nickname { font-size: 24px; }
+.playground-page .playground-front-label, .playground-page .playground-note-action { font-size: 7px; letter-spacing: .5px; }
+.playground-page .playground-front .playground-nickname { font-family: Georgia,serif; font-style: italic; }
+.playground-page .playground-note-full { font-size: 11px; }
+.playground-page .playground-sticker[data-shape="round"] .playground-face, .playground-page .playground-sticker[data-shape="pebble"] .playground-face { padding: 29px 23px 22px; text-align: center; }
+.playground-page .playground-sticker[data-shape="round"] .playground-note-action { max-width: 100px; margin-inline: auto; }
+.playground-page .playground-face::after { border-radius: inherit; }
+.playground-page .playground-sticker[data-foil="spectrum"] .playground-front::after { background: conic-gradient(from 45deg at var(--shine-x,35%) var(--shine-y,25%),transparent,var(--workshop-pink),var(--workshop-lime),var(--workshop-lilac),var(--brand-paper),transparent); mix-blend-mode: screen; }
+.playground-page .playground-sticker[data-foil="satin"] .playground-front::after { background: radial-gradient(ellipse at var(--shine-x,30%) var(--shine-y,20%),var(--brand-paper),transparent 65%); }
+.playground-page .playground-sticker[data-foil="prism"] .playground-front::after { background: repeating-linear-gradient(125deg,transparent 0 12px,var(--workshop-lilac) 16px,var(--brand-paper) 19px,var(--workshop-lime) 23px,transparent 30px); background-position: var(--shine-x,25%) var(--shine-y,15%); background-size: 180% 180%; mix-blend-mode: screen; }
+.playground-page .playground-sticker[data-foil="metal"] .playground-front::after { background: linear-gradient(110deg,transparent 15%,var(--workshop-ink) 30%,var(--brand-paper) 45%,transparent 60%); background-position: var(--shine-x,25%) var(--shine-y,15%); background-size: 250% 250%; }
+.playground-page .playground-front::after { opacity: .3; }
+.playground-page .playground-sticker:hover .playground-front::after { opacity: .65; }
+.playground-page .playground-back::after { display: none; }
+.playground-page .playground-zoom {
+  position: sticky;
+  right: 16px;
+  bottom: 16px;
+  z-index: 3;
+  margin-right: 16px;
+  margin-left: auto;
+}
+@media (prefers-reduced-motion: reduce) { .playground-page .playground-sticker .playground-front::after { background: linear-gradient(125deg,transparent,var(--brand-paper),transparent); } }
+
+.playground-page .has-long-nickname .playground-nickname { font-size: 16px; line-height: 1.15; }
+.playground-page .playground-front { gap: 10px; }
+
+/* Keep the entire text block inside the silhouette's inscribed safe area. */
+.playground-page .playground-front { align-items: center; justify-content: center; gap: 8px; text-align: center; }
+.playground-page .playground-front > .playground-front-label,
+.playground-page .playground-front > .playground-nickname,
+.playground-page .playground-front > .playground-note-action { flex: 0 0 auto; max-width: 100%; margin: 0; }
+.playground-page .playground-front .playground-nickname { width: 100%; min-width: 0; overflow-wrap: anywhere; line-height: 1.15; }
+.playground-page .playground-sticker[data-shape="round"] .playground-face,
+.playground-page .playground-sticker[data-shape="pebble"] .playground-face { padding: 32px 27px; }
+.playground-page .playground-sticker[data-shape="badge"] .playground-face { padding: 34px 24px 22px; }
+.playground-page .playground-back { gap: 6px; }
+.playground-page .playground-back .playground-message-meta { flex-wrap: wrap; justify-content: center; flex-shrink: 0; }
+.playground-page .playground-back .playground-note-action { margin-top: 0; flex-shrink: 0; }

@@ -1,6 +1,6 @@
-# Guestbook
+# Playground messaging
 
-The fourth tab uses `/guestbook`; `/pending` remains an alias. UI and configuration live in `modules/guestbook.js`, `modules/guestbook.css`, and `modules/guestbook-config.js`.
+The fourth tab uses `#/pgd` with no legacy alias. UI and public configuration live in `modules/playground.js`, `modules/playground.css`, and `modules/playground-config.js`. The Worker, database, Turnstile action, request header and existing browser storage retain their Guestbook names as a compatibility contract.
 
 ## Public configuration
 
@@ -40,7 +40,7 @@ Do not run both commands for the same intended operation. No public moderation e
 
 Run `node scripts/check-site.mjs` and `git diff --check`. Browser tests must cover untrusted text, pagination, failed verification, expired tokens, HTTP 429, preserving drafts after failed submissions, nickname persistence, narrow screens, and route cleanup.
 
-Local browser tests can mock the API and Turnstile for deterministic coverage; that does not validate the live Worker. After deployment, test a real submission at `https://leiyin.si/becoming.html#/guestbook`, confirm a pending row in D1, approve that row, and check that it then appears publicly. GitHub Pages previews or localhost cannot use the production-only Turnstile hostname and POST origin restriction.
+Local browser tests can mock the API and Turnstile for deterministic coverage; that does not validate the live Worker. After deployment, test a real submission in Playground at `https://leiyin.si/becoming.html#/pgd`, confirm a pending row in D1, approve that row, and check that it then appears publicly. GitHub Pages previews or localhost cannot use the production-only Turnstile hostname and POST origin restriction.
 
 ## Browser-owned unreviewed messages
 

@@ -51,6 +51,17 @@
   --size-icon-button: 36px;
   --width-reading: 1200px;
 
+  /* Editorial typography shares the site's semantic palette. */
+  --journal-paper: var(--color-bg);
+  --journal-ink: var(--color-text);
+  --journal-heading: var(--color-heading);
+  --journal-muted: var(--color-text-muted);
+  --journal-rule: var(--color-border);
+  --journal-rule-strong: var(--color-border-hover);
+  --journal-accent: var(--color-accent);
+  --journal-selection: var(--color-selection);
+  --journal-serif: Georgia, "Times New Roman", "Songti SC", serif;
+
   /* Workshop's paper and print palette is independent of terminal syntax. */
   --workshop-paper: #f7f5ef;
   --workshop-ink: #20252c;

@@ -17,16 +17,13 @@ function stopWelcome(){
 const routes=Object.fromEntries(Object.entries(views).map(([key,data])=>[key,data.route]));
 let activeRoute=null;
 function routeView(){
-  const alias=siteConfig.aliases[location.hash.slice(1)];
-  if(alias)return alias;
   return Object.keys(routes).find(key=>`#${routes[key]}`===location.hash)||'identity';
 }
 function syncRoute(){
-  const route=location.hash||'#/login';
+  const route=location.hash;
   if(route===activeRoute)return;
   activeRoute=route;
-  if(route==='#/login'){
-    if(!location.hash)history.replaceState(null,'',`${location.pathname}${location.search}#/login`);
+  if(!route){
     if($('cardDialog').open){trigger=null;$('cardDialog').close();}
     document.title='登录 / Always Becoming';
     startLogin();
@@ -53,7 +50,7 @@ function navigate(target){
 function finishLogin(){
   clearTimeout(loginTimer);loginTimer=null;
   stopLoginCrow();
-  history.replaceState(null,'',`${location.pathname}${location.search}#/identity`);
+  history.replaceState(null,'',`${location.pathname}${location.search}#/idt`);
   syncRoute();$('boardPanel').focus({preventScroll:true});
 }
 function startLogin(){
@@ -99,22 +96,22 @@ function stopAscii(){
   asciiRequest++;asciiController?.destroy();asciiController=null;asciiCanvas=null;
 }
 function syncAscii(){
-  const art=$('asciiArt');
+  const art=$('navigationCrow');
   loginCrowController?.setPaused(asciiPaused||document.hidden);
-  if(!art||view!=='identity')return;
+  if(!art||!loggedIn)return;
   const paused=asciiPaused||document.hidden||!loggedIn;
   if(asciiController){asciiController.setPaused(paused);return;}
   if(asciiCanvas===art)return;
   stopAscii();asciiCanvas=art;
   const request=asciiRequest;
   import('./terminal-crow.js').then(async({createCrow})=>{
-    if(request!==asciiRequest||!art.isConnected||view!=='identity')return;
+    if(request!==asciiRequest||!art.isConnected||!loggedIn)return;
     const controller=await createCrow(art,{
       paused:asciiPaused||document.hidden||!loggedIn,
-      isCurrent:()=>request===asciiRequest&&art.isConnected&&view==='identity'
+      isCurrent:()=>request===asciiRequest&&art.isConnected&&loggedIn
     });
     if(!controller)return;
-    if(request!==asciiRequest||!art.isConnected||view!=='identity'){controller.destroy();return;}
+    if(request!==asciiRequest||!art.isConnected||!loggedIn){controller.destroy();return;}
     asciiController=controller;
     controller.setPaused(asciiPaused||document.hidden||!loggedIn);
   }).catch(error=>{
@@ -131,8 +128,8 @@ function renderTerminal(){
   terminal.setAttribute('aria-label','个人介绍终端');
   const body=element('div','terminal-body');
   const visual=element('div','ascii-panel');visual.id='asciiPanel';
-  const art=element('div','ascii-art');art.id='asciiArt';
-  art.setAttribute('role','img');art.setAttribute('aria-label','汉字乌鸦振翅，树林从右向左移动');
+  const art=element('div','ascii-art identity-crow-placeholder');art.id='asciiArt';
+  art.setAttribute('aria-hidden','true');
   visual.append(art);body.append(visual);
   terminal.append(body);$('boardPanel').replaceChildren(terminal);
   identityController=createIdentityTerminal(body,{navigate,reducedMotion});
@@ -140,7 +137,7 @@ function renderTerminal(){
 }
 function render(){
   const request=++renderRequest;
-  stopAscii();stopWelcome();
+  stopWelcome();
   document.querySelectorAll('[data-view]').forEach(button=>{
     const metadata=views[button.dataset.view];
     button.querySelector('strong').textContent=metadata.title;
@@ -159,13 +156,14 @@ function render(){
     ? 'PRODUCT DESIGN LEADER / ALWAYS BECOMING':'PERSONAL TERMINAL / GUEST ONLINE';
   $('workspace').classList.toggle('identity-workspace',view==='identity');
   $('workspace').classList.toggle('roadmap-workspace',view==='todo');
-  $('workspace').classList.toggle('workshop-workspace',view==='model');
-  $('workspace').classList.toggle('guestbook-workspace',view==='pending');
+  $('workspace').classList.toggle('todolist-lab-workspace',view==='todoLab');
+  $('workspace').classList.toggle('map-workspace-shell',view==='map');
+  $('workspace').classList.toggle('playground-workspace',view==='playground');
   $('viewTitle').replaceChildren(document.createTextNode(data.title),element('small','',data.subtitle));
   $('viewDescription').textContent=data.description;
   const isTodo=view==='todo';
   document.querySelector('.filters').hidden=!isTodo;
-  $('columnCount').textContent=isTodo?'04 COLUMNS':view==='identity'?'CLI':view==='model'?'HEX BOARD':view==='pending'?'GUESTBOOK':'UNDEFINED';
+  $('columnCount').textContent=isTodo?'TDL':view==='identity'?'IDT':view==='map'?'MAP':view==='playground'?'PGD':'UNDEFINED';
   $('footerNote').textContent='Always Becoming.';
   $('boardPanel').setAttribute('aria-labelledby',`nav-${view}`);
   const image=tabImages[view];
@@ -173,6 +171,7 @@ function render(){
   if(image){$('tabImage').src=image.src;$('tabImage').alt=image.alt;}
   else $('tabImage').removeAttribute('src');
   $('boardPanel').replaceChildren();
+  syncAscii();
   if(view==='identity'){renderTerminal();return;}
   const target=view;
   import(siteConfig.modules[target]).then(module=>{

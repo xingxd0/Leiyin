@@ -1,5 +1,10 @@
 /* Identity-only styles retain the site's dark palette and 1200px reading area. */
 .identity-workspace .terminal { grid-template-rows: minmax(0, 1fr); }
+.identity-workspace .identity-crow-placeholder {
+  cursor: default;
+  pointer-events: none;
+  background: var(--bg);
+}
 .identity-shell {
   min-height: 0;
   min-width: 0;

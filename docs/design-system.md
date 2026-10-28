@@ -53,7 +53,7 @@ Identity 保留个人信息查询、help 与导航；Todolist 保留即时搜索
 
 ## 状态与无障碍
 
-Workshop 原型使用独立的 `.workshop-*` / `.sticker-*` 组件，不复用终端输入框。点阵画板 `--workshop-board:#121a1c`，纸边 `--workshop-paper:#f7f5ef`，纸上文字 `--workshop-ink:#20252c`；粉色、淡紫、黄绿印刷色统一放在 `--workshop-*` 令牌。贴纸白边 7–8px、初始旋转 -8 至 9 度，选中用绿色轮廓。画板铺满侧栏右侧视口，不设外层圆角或留白，隐藏公共标题栏及页脚；内部标题为背景层，画布自适应视口高度。演示贴纸只验证风格与交互，不代表真实项目案例。
+Map 与 Playground 使用独立的页面组件，不复用终端输入框。点阵画板 `--workshop-board:#121a1c`，纸边 `--workshop-paper:#f7f5ef`，纸上文字 `--workshop-ink:#20252c`；这些 `--workshop-*` 变量作为既有视觉协议暂时保留。贴纸白边 7–8px，选中使用绿色轮廓。两个页面都铺满侧栏右侧视口，隐藏公共标题栏及页脚；Map 标题属于画布背景层，Playground 标题属于留言墙背景层。
 
 贴纸为原生按钮或链接，Pointer Events 支持鼠标与触控，方向键移动 10px、Shift 加速至 40px。旋转和重置按钮、画布注释及底部可见提示已移除，操作说明仅供屏幕阅读器使用。移动受画板边界限制，拖拽不加位移过渡，reduced-motion 关闭悬浮过渡。仅贴纸设置 `touch-action:none`。
 

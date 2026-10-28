@@ -20,6 +20,64 @@ button, input, progress { accent-color: var(--accent); }
 }
 dialog::backdrop { background: var(--color-backdrop); }
 
+/* Map and Playground share the same control and dialog foundations. */
+.module-page .module-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2);
+  border: var(--border-width) solid var(--line);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+}
+.module-page .module-zoom-controls {
+  gap: 6px;
+  width: max-content;
+  padding: 6px;
+  box-shadow: var(--shadow-dialog);
+  font: 12px/1 var(--font-mono);
+}
+.module-page .module-zoom-controls button {
+  width: 44px;
+  min-width: 44px;
+  height: 44px;
+  min-height: 44px;
+  padding: 0;
+}
+.module-page .module-zoom-value {
+  min-width: 58px;
+  color: var(--muted);
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+.module-page .module-controls button,
+.module-page .playground-secondary,
+.module-page .playground-add,
+.module-page .playground-submit {
+  min-width: var(--size-icon-button);
+  min-height: var(--size-icon-button);
+  border: var(--border-width) solid var(--line);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+  color: var(--ink);
+  transition: border-color var(--duration-ui), background-color var(--duration-ui), color var(--duration-ui);
+}
+.module-page .module-controls button:hover,
+.module-page .playground-secondary:hover,
+.module-page .playground-add:hover,
+.module-page .playground-submit:hover {
+  border-color: var(--accent);
+  background: var(--surface-active);
+  color: var(--accent);
+}
+.module-page .module-dialog {
+  color: var(--ink);
+  background: var(--surface);
+  border: var(--border-width) solid var(--line);
+  border-radius: var(--radius-panel);
+  box-shadow: var(--shadow-dialog);
+}
+
 .sidebar nav button > span:first-child,
 .filters, .filters button,
 .dimension-button, .model-connection,
@@ -159,7 +217,9 @@ button:focus-visible, input:focus-visible, a:focus-visible,
   .terminal-input .terminal-input-submit { transition: none; }
   .task-card, .sidebar nav button, .dimension-button,
   .identity-enter, .identity-workspace .terminal-form button,
-  .roadmap-workspace .roadmap-card, .roadmap-workspace .roadmap-filter {
+  .roadmap-workspace .roadmap-card, .roadmap-workspace .roadmap-filter,
+  .module-page .module-controls button, .module-page .playground-secondary,
+  .module-page .playground-add, .module-page .playground-submit {
     transition: none;
   }
 }

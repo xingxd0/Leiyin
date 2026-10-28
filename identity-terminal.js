@@ -238,7 +238,7 @@ function createIdentityTerminal(host, {navigate, reducedMotion, timing = {}}) {
     const command=input.value.trim().toLowerCase();
     if (!command) return;
     if (['1','todo','tasks'].includes(command)) {navigate('todo');return;}
-    if (['2','portfolio'].includes(command)) {navigate('model');return;}
+    if (['2','map','portfolio'].includes(command)) {navigate('map');return;}
     if (command==='clear') {
       cancelSession();cancelScroll();transcript.replaceChildren();complete('skipped');
       input.value='';syncValue();return;

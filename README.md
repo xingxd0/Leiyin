@@ -39,7 +39,9 @@ identity-terminal.*        Identity 内容与交互
 growth-roadmap.js          Todolist 数据
 growth-roadmap-view.js      Todolist 渲染与交互
 growth-roadmap.css          Todolist 局部样式
-modules/                   第三、第四个 Tab 的独立渲染
+todolist-lab.css            Todolist Lab 报纸排版的隔离样式
+modules/todolist-journal.js Todolist Lab 独立渲染，共享原始记录
+modules/                   Lab、Map 与 Playground 的独立渲染
 logo/                      奖项原图
 terminal-crow.*             共享汉字动画、数据与字体许可
 framework.css              基础布局

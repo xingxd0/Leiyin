@@ -1,7 +1,7 @@
 import {territory,connected,canMove,nearestHex} from './hex-map.js?v=20261028-map';
-// Existing visual studies remain explicitly labeled demos until real projects are supplied.
+// Map content remains explicitly labeled as demos until real projects are supplied.
 const tiles=[
-  {q:-1,r:-1,title:'Holographic foil',label:'VISUAL DEMO',symbol:'✦',text:'A study of spectrum, reflected light, and the holographic finish from the original Workshop board.',tone:'lilac'},
+  {q:-1,r:-1,title:'Holographic foil',label:'VISUAL DEMO',symbol:'✦',text:'A study of spectrum, reflected light, and the holographic finish from the original Map board.',tone:'lilac'},
   {q:1,r:1,title:'Typography play',label:'TYPE DEMO',symbol:'Aa',text:'An expressive typography study built around the reminder to stay curious.',tone:'pink'},
   {q:0,r:2,title:'Small ideas',label:'SKETCH DEMO',symbol:'⌁',text:'A sketch-style composition exploring simple shapes and new visual directions.',tone:'lime'},
   {q:-2,r:1,title:'Work in progress',label:'STATUS STUDY',symbol:'◌',text:'A status study for unfinished experiments. Real Skills and incubated projects will be added when they are ready to share.',tone:'green'},
@@ -18,13 +18,14 @@ export function renderPage(host){
     const restored=nodes.map(n=>n.id!=='me'&&Number.isSafeInteger(saved[n.id]?.q)&&Number.isSafeInteger(saved[n.id]?.r)?{...n,q:saved[n.id].q,r:saved[n.id].r}:n);
     if(new Set(restored.map(n=>`${n.q},${n.r}`)).size===nodes.length&&connected(restored))nodes.splice(0,nodes.length,...restored);
   }catch{}
-  const page=element('section','workshop-page hex-workshop map-workspace');page.lang='en';
+  const page=element('section','module-page hex-map map-page');page.lang='en';
   const viewport=element('div','hex-viewport');viewport.tabIndex=0;viewport.setAttribute('role','region');viewport.setAttribute('aria-label','MAP. Drag the background to pan, scroll to zoom, drag a tile to move it.');
   const world=element('div','hex-world'),canvas=element('div','hex-canvas');world.append(canvas);viewport.append(world);
   const header=element('header','hex-header');header.append(element('span','eyebrow','MAP / EVERYTHING STARTS WITH ME'),element('h2','','A continent of becoming.'),element('p','','Drag the land to explore. Move a tile to grow. Keep every idea connected.'));
   const regions=element('div','map-region-layer'),land=element('div','map-land'),content=element('div','map-content');canvas.append(header,regions,land,content);
-  const controls=element('div','hex-controls'),scale=element('span','hex-scale'),feedback=element('p','map-feedback','Move tiles within two hex steps. Every branch stays connected to ME.');feedback.setAttribute('role','status');
-  const dialog=element('dialog','hex-dialog');dialog.setAttribute('aria-labelledby','hexDetailTitle');
+  const controls=element('div','module-controls module-zoom-controls hex-controls'),scale=element('span','module-zoom-value hex-scale'),feedback=element('p','map-feedback','Move tiles within two hex steps. Every branch stays connected to ME.');feedback.setAttribute('role','status');
+  controls.setAttribute('role','group');controls.setAttribute('aria-label','Zoom controls');
+  const dialog=element('dialog','module-dialog hex-dialog');dialog.setAttribute('aria-labelledby','hexDetailTitle');
   const close=element('button','hex-close','Close');close.type='button';close.onclick=()=>dialog.close();
   const label=element('p','eyebrow'),title=element('h2'),description=element('p'),link=element('a','hex-link','Open source inspiration ↗');title.id='hexDetailTitle';link.target='_blank';link.rel='noopener noreferrer';dialog.append(close,label,title,description,link);
   let triggerId=null;dialog.addEventListener('close',()=>content.querySelector(`[data-id="${triggerId}"]`)?.focus({preventScroll:true}));

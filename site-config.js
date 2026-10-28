@@ -1,16 +1,17 @@
-// Shared tab metadata. Keys match existing DOM ids and terminal commands.
+// One source of truth for navigation, routes, labels, and page modules.
 const siteConfig = {
   views: {
-    identity: {title:'身份认证',subtitle:'CLI / Identity',description:'Xudong Xing / Product Design Leader',route:'/identity'},
-    todo: {title:'todolist',subtitle:'Always Becoming',description:'A work in progress, by design.',route:'/todol'},
-    model: {title:'MAP',subtitle:'Work & Experiments',description:'A space to make, test, and play.',route:'/map'},
-    pending: {title:'Guestbook',subtitle:'Leave a note',description:'A small space for thoughts, questions, and hellos.',route:'/guestbook'}
+    identity: {title:'IDentity',subtitle:'IDT / Identity',description:'Xudong Xing / Product Design Leader',route:'/idt'},
+    todo: {title:'Todolist',subtitle:'TDL / Always Becoming',description:'A work in progress, by design.',route:'/tdl'},
+    todoLab: {title:'Todolist Lab',subtitle:'JOURNAL / Always Becoming',description:'A journal of craft, people, and new possibilities.',route:'/tdl-lab'},
+    map: {title:'Map',subtitle:'MAP / Work & Experiments',description:'A connected space for ideas and experiments.',route:'/map'},
+    playground: {title:'Playground',subtitle:'PGD / Leave a note',description:'A shared space to leave, move, and discover notes.',route:'/pgd'}
   },
-  aliases: {'/capabilities':'model','/roadmap':'todo','/pending':'pending'},
-  images: {identity:null,todo:null,model:null,pending:null},
+  images: {identity:null,todo:null,todoLab:null,map:null,playground:null},
   modules: {
     todo: './growth-roadmap-view.js?v=20261028-input',
-    model: './modules/capabilities.js?v=20261028-map',
-    pending: './modules/guestbook.js?v=20261028-safe-text'
+    todoLab: './modules/todolist-journal.js?v=20261028-press-grid',
+    map: './modules/map.js?v=20261028-zoom',
+    playground: './modules/playground.js?v=20261028-zoom'
   }
 };

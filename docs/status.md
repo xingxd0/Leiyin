@@ -10,16 +10,16 @@
 - 奖项按赛事合并，标题无年份，红色数量气泡，作品行含年份与名称，链接待补充。
 - 当前奖项记录：Red Dot ×2（2026 Tmates、2025 SoulNest）；iF ×2（2026 Semi Design System、TikTok Customer Service Platform）；A' ×1（2026 CollabAgents）；MUSE ×1（2025 SoulNest）；London ×1（2025 CollabAgents）；NY ×1（2025 SoulNest）。共 8 项。
 - Logo 原图：`logo/if.png`、`reddot.png`、`adesign.png`、`muse.png`、`london.png`、`ny.png`。
-- 第三个 Tab 为 Workshop / Work & Experiments，路由仍为 `#/capabilities`；白边贴纸画板含六张演示贴纸及一张灵感致谢，支持拖拽、键盘移动、悬浮翻面、3D 镭射与详情，切页保留布局，刷新重置。最新本地背景为左上 Toolbox、右上 Freshly Made、底部整行 On the Bench，默认贴纸按区分配且可自由跨区；分区更新尚未发布，不代表真实作品集。第四个 Tab 仍未定义。
+- 核心 Tab 为 IDentity、Todolist、Map、Playground，对应 `#/idt`、`#/tdl`、`#/map`、`#/pgd`。另有 `#/tdl-lab` 作为 Todolist 实验版：以访客了解作者为主要意图，采用深色报纸排版、重点实践、成果摘要与四栏目纵向阅读，配色复用全站冷炭灰与绿色令牌。全部原始内容保留，搜索和维护降级为次要入口，独立渲染与 CSS 不影响原版。旧路由不再保留别名，未知路径回到 IDentity。
+- Map 是以 ME 为根节点的可拖拽六边形地图，支持背景平移、滚轮缩放、贴片移动、键盘移动和连接性校验。
+- Playground 承接原留言墙能力，支持留言审核、访客私有待审内容、贴纸翻面/拖拽和画布缩放；Guestbook 仅作为后端 API 与历史运维文档中的兼容名称。
 - 深色冷炭灰与绿色 UI，乌鸦保持原色。84 姿态素材为用户授权暂用，不代表最终绘制质量验收。
 
 ## 讨论中的方向，尚未实施
 
 第三个 Tab 可改为 Portfolio / Selected Work：以作品证明能力，展示项目、角色、关键判断与公开成果。需要用户补充封面、角色、案例文本、公开范围与链接。
 
-第四个 Tab 可做 Playground：真实交互实验、AI 产品观察、个人研究或兴趣内容。汉字乌鸦与本站构建记录可作为首批素材；不填虚构兴趣，不复制参考站的整套桌面。
-
-完整案例与实验内容仍是建议。本次结构整理保留用户在 GitHub 上的 Workshop 改名，不另改路由或生成作品集页面。
+Playground 后续可扩展真实交互实验、AI 产品观察、个人研究或兴趣内容。汉字乌鸦与本站构建记录可作为首批素材；不填虚构兴趣，不复制参考站的整套桌面。
 
 ## 工作区文档与历史文件
 

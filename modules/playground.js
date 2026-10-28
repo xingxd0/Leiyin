@@ -1,4 +1,4 @@
-import {guestbookConfig} from './guestbook-config.js?v=20261028-guestbook';
+import {playgroundConfig} from './playground-config.js?v=20261028-playground';
 
 let turnstilePromise;
 function loadTurnstile(){
@@ -40,38 +40,39 @@ export function renderPage(host){
   const events=new AbortController();let topLayer=1,drag=null,dropPoint=null,zoom=1;
   let positions={};try{positions=JSON.parse(localStorage.getItem('leiyin.guestbook.positions.v1')||'{}');if(!positions||typeof positions!=='object')positions={};}catch{}
   function savePositions(){try{localStorage.setItem('leiyin.guestbook.positions.v1',JSON.stringify(positions));}catch{}}
-  const page=element('section','guestbook-page');page.lang='en';
-  const intro=element('header','guestbook-intro');
-  intro.append(element('span','eyebrow','04 / LEAVE A NOTE'),element('h2','','Leave a little piece of you.'),element('p','','A thought, a question, or just a hello. Leave something behind.'));
-  const grid=element('div','guestbook-grid'),composer=element('dialog','guestbook-composer');
-  composer.setAttribute('aria-labelledby','guestbookComposerTitle');
-  const composerClose=element('button','guestbook-secondary guestbook-composer-close','Close');composerClose.type='button';composerClose.onclick=()=>composer.close();
+  const page=element('section','module-page playground-page');page.lang='en';
+  page.setAttribute('aria-label','Playground note wall');
+  const intro=element('header','playground-intro');
+  intro.append(element('span','eyebrow','PGD / PLAYGROUND'),element('h2','','Leave a little piece of you.'),element('p','','A playful wall for thoughts, questions, experiments, and hellos.'));
+  const grid=element('div','playground-grid'),composer=element('dialog','module-dialog playground-composer');
+  composer.setAttribute('aria-labelledby','playgroundComposerTitle');
+  const composerClose=element('button','playground-secondary playground-composer-close','Close');composerClose.type='button';composerClose.onclick=()=>composer.close();
   composer.append(composerClose);
-  composer.append(element('h3','','Leave a message'),element('p','guestbook-hint','Your note appears here right away for you. It becomes public after review. Please leave out private information.'));
-  composer.querySelector('h3').id='guestbookComposerTitle';
+  composer.append(element('h3','','Leave a message'),element('p','playground-hint','Your note appears here right away for you. It becomes public after review. Please leave out private information.'));
+  composer.querySelector('h3').id='playgroundComposerTitle';
   const form=element('form');
   const nameLabel=element('label','','Nickname'),name=element('input');
-  name.id='guestbookNickname';name.name='nickname';name.required=true;name.autocomplete='nickname';nameLabel.htmlFor=name.id;
+  name.id='playgroundNickname';name.name='nickname';name.required=true;name.autocomplete='nickname';nameLabel.htmlFor=name.id;
   // Code-point length is validated on submit, matching the API and database.
   name.maxLength=40;name.placeholder='What should I call you?';
   try{name.value=localStorage.getItem('leiyin.guestbook.nickname')||'';}catch{}
   const contentLabel=element('label','','Message'),content=element('textarea');
-  content.id='guestbookContent';content.name='content';content.required=true;content.rows=6;content.maxLength=1000;content.placeholder='Your words go here…';contentLabel.htmlFor=content.id;
-  const count=element('span','guestbook-count','0 / 500');count.id='guestbookCount';content.setAttribute('aria-describedby',count.id);
+  content.id='playgroundContent';content.name='content';content.required=true;content.rows=6;content.maxLength=1000;content.placeholder='Your words go here…';contentLabel.htmlFor=content.id;
+  const count=element('span','playground-count','0 / 500');count.id='playgroundCount';content.setAttribute('aria-describedby',count.id);
   content.oninput=()=>{count.textContent=`${[...content.value].length} / 500`;};
-  const verification=element('div','guestbook-verification');
-  const verifyStatus=element('p','guestbook-hint','Loading verification…');
-  const retry=element('button','guestbook-secondary','Retry verification');retry.type='button';retry.hidden=true;
-  const submit=element('button','guestbook-submit','Send message');submit.type='submit';submit.disabled=true;
-  const feedback=element('p','guestbook-feedback');feedback.setAttribute('role','status');feedback.hidden=true;
+  const verification=element('div','playground-verification');
+  const verifyStatus=element('p','playground-hint','Loading verification…');
+  const retry=element('button','playground-secondary','Retry verification');retry.type='button';retry.hidden=true;
+  const submit=element('button','playground-submit','Send message');submit.type='submit';submit.disabled=true;
+  const feedback=element('p','playground-feedback');feedback.setAttribute('role','status');feedback.hidden=true;
   form.append(nameLabel,name,contentLabel,content,count,verification,verifyStatus,retry,submit,feedback);composer.append(form);
-  const messages=element('section','guestbook-messages');messages.setAttribute('aria-labelledby','guestbookMessagesTitle');
-  const listTitle=element('h3','','Notes on the wall');listTitle.id='guestbookMessagesTitle';
-  const list=element('div','guestbook-list'),listStatus=element('p','guestbook-hint','Loading messages…');listStatus.setAttribute('role','status');
-  const more=element('button','guestbook-secondary','Load more');more.type='button';more.hidden=true;
-  const reload=element('button','guestbook-secondary','Try again');reload.type='button';reload.hidden=true;
-  const add=element('button','guestbook-add','＋ Leave a note');add.type='button';add.setAttribute('aria-haspopup','dialog');
-  const wallHint=element('p','guestbook-hint','Click an empty spot to leave a note. Select a sticker to read it.');
+  const messages=element('section','playground-messages');messages.setAttribute('aria-labelledby','playgroundMessagesTitle');
+  const listTitle=element('h3','','Playground notes');listTitle.id='playgroundMessagesTitle';
+  const list=element('div','playground-list'),listStatus=element('p','playground-hint','Loading messages…');listStatus.setAttribute('role','status');
+  const more=element('button','playground-secondary','Load more');more.type='button';more.hidden=true;
+  const reload=element('button','playground-secondary','Try again');reload.type='button';reload.hidden=true;
+  const add=element('button','playground-add','＋ Leave a note');add.type='button';add.setAttribute('aria-haspopup','dialog');
+  const wallHint=element('p','playground-hint','Click an empty spot to leave a note. Select a sticker to read it.');
   let composerTrigger=add,verificationStarted=false;
   function openComposer(trigger=add){
     if(composer.open)return;composerTrigger=trigger;composer.showModal();
@@ -80,13 +81,14 @@ export function renderPage(host){
   add.onclick=()=>openComposer();
   composer.addEventListener('close',()=>{if(active)composerTrigger.focus({preventScroll:true});});
   page.addEventListener('click',event=>{
-    if(event.target.closest('button,a,input,textarea,label,dialog,.guestbook-sticker'))return;
+    if(event.target.closest('button,a,input,textarea,label,dialog,.playground-sticker'))return;
     const rect=scene.getBoundingClientRect();dropPoint={x:(event.clientX-rect.left)/zoom,y:(event.clientY-rect.top)/zoom};openComposer();
   });
-  messages.append(listTitle,wallHint,add,listStatus,list,reload,more);grid.append(messages);const world=element('div','guestbook-world'),scene=element('div','guestbook-scene');scene.append(intro,grid);world.append(scene);page.append(world,composer);host.replaceChildren(page);
-  const wallFeedback=element('p','guestbook-wall-feedback');wallFeedback.setAttribute('role','status');scene.append(wallFeedback);
-  const zoomControls=element('div','guestbook-zoom');
-  const zoomStatus=element('span','','100%');zoomStatus.setAttribute('role','status');
+  messages.append(listTitle,wallHint,add,listStatus,list,reload,more);grid.append(messages);const world=element('div','playground-world'),scene=element('div','playground-scene');scene.append(intro,grid);world.append(scene);page.append(world,composer);host.replaceChildren(page);
+  const wallFeedback=element('p','playground-wall-feedback');wallFeedback.setAttribute('role','status');scene.append(wallFeedback);
+  const zoomControls=element('div','module-controls module-zoom-controls playground-zoom');
+  zoomControls.setAttribute('role','group');zoomControls.setAttribute('aria-label','Zoom controls');
+  const zoomStatus=element('span','module-zoom-value','100%');zoomStatus.setAttribute('role','status');
   for(const [text,label,delta] of [['−','Zoom out',-.1],['+','Zoom in',.1],['◎','Reset zoom',0]]){const button=element('button','',text);button.type='button';button.setAttribute('aria-label',label);button.onclick=()=>setZoom(delta?zoom+delta:1);zoomControls.append(button);}
   zoomControls.append(zoomStatus);page.append(zoomControls);
   function setZoom(value,clientX,clientY){
@@ -97,14 +99,14 @@ export function renderPage(host){
     page.scrollLeft=x*zoom-(px-area.left);page.scrollTop=y*zoom-(py-area.top);
   }
   page.addEventListener('wheel',event=>{
-    if(event.target.closest('dialog,.guestbook-note-full'))return;
+    if(event.target.closest('dialog,.playground-note-full'))return;
     event.preventDefault();if(drag)return;
     const delta=event.deltaY*(event.deltaMode===1?16:event.deltaMode===2?page.clientHeight:1);
     setZoom(zoom*Math.exp(-delta*.0015),event.clientX,event.clientY);
   },{passive:false,signal:events.signal});
   function fitNickname(entry){
-    const front=entry.querySelector('.guestbook-front'),nickname=front.querySelector('.guestbook-nickname');
-    const style=getComputedStyle(front),label=front.querySelector('.guestbook-front-label'),action=front.querySelector('.guestbook-note-action');
+    const front=entry.querySelector('.playground-front'),nickname=front.querySelector('.playground-nickname');
+    const style=getComputedStyle(front),label=front.querySelector('.playground-front-label'),action=front.querySelector('.playground-note-action');
     const available=front.clientHeight-parseFloat(style.paddingTop)-parseFloat(style.paddingBottom)-label.offsetHeight-action.offsetHeight-2*parseFloat(style.rowGap);
     let size=entry.classList.contains('has-long-nickname')?16:24;nickname.style.fontSize=`${size}px`;
     while(size>10&&(nickname.scrollHeight>available||nickname.scrollWidth>nickname.clientWidth)){nickname.style.fontSize=`${--size}px`;}
@@ -128,7 +130,7 @@ export function renderPage(host){
     const controller=new AbortController();controllers.add(controller);
     const timer=setTimeout(()=>controller.abort(),15000);
     try{
-      const response=await fetch(`${guestbookConfig.apiBase}${path}`,{...options,headers:{...options.headers,'X-Guestbook-Key':ownerKey},signal:controller.signal,credentials:'omit'});
+      const response=await fetch(`${playgroundConfig.apiBase}${path}`,{...options,headers:{...options.headers,'X-Guestbook-Key':ownerKey},signal:controller.signal,credentials:'omit'});
       const body=await response.json();
       if(!response.ok)throw new Error(response.status===429?'Too many attempts. Please wait a minute and verify again.':body.error||'Unable to complete the request.');
       return body;
@@ -137,17 +139,17 @@ export function renderPage(host){
   function renderMessage(message,prepend=false){
     if(!message||!Number.isSafeInteger(message.id)||typeof message.nickname!=='string'||typeof message.content!=='string'||seen.has(message.id))return;
     seen.add(message.id);
-    const entry=element('div','guestbook-sticker'),flip=element('button','guestbook-flip'),inner=element('span','guestbook-sticker-inner');
-    const front=element('span','guestbook-face guestbook-front'),back=element('span','guestbook-face guestbook-back');
+    const entry=element('div','playground-sticker'),flip=element('button','playground-flip'),inner=element('span','playground-sticker-inner');
+    const front=element('span','playground-face playground-front'),back=element('span','playground-face playground-back');
     flip.type='button';flip.setAttribute('aria-label',`Read note from ${message.nickname}`);flip.setAttribute('aria-pressed','false');back.setAttribute('aria-hidden','true');
-    front.append(element('span','guestbook-tape'),element('span','guestbook-front-label','A NOTE FROM'),element('strong','guestbook-nickname',message.nickname),element('span','guestbook-note-action','Click to flip · Drag to move'));
+    front.append(element('span','playground-tape'),element('span','playground-front-label','A NOTE FROM'),element('strong','playground-nickname',message.nickname),element('span','playground-note-action','Click to flip · Drag to move'));
     if([...message.nickname].length>12)entry.classList.add('has-long-nickname');
     const date=new Date(`${String(message.created_at||'').replace(' ','T')}${/[zZ]|[+-]\d\d:\d\d$/.test(message.created_at)?'':'Z'}`);
-    const meta=element('span','guestbook-message-meta',message.nickname);
+    const meta=element('span','playground-message-meta',message.nickname);
     if(!Number.isNaN(date.valueOf()))meta.append(element('time','',new Intl.DateTimeFormat('en',{dateStyle:'medium'}).format(date)));
-    back.append(meta,element('span','guestbook-note-full',message.content));
-    if(message.visibility==='private')back.append(element('span','guestbook-private','Only visible to you'));
-    back.append(element('span','guestbook-note-action','Click to return'));
+    back.append(meta,element('span','playground-note-full',message.content));
+    if(message.visibility==='private')back.append(element('span','playground-private','Only visible to you'));
+    back.append(element('span','playground-note-action','Click to return'));
     inner.append(front,back);flip.append(inner);entry.append(flip);
     entry.dataset.shape=['ticket','pebble','round','postcard','badge'][message.id%5];
     entry.dataset.foil=['spectrum','satin','prism','metal'][Math.floor(message.id/5+message.id)%4];
@@ -209,14 +211,14 @@ export function renderPage(host){
   }
   async function setupVerification(){
     const request=++verifyRequest;token='';syncSubmit();retry.hidden=true;verifyStatus.hidden=false;
-    if(!guestbookConfig.siteKey){verifyStatus.textContent='Message submission will be available soon.';return;}
+    if(!playgroundConfig.siteKey){verifyStatus.textContent='Message submission will be available soon.';return;}
     verifyStatus.textContent='Loading verification…';
     try{
       const service=await loadTurnstile();if(!active||request!==verifyRequest)return;
       if(widget!==null)service.remove(widget);
       verification.replaceChildren();
       widget=service.render(verification,{
-        sitekey:guestbookConfig.siteKey,action:'guestbook',theme:'dark',size:'compact',appearance:'interaction-only',
+        sitekey:playgroundConfig.siteKey,action:'guestbook',theme:'dark',size:'compact',appearance:'interaction-only',
         callback:value=>{if(active){token=value;verifyStatus.hidden=true;retry.hidden=true;syncSubmit();}},
         'expired-callback':()=>{if(active){token='';verifyStatus.hidden=false;verifyStatus.textContent='Verification expired. Please verify again.';retry.hidden=false;syncSubmit();}},
         'error-callback':()=>{if(active){token='';verifyStatus.hidden=false;verifyStatus.textContent='Verification failed to load. Please retry.';retry.hidden=false;syncSubmit();}}

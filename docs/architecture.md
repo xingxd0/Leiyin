@@ -6,15 +6,15 @@
 
 | 路由 | 内部 key | 当前页面 | 实现 |
 | --- | --- | --- | --- |
-| `#/login` | 无 | 自动登录过场 | `framework.js` |
-| `#/identity` | `identity` | 八段身份终端 | `identity-terminal.js` |
-| `#/todol` | `todo` | 四方向待办看板 | `growth-roadmap-view.js` |
-| `#/capabilities` | `model` | Workshop（贴纸画板原型） | `modules/capabilities.js` |
-| `#/pending` | `pending` | 未定义页 | `modules/pending.js` |
+| `#/idt` | `identity` | IDentity / 身份认证终端 | `identity-terminal.js` |
+| `#/tdl` | `todo` | Todolist / 四方向待办看板 | `growth-roadmap-view.js` |
+| `#/tdl-lab` | `todoLab` | Todolist Lab / 访客阅读型个人进展报 | `modules/todolist-journal.js` + `todolist-lab.css` |
+| `#/map` | `map` | Map / 可拖拽六边形地图 | `modules/map.js` |
+| `#/pgd` | `playground` | Playground / 可交互留言墙 | `modules/playground.js` |
 
-`#/roadmap` 是旧链接别名，replace 到 `#/todol`。无 hash 进入登录，未知路由归一化为 Identity。直接进入某个 Tab 不播放登录。
+无 hash 进入登录过场，成功后进入 `#/idt`。未知或旧路由统一替换为 `#/idt`，不保留旧路由别名。直接进入四条有效路由中的任意一条不会播放登录。
 
-路由配置集中在 `site-config.js`。内部 key 同时关联 HTML 的 `nav-*` / `data-view`，及 Identity 的导航命令；修改 URL 不应顺便修改 key。
+路由配置集中在 `site-config.js`。内部 key 同时关联 HTML 的 `nav-*` / `data-view`、工作区状态和 Identity 的导航命令。
 
 ## 执行关系
 
@@ -28,9 +28,10 @@ index.html -> becoming.html
                             |
                             +-- Identity -> createIdentityTerminal()
                             +-- Todolist -> 动态 import growth-roadmap-view.js
-                            |                    -> import growth-roadmap.js
-                            +-- model -> 动态 import modules/capabilities.js
-                            +-- pending -> 动态 import modules/pending.js
+                            +-- Todolist Lab -> 动态 import modules/todolist-journal.js
+                            |                    -> 共享 growth-roadmap.js，独立阅读布局
+                            +-- map -> 动态 import modules/map.js
+                            +-- playground -> 动态 import modules/playground.js
                             +-- 登录 / Identity -> import terminal-crow.js
                                                    -> JSON 与字体资产
 ```
@@ -43,18 +44,22 @@ index.html -> becoming.html
 
 - Identity：`createIdentityTerminal(host, {navigate, reducedMotion, timing})`，返回 `destroy()`。切页必须取消异步流程、滚动、观察器和事件。
 - Todolist：`renderRoadmap(host)`，自身负责看板、底部搜索/命令、筛选、Show more 和详情弹窗；模块级筛选与展开状态在同一会话保留。自定义任务存于当前浏览器 localStorage，不同步到仓库。
-- 第三、第四个模块：ES module，导出 `renderPage(host)`，只更新给定容器，不能自动启动登录或重写导航。
-- Workshop 返回 `{destroy()}`，在切页或登录时由公共框架断开 ResizeObserver；事件只绑定于页面节点。其他动态模块可返回同样的清理控制器，有观察器或计时器时必须提供，不能只删除 DOM。
-- Workshop 以 1200×1000 为缩放基准，并按标题下方剩余高度限制缩放；ResizeObserver 扩展逻辑边界以覆盖整个右侧视口（包含标题区域）。背景为左上 Toolbox、右上 Freshly Made、底部整行 On the Bench。`placement` 定义默认归属，未移动贴纸随区域重新定位；手动移动后保留全画布归一化位置，允许跨区。位置与角度保存在模块内存中，切页返回保留，刷新后重置；拖拽将屏幕坐标转换为逻辑坐标，不写入 GitHub 或 localStorage。
+- Todolist Lab：`renderPage(host)`，返回 `{destroy()}`。面向访客的报纸布局，共享原始记录；正文单一滚动、四栏目纵向阅读、成果作品直接显示、阶段与下一步原位展开。搜索覆盖全文并展开注记，不更改原版看板。读取并去重当前浏览器的本地新增记录；维护入口指向原版，不提供公开发布能力。
+- Map 与 Playground：ES module，导出 `renderPage(host)`，只更新给定容器，不能自动启动登录或重写导航。
+- 两个模块都返回 `{destroy()}`，在切页或登录时由公共框架断开观察器、请求和事件。
+- Map 使用六边形坐标与连接性约束，背景平移、滚轮缩放和贴片位置分别管理，位置保存在当前浏览器。
+- Playground 沿用现有留言 API 和审核机制，前台产品名称不再使用 Guestbook；留言、贴纸翻面、拖拽和缩放都在 Playground 内完成。
 - 公共框架以 `renderRequest` 拒绝过期动态导入结果；进入登录也会使旧请求失效。
 
 ## 样式顺序
 
-加载顺序：`framework.css` → `terminal-crow.css` → `terminal-theme.css` → `design-tokens.css` → `terminal-dashboard.css` → `identity-terminal.css` → `growth-roadmap.css` → `modules/workshop.css` → `ui-components.css`。
+加载顺序：`framework.css` → `terminal-crow.css` → `terminal-theme.css` → `design-tokens.css` → `terminal-dashboard.css` → `identity-terminal.css` → `growth-roadmap.css` → `todolist-lab.css` → Map / Playground 模块样式 → `ui-components.css`。
 
 公共主题值在 `design-tokens.css`，共享组件规则在 `ui-components.css`。`terminal-dashboard.css` 保留公共布局；详细颜色、尺寸和更新规则见 [组件与色彩](design-system.md)。
 
 Identity 使用 `.identity-shell` 等局部类；Todolist 使用 `.roadmap-workspace` 范围。新模块应使用自己的根类限定样式，避免覆盖全站 `button`、`h1` 或 `:root`。基础布局和主题暂时保留现有层叠，不在此次整理中合并重写。
+
+Lab 使用 `.todolist-lab-workspace` 和 `.journal-*`，不挂载 `.roadmap-workspace`。报纸感来自衬线标题、分栏、细线与留白，不使用暖白纸面；`design-tokens.css` 的 `--journal-*` 复用全站冷炭灰、灰白文字与绿色强调令牌，控件和滚动条同样保持深色。主题修改会同时作用于 Lab，避免产生独立配色体系。
 
 ## 资产与本地边界
 

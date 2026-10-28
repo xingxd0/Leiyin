@@ -7,19 +7,20 @@
   <meta name="description" content="somebody 的个人持续进化系统。已积累的能力、正在投入的方向，以及下一步的探索。">
   <title>Always Becoming. / somebody</title>
   <link rel="stylesheet" href="./framework.css">
-  <link rel="stylesheet" href="./terminal-crow.css">
+  <link rel="stylesheet" href="./terminal-crow.css?v=20261028-navigation">
   <link rel="stylesheet" href="./terminal-theme.css">
-  <link rel="stylesheet" href="./design-tokens.css?v=20261028-stickers">
+  <link rel="stylesheet" href="./design-tokens.css?v=20261028-journal-dark">
   <link rel="stylesheet" href="./terminal-dashboard.css?v=20261027-system">
-  <link rel="stylesheet" href="./identity-terminal.css?v=20261028-input">
+  <link rel="stylesheet" href="./identity-terminal.css?v=20261028-navigation">
   <link rel="stylesheet" href="./growth-roadmap.css?v=20261028-input">
-  <link rel="stylesheet" href="./modules/workshop.css?v=20261028-map">
-  <link rel="stylesheet" href="./modules/guestbook.css?v=20261028-safe-text">
-  <link rel="stylesheet" href="./ui-components.css?v=20261028-input">
+  <link rel="stylesheet" href="./todolist-lab.css?v=20261028-section-align">
+  <link rel="stylesheet" href="./modules/map.css?v=20261028-zoom">
+  <link rel="stylesheet" href="./modules/playground.css?v=20261028-zoom">
+  <link rel="stylesheet" href="./ui-components.css?v=20261028-zoom">
   <script src="./ui-input.js?v=20261028-input" defer></script>
   <script src="./identity-terminal.js?v=20261028-input" defer></script>
-  <script src="./site-config.js?v=20261028-map" defer></script>
-  <script src="./framework.js?v=20261028-safe-text" defer></script>
+  <script src="./site-config.js?v=20261028-press-grid" defer></script>
+  <script src="./framework.js?v=20261028-journal" defer></script>
 </head>
 <body>
   <dialog id="loginScreen" class="login-screen" aria-labelledby="loginTitle">
@@ -40,22 +41,24 @@
   <aside class="sidebar" aria-label="个人与一级导航">
     <div class="picture">
       <img id="tabImage" alt="" hidden>
+      <div id="navigationCrow" class="navigation-crow" role="img" aria-label="汉字乌鸦振翅，树林向左移动"></div>
     </div>
     <div class="sidebar-lower">
       <div class="identity"><strong>somebody<span>.</span></strong><small>PERSONAL TERMINAL / GUEST ONLINE</small></div>
       <nav role="tablist" aria-label="一级导航" aria-orientation="vertical">
-        <button id="nav-identity" role="tab" data-view="identity" aria-selected="false" aria-controls="boardPanel" tabindex="-1"><span>01</span><span><strong>身份认证</strong><small>CLI / Identity</small></span><b>↗</b></button>
-        <button id="nav-todo" role="tab" data-view="todo" aria-selected="true" aria-controls="boardPanel"><span>02</span><span><strong>todolist</strong><small>Always Becoming</small></span><b>↗</b></button>
-        <button id="nav-model" role="tab" data-view="model" aria-selected="false" aria-controls="boardPanel" tabindex="-1"><span>03</span><span><strong>MAP</strong><small>Work &amp; Experiments</small></span><b>↗</b></button>
-        <button id="nav-pending" role="tab" data-view="pending" aria-selected="false" aria-controls="boardPanel" tabindex="-1"><span>04</span><span><strong>Guestbook</strong><small>Leave a note</small></span><b>↗</b></button>
+        <button id="nav-identity" role="tab" data-view="identity" aria-selected="false" aria-controls="boardPanel" tabindex="-1"><span>01</span><span><strong>IDentity</strong><small>IDT / Identity</small></span><b>↗</b></button>
+        <button id="nav-todo" role="tab" data-view="todo" aria-selected="false" aria-controls="boardPanel" tabindex="-1"><span>02</span><span><strong>Todolist</strong><small>TDL / Always Becoming</small></span><b>↗</b></button>
+        <button id="nav-todoLab" role="tab" data-view="todoLab" aria-selected="false" aria-controls="boardPanel" tabindex="-1"><span>03</span><span><strong>Todolist Lab</strong><small>JOURNAL / Always Becoming</small></span><b>↗</b></button>
+        <button id="nav-map" role="tab" data-view="map" aria-selected="false" aria-controls="boardPanel" tabindex="-1"><span>04</span><span><strong>Map</strong><small>MAP / Work &amp; Experiments</small></span><b>↗</b></button>
+        <button id="nav-playground" role="tab" data-view="playground" aria-selected="false" aria-controls="boardPanel" tabindex="-1"><span>05</span><span><strong>Playground</strong><small>PGD / Leave a note</small></span><b>↗</b></button>
       </nav>
       <div class="sidebar-note"><span>ALWAYS BECOMING</span></div>
     </div>
   </aside>
   <main id="workspace" tabindex="-1">
-    <header class="board-header"><div><span class="eyebrow">PERSONAL TERMINAL / GUEST SESSION</span><h1 id="viewTitle">身份认证 <small>CLI / Identity</small></h1></div></header>
+    <header class="board-header"><div><span class="eyebrow">PERSONAL TERMINAL / GUEST SESSION</span><h1 id="viewTitle">IDentity <small>IDT / Identity</small></h1></div></header>
     <div class="toolbar"><p id="viewDescription"></p><div class="filters" aria-label="筛选任务状态"><button data-filter="all" aria-pressed="true">全部</button><button data-filter="active" aria-pressed="false">未完成</button><button data-filter="done" aria-pressed="false">已完成</button></div></div>
-    <div id="boardPanel" role="tabpanel" aria-labelledby="nav-todo" tabindex="0"></div>
+    <div id="boardPanel" role="tabpanel" aria-labelledby="nav-identity" tabindex="0"></div>
     <footer><span id="footerNote">Always Becoming.</span><span id="columnCount">04 COLUMNS</span></footer>
   </main>
   <dialog id="cardDialog" aria-labelledby="dialogTitle"><div class="dialog-top"><span class="eyebrow">任务详情</span><button id="closeDialog" aria-label="关闭详情">×</button></div><h2 id="dialogTitle"></h2><p id="dialogText"></p><div id="dialogProgress"></div></dialog>

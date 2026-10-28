@@ -34,20 +34,36 @@ for (const path of Object.values(config.modules)) checkAsset(path);
 for (const [key, page] of Object.entries(config.views)) {
   assert(html.includes(`id="nav-${key}"`), `Missing tab: ${key}`);
   assert(page.route.startsWith('/'), `Invalid route: ${key}`);
+  assert.equal(page.route, page.route.toLowerCase(), `Route must be lowercase: ${key}`);
 }
 assert.equal(new Set(Object.values(config.views).map(page=>page.route)).size, Object.keys(config.views).length);
+assert.deepEqual(
+  Object.fromEntries(Object.entries(config.views).map(([key,page])=>[key,page.route])),
+  {identity:'/idt',todo:'/tdl',todoLab:'/tdl-lab',map:'/map',playground:'/pgd'}
+);
+assert.deepEqual(
+  Object.fromEntries(Object.entries(config.views).map(([key,page])=>[key,page.title])),
+  {identity:'IDentity',todo:'Todolist',todoLab:'Todolist Lab',map:'Map',playground:'Playground'}
+);
+assert.equal(config.aliases, undefined, 'Legacy route aliases must not be restored');
+assert.notEqual(config.modules.todoLab, config.modules.todo, 'Lab must use its independent journal renderer');
+assert(config.modules.todoLab.startsWith('./modules/todolist-journal.js'), 'Lab must load the journal module');
+assert(read('framework.js').includes("classList.toggle('roadmap-workspace',view==='todo')"),
+  'Lab must not inherit the task board workspace');
 assert(html.indexOf('site-config.js') < html.indexOf('framework.js'), 'Config must load before framework');
 assert(html.includes('ui-input.js') && html.indexOf('ui-input.js') < html.indexOf('identity-terminal.js'),
   'Shared input must load before Identity');
 for (const path of ['identity-terminal.js', 'growth-roadmap-view.js']) {
   assert(read(path).includes('globalThis.siteUI.createTerminalInput('), `Use the shared input: ${path}`);
 }
-for (const target of Object.values(config.aliases)) assert(config.views[target], 'Invalid route alias');
+for (const legacy of ['/identity','/todol','/roadmap','/capabilities','/pending','/guestbook']) {
+  assert(!read('site-config.js').includes(`route:'${legacy}'`), `Legacy route remains: ${legacy}`);
+}
 
 const styles = [...html.matchAll(/href="\.\/([^"?]+\.css)/g)].map(match=>match[1]);
 assert(styles.indexOf('design-tokens.css') > styles.indexOf('terminal-theme.css'), 'Active tokens must override legacy theme');
 assert.equal(styles.at(-1), 'ui-components.css', 'Shared component rules must load last');
-for (const path of ['terminal-dashboard.css','identity-terminal.css','growth-roadmap.css','ui-components.css']) {
+for (const path of ['terminal-dashboard.css','identity-terminal.css','growth-roadmap.css','todolist-lab.css','ui-components.css']) {
   const css = read(path).replace(/\/\*[\s\S]*?\*\//g, '');
   assert(!/#[0-9a-f]{3,8}\b/i.test(css), `Put palette values in design-tokens.css: ${path}`);
 }

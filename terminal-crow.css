@@ -18,6 +18,8 @@
 .identity-workspace .welcome-skip{border-color:var(--crow-line)}
 .login-screen button:focus-visible,.identity-workspace button:focus-visible,.identity-workspace input:focus-visible,.identity-workspace a:focus-visible{outline:2px solid var(--crow-bright);outline-offset:3px}
 .terminal-crow-scene{position:relative;width:100%;height:100%;overflow:hidden;background:#03070d;isolation:isolate}
+.navigation-crow{width:100%;height:100%;min-height:120px;--crow-text:var(--art-crow-text);--crow-muted:var(--art-crow-muted);--crow-bright:var(--art-crow-bright);--crow-line:var(--art-crow-line)}
+.navigation-crow .crow-tree-layer{font-size:11px;line-height:17px}
 .crow-forest{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
 .crow-tree-layer{position:absolute;left:0;bottom:-15px;white-space:pre;font:14px/22px 'Songti SC','SimSun',serif;letter-spacing:0;color:#223541;opacity:.3;will-change:transform}
 .crow-tree-layer.depth-0{bottom:30%;opacity:.16;line-height:17px}
