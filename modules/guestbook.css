@@ -1,0 +1,29 @@
+.guestbook-page { padding: 16px 0 32px; max-width: 1120px; margin: 0 auto; }
+.guestbook-page .guestbook-intro { margin-bottom: 28px; }
+.guestbook-page h2 { font: 600 clamp(24px,3vw,36px)/1.3 var(--font-sans); color: var(--bright); margin: 12px 0; letter-spacing: -.7px; }
+.guestbook-page p { color: var(--muted); font-size: 13px; line-height: 1.8; }
+.guestbook-page h3 { margin: 0 0 12px; color: var(--bright); font-size: 17px; }
+.guestbook-page .guestbook-grid { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 24px; }
+.guestbook-page .guestbook-composer, .guestbook-page .guestbook-messages { min-width: 0; padding: 24px; border: 1px solid var(--line); border-radius: var(--radius-panel); background: var(--surface); }
+.guestbook-page form { display: grid; gap: 12px; margin-top: 20px; }
+.guestbook-page label { font-size: 12px; color: var(--ink); }
+.guestbook-page input, .guestbook-page textarea { min-width: 0; width: 100%; padding: 12px; background: var(--bg); color: var(--bright); border: 1px solid var(--line); border-radius: var(--radius-control); font: 14px/1.6 var(--font-sans); }
+.guestbook-page textarea { resize: vertical; min-height: 150px; }
+.guestbook-page .guestbook-count { text-align: right; font-size: 11px; color: var(--muted); }
+.guestbook-page .guestbook-verification { min-width: 0; }
+.guestbook-page button { padding: 11px 16px; border: 1px solid var(--line); border-radius: var(--radius-control); background: var(--bg); color: var(--ink); }
+.guestbook-page button:hover { color: var(--accent); border-color: var(--accent); }
+.guestbook-page button:disabled { opacity: .5; cursor: not-allowed; }
+.guestbook-page .guestbook-submit { color: var(--accent); }
+.guestbook-page .guestbook-feedback { color: var(--ink); }
+.guestbook-page .guestbook-message { padding: 18px 0; border-bottom: 1px solid var(--line); }
+.guestbook-page .guestbook-message:first-child { padding-top: 8px; }
+.guestbook-page .guestbook-message p { white-space: pre-wrap; overflow-wrap: anywhere; color: var(--ink); margin-top: 10px; }
+.guestbook-page .guestbook-message-meta { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; color: var(--bright); font-size: 13px; overflow-wrap: anywhere; }
+.guestbook-page time { color: var(--muted); font-size: 11px; }
+.guestbook-page .guestbook-secondary { margin-top: 12px; }
+@media (max-width: 1100px) { .guestbook-page .guestbook-grid { grid-template-columns: minmax(0,1fr); } }
+@media (max-width: 650px) {
+  .guestbook-page .guestbook-composer, .guestbook-page .guestbook-messages { padding: 14px; }
+  .guestbook-page input, .guestbook-page textarea { font-size: 16px; }
+}
