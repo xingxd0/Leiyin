@@ -66,3 +66,38 @@ main.guestbook-workspace { grid-template-rows: minmax(0,1fr); padding: 0; }
   .guestbook-page .guestbook-sticker-inner, .guestbook-page button.guestbook-flip, .guestbook-page .guestbook-face::after { transition: none; }
   .guestbook-page button.guestbook-flip { transform: rotate(var(--note-angle)); }
 }
+/* Curated die-cut silhouettes and foil finishes are stable for each message. */
+.guestbook-page .guestbook-world { position: relative; min-width: 100%; min-height: 100%; }
+.guestbook-page .guestbook-scene { position: relative; transform-origin: top left; }
+.guestbook-page .guestbook-sticker { height: 180px; --sticker-shape: 6px 6px 24px 6px; --front-color: var(--workshop-lilac); --back-color: var(--workshop-pink); }
+.guestbook-page .guestbook-sticker[data-tone="1"] { --front-color: var(--workshop-lime); --back-color: var(--workshop-lilac); }
+.guestbook-page .guestbook-sticker[data-tone="2"] { --front-color: var(--workshop-pink); --back-color: var(--workshop-lime); }
+.guestbook-page .guestbook-sticker[data-shape="pebble"] { --sticker-shape: 48% 38% 45% 25% / 35% 28% 38% 32%; }
+.guestbook-page .guestbook-sticker[data-shape="round"] { --sticker-shape: 50%; }
+.guestbook-page .guestbook-sticker[data-shape="ticket"] { --sticker-shape: 30px 8px 30px 8px; height: 155px; }
+.guestbook-page .guestbook-sticker[data-shape="postcard"] { --sticker-shape: 5px; height: 205px; }
+.guestbook-page .guestbook-sticker[data-shape="badge"] { --sticker-shape: 45% 45% 15% 15%; height: 195px; }
+.guestbook-page .guestbook-face { border: 6px solid var(--brand-paper); border-radius: var(--sticker-shape); background: var(--front-color); padding: 20px 16px 15px; overflow: hidden; }
+.guestbook-page .guestbook-back { background: var(--back-color); }
+.guestbook-page .guestbook-tape { display: none; }
+.guestbook-page .guestbook-nickname { font-size: 24px; }
+.guestbook-page .guestbook-front-label, .guestbook-page .guestbook-note-action { font-size: 7px; letter-spacing: .5px; }
+.guestbook-page .guestbook-front .guestbook-nickname { font-family: Georgia,serif; font-style: italic; }
+.guestbook-page .guestbook-note-full { font-size: 11px; }
+.guestbook-page .guestbook-sticker[data-shape="round"] .guestbook-face, .guestbook-page .guestbook-sticker[data-shape="pebble"] .guestbook-face { padding: 29px 23px 22px; text-align: center; }
+.guestbook-page .guestbook-sticker[data-shape="round"] .guestbook-note-action { max-width: 100px; margin-inline: auto; }
+.guestbook-page .guestbook-face::after { border-radius: inherit; }
+.guestbook-page .guestbook-sticker[data-foil="spectrum"] .guestbook-front::after { background: conic-gradient(from 45deg at var(--shine-x,35%) var(--shine-y,25%),transparent,var(--workshop-pink),var(--workshop-lime),var(--workshop-lilac),var(--brand-paper),transparent); mix-blend-mode: screen; }
+.guestbook-page .guestbook-sticker[data-foil="satin"] .guestbook-front::after { background: radial-gradient(ellipse at var(--shine-x,30%) var(--shine-y,20%),var(--brand-paper),transparent 65%); }
+.guestbook-page .guestbook-sticker[data-foil="prism"] .guestbook-front::after { background: repeating-linear-gradient(125deg,transparent 0 12px,var(--workshop-lilac) 16px,var(--brand-paper) 19px,var(--workshop-lime) 23px,transparent 30px); background-position: var(--shine-x,25%) var(--shine-y,15%); background-size: 180% 180%; mix-blend-mode: screen; }
+.guestbook-page .guestbook-sticker[data-foil="metal"] .guestbook-front::after { background: linear-gradient(110deg,transparent 15%,var(--workshop-ink) 30%,var(--brand-paper) 45%,transparent 60%); background-position: var(--shine-x,25%) var(--shine-y,15%); background-size: 250% 250%; }
+.guestbook-page .guestbook-front::after { opacity: .3; }
+.guestbook-page .guestbook-sticker:hover .guestbook-front::after { opacity: .65; }
+.guestbook-page .guestbook-back::after { display: none; }
+.guestbook-page .guestbook-zoom { position: sticky; left: 16px; bottom: 16px; z-index: 3; display: flex; align-items: center; gap: 6px; width: fit-content; padding: 5px; border: 1px solid var(--line); border-radius: var(--radius-control); background: var(--surface); color: var(--muted); font: 11px var(--font-mono); }
+.guestbook-page .guestbook-zoom button { padding: 6px 10px; }
+.guestbook-page .guestbook-zoom span { min-width: 42px; text-align: center; }
+@media (prefers-reduced-motion: reduce) { .guestbook-page .guestbook-sticker .guestbook-front::after { background: linear-gradient(125deg,transparent,var(--brand-paper),transparent); } }
+
+.guestbook-page .has-long-nickname .guestbook-nickname { font-size: 16px; line-height: 1.15; }
+.guestbook-page .guestbook-front { gap: 10px; }

@@ -11,6 +11,6 @@ const siteConfig = {
   modules: {
     todo: './growth-roadmap-view.js?v=20261028-input',
     model: './modules/capabilities.js?v=20261028-pan-zoom',
-    pending: './modules/guestbook.js?v=20261028-sticker-wall'
+    pending: './modules/guestbook.js?v=20261028-die-cut'
   }
 };

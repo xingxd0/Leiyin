@@ -37,7 +37,7 @@ export function renderPage(host){
   let verifyRequest=0,listRequest=0;
   const ownerKey=getBrowserKey();
   const controllers=new Set(),seen=new Set(),stickers=new Map();
-  const events=new AbortController();let topLayer=1,drag=null,dropPoint=null;
+  const events=new AbortController();let topLayer=1,drag=null,dropPoint=null,zoom=1;
   let positions={};try{positions=JSON.parse(localStorage.getItem('leiyin.guestbook.positions.v1')||'{}');if(!positions||typeof positions!=='object')positions={};}catch{}
   function savePositions(){try{localStorage.setItem('leiyin.guestbook.positions.v1',JSON.stringify(positions));}catch{}}
   const page=element('section','guestbook-page');page.lang='en';
@@ -81,21 +81,38 @@ export function renderPage(host){
   composer.addEventListener('close',()=>{if(active)composerTrigger.focus({preventScroll:true});});
   page.addEventListener('click',event=>{
     if(event.target.closest('button,a,input,textarea,label,dialog,.guestbook-sticker'))return;
-    const rect=page.getBoundingClientRect();dropPoint={x:event.clientX-rect.left+page.scrollLeft,y:event.clientY-rect.top+page.scrollTop};openComposer();
+    const rect=scene.getBoundingClientRect();dropPoint={x:(event.clientX-rect.left)/zoom,y:(event.clientY-rect.top)/zoom};openComposer();
   });
-  messages.append(listTitle,wallHint,add,listStatus,list,reload,more);grid.append(messages);page.append(intro,grid,composer);host.replaceChildren(page);
-  const wallFeedback=element('p','guestbook-wall-feedback');wallFeedback.setAttribute('role','status');page.append(wallFeedback);
+  messages.append(listTitle,wallHint,add,listStatus,list,reload,more);grid.append(messages);const world=element('div','guestbook-world'),scene=element('div','guestbook-scene');scene.append(intro,grid);world.append(scene);page.append(world,composer);host.replaceChildren(page);
+  const wallFeedback=element('p','guestbook-wall-feedback');wallFeedback.setAttribute('role','status');scene.append(wallFeedback);
+  const zoomControls=element('div','guestbook-zoom');
+  const zoomStatus=element('span','','100%');zoomStatus.setAttribute('role','status');
+  for(const [text,label,delta] of [['−','Zoom out',-.1],['+','Zoom in',.1],['◎','Reset zoom',0]]){const button=element('button','',text);button.type='button';button.setAttribute('aria-label',label);button.onclick=()=>setZoom(delta?zoom+delta:1);zoomControls.append(button);}
+  zoomControls.append(zoomStatus);page.append(zoomControls);
+  function setZoom(value,clientX,clientY){
+    const bounds=scene.getBoundingClientRect(),area=page.getBoundingClientRect();
+    const px=clientX??area.left+page.clientWidth/2,py=clientY??area.top+page.clientHeight/2;
+    const x=(px-bounds.left)/zoom,y=(py-bounds.top)/zoom;
+    zoom=Math.max(.6,Math.min(1.6,value));layoutStickers();
+    page.scrollLeft=x*zoom-(px-area.left);page.scrollTop=y*zoom-(py-area.top);
+  }
+  page.addEventListener('wheel',event=>{
+    if(event.target.closest('dialog,.guestbook-note-full'))return;
+    event.preventDefault();if(drag)return;
+    const delta=event.deltaY*(event.deltaMode===1?16:event.deltaMode===2?page.clientHeight:1);
+    setZoom(zoom*Math.exp(-delta*.0015),event.clientX,event.clientY);
+  },{passive:false,signal:events.signal});
   function layoutStickers(){
-    const width=page.clientWidth,cardWidth=Math.min(230,width-40),columns=Math.max(1,Math.floor((width-32)/(cardWidth+30)));
+    const width=page.clientWidth,cardWidth=Math.min(180,width-40),columns=Math.max(1,Math.floor((width-32)/(cardWidth+65)));
     let bottom=page.clientHeight;
     [...stickers.values()].forEach(({entry},index)=>{
       const saved=positions[entry.dataset.messageId];
-      const x=saved&&Number.isFinite(saved.x)?saved.x*width:24+(index%columns)*(cardWidth+30);
-      const y=saved&&Number.isFinite(saved.y)?saved.y:(width<650?340:240)+Math.floor(index/columns)*260;
+      const x=saved&&Number.isFinite(saved.x)?saved.x*width:28+(index%columns)*(cardWidth+65)+((Math.floor(index/columns)%2)*32);
+      const y=saved&&Number.isFinite(saved.y)?saved.y:(width<650?340:240)+Math.floor(index/columns)*230+(index%columns)*28;
       const left=Math.max(12,Math.min(width-cardWidth-12,x)),top=Math.max(16,y);
-      entry.style.left=`${left}px`;entry.style.top=`${top}px`;entry.style.width=`${cardWidth}px`;bottom=Math.max(bottom,top+270);
+      entry.style.left=`${left}px`;entry.style.top=`${top}px`;entry.style.width=`${cardWidth}px`;bottom=Math.max(bottom,top+230);
     });
-    list.style.height=`${bottom}px`;
+    list.style.height=`${bottom}px`;scene.style.width=`${width}px`;scene.style.height=`${bottom}px`;scene.style.transform=`scale(${zoom})`;world.style.width=`${width*zoom}px`;world.style.height=`${bottom*zoom}px`;zoomStatus.textContent=`${Math.round(zoom*100)}%`;
   }
   const resize=new ResizeObserver(layoutStickers);resize.observe(page);
   function showFeedback(text){feedback.textContent=text;feedback.hidden=false;}
@@ -117,6 +134,7 @@ export function renderPage(host){
     const front=element('span','guestbook-face guestbook-front'),back=element('span','guestbook-face guestbook-back');
     flip.type='button';flip.setAttribute('aria-label',`Read note from ${message.nickname}`);flip.setAttribute('aria-pressed','false');back.setAttribute('aria-hidden','true');
     front.append(element('span','guestbook-tape'),element('span','guestbook-front-label','A NOTE FROM'),element('strong','guestbook-nickname',message.nickname),element('span','guestbook-note-action','Click to flip · Drag to move'));
+    if([...message.nickname].length>12)entry.classList.add('has-long-nickname');
     const date=new Date(`${String(message.created_at||'').replace(' ','T')}${/[zZ]|[+-]\d\d:\d\d$/.test(message.created_at)?'':'Z'}`);
     const meta=element('span','guestbook-message-meta',message.nickname);
     if(!Number.isNaN(date.valueOf()))meta.append(element('time','',new Intl.DateTimeFormat('en',{dateStyle:'medium'}).format(date)));
@@ -124,6 +142,9 @@ export function renderPage(host){
     if(message.visibility==='private')back.append(element('span','guestbook-private','Only visible to you'));
     back.append(element('span','guestbook-note-action','Click to return'));
     inner.append(front,back);flip.append(inner);entry.append(flip);
+    entry.dataset.shape=['ticket','pebble','round','postcard','badge'][message.id%5];
+    entry.dataset.foil=['spectrum','satin','prism','metal'][Math.floor(message.id/5+message.id)%4];
+    entry.dataset.tone=String(message.id%3);
     entry.dataset.messageId=String(message.id);entry.style.setProperty('--note-angle',`${(message.id%5-2)*1.3}deg`);
     let moved=false;
     flip.onclick=event=>{
@@ -149,7 +170,7 @@ export function renderPage(host){
   }
   page.addEventListener('pointermove',event=>{
     if(!drag||drag.id!==event.pointerId)return;
-    const dx=event.clientX-drag.x,dy=event.clientY-drag.y;
+    const dx=(event.clientX-drag.x)/zoom,dy=(event.clientY-drag.y)/zoom;
     if(!drag.moved&&Math.hypot(dx,dy)<6)return;
     if(!drag.moved){drag.moved=true;drag.markMoved();drag.entry.setPointerCapture(event.pointerId);drag.entry.classList.add('is-dragging');}
     event.preventDefault();
