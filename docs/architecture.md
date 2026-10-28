@@ -45,7 +45,7 @@ index.html -> becoming.html
 - Todolist：`renderRoadmap(host)`，自身负责看板、底部搜索/命令、筛选、Show more 和详情弹窗；模块级筛选与展开状态在同一会话保留。自定义任务存于当前浏览器 localStorage，不同步到仓库。
 - 第三、第四个模块：ES module，导出 `renderPage(host)`，只更新给定容器，不能自动启动登录或重写导航。
 - Workshop 返回 `{destroy()}`，在切页或登录时由公共框架断开 ResizeObserver；事件只绑定于页面节点。其他动态模块可返回同样的清理控制器，有观察器或计时器时必须提供，不能只删除 DOM。
-- Workshop 以 1200×720 为缩放基准，ResizeObserver 扩展逻辑边界以覆盖整个右侧视口（包含标题区域）。位置与角度保存在模块内存中，各分辨率共用同一布局，切页返回保留，刷新后重置；拖拽将屏幕坐标转换为逻辑坐标，不写入 GitHub 或 localStorage。
+- Workshop 以 1200×1000 为缩放基准，并按标题下方剩余高度限制缩放；ResizeObserver 扩展逻辑边界以覆盖整个右侧视口（包含标题区域）。背景为左上 Toolbox、右上 Freshly Made、底部整行 On the Bench。`placement` 定义默认归属，未移动贴纸随区域重新定位；手动移动后保留全画布归一化位置，允许跨区。位置与角度保存在模块内存中，切页返回保留，刷新后重置；拖拽将屏幕坐标转换为逻辑坐标，不写入 GitHub 或 localStorage。
 - 公共框架以 `renderRequest` 拒绝过期动态导入结果；进入登录也会使旧请求失效。
 
 ## 样式顺序

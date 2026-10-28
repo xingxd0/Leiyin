@@ -15,6 +15,17 @@ for(let i=foilEffects.length-1;i>0;i--){
 }
 stickers.forEach((sticker,index)=>{sticker.effect=foilEffects[index];});
 const positions = new Map();
+const regions=[
+  {id:'toolbox',title:'🗜️ Toolbox',description:'Good tools. Less busywork.'},
+  {id:'bench',title:'🚧 On the Bench',description:'Making something. Figuring it out.'},
+  {id:'fresh',title:'📦 Freshly Made',description:'Made it. Try it.'}
+];
+const placement={
+  intro:{region:'toolbox',x:.15,y:.12},credits:{region:'toolbox',x:.65,y:.66},
+  play:{region:'bench',x:.12,y:.15},ideas:{region:'bench',x:.53,y:.45},
+  progress:{region:'bench',x:.86,y:.55},
+  curious:{region:'fresh',x:.2,y:.15},caption:{region:'fresh',x:.65,y:.7}
+};
 const descriptions = {
   intro:'A paper-note study exploring color, typography, and the feeling of a personal making space.',
   play:'A holographic-foil study: move your pointer to shift the spectrum and reflected light. Flip, drag, and open the sticker to explore. This is a visual demo, not a published project.',
@@ -45,12 +56,23 @@ export function renderPage(host) {
   const canvas=element('div','workshop-canvas');
   const viewport=element('div','workshop-canvas-viewport');
   viewport.append(canvas);
-  const boardSize={width:1200,height:720};
+  const boardSize={width:1200,height:1000};
   canvas.style.width=`${boardSize.width}px`;
   canvas.style.height=`${boardSize.height}px`;
   let boardScale=1;
   canvas.setAttribute('role','group');
   canvas.setAttribute('aria-label','Sticker board prototype');
+  const regionNodes=new Map();
+  const regionBounds=new Map();
+  regions.forEach(region=>{
+    const area=element('section','workshop-region');
+    area.dataset.region=region.id;
+    const title=element('h3','',region.title);
+    title.id=`workshop-region-${region.id}`;
+    area.setAttribute('aria-labelledby',title.id);
+    area.append(title,element('p','',region.description));
+    canvas.append(area);regionNodes.set(region.id,area);
+  });
   const status=element('p','workshop-sr');
   status.setAttribute('role','status');
   const help=element('p','workshop-sr','Hover to flip. Click for details. Drag to move. Arrow keys move; Shift moves faster.');
@@ -80,8 +102,13 @@ export function renderPage(host) {
   const hoverCleanups=[];
   const clamp=value=>Math.max(0,Math.min(1,value));
   function state(sticker) {
-    if(!positions.has(sticker.id)){
-      positions.set(sticker.id,{x:sticker.x,y:sticker.y,angle:sticker.angle});
+    if(!positions.get(sticker.id)?.moved){
+      const node=nodes.get(sticker.id),slot=placement[sticker.id];
+      const bounds=regionBounds.get(slot.region),max=limits(node);
+      const scale=Number(node.dataset.scale);
+      const left=bounds.x+30+slot.x*Math.max(0,bounds.width-60-node.offsetWidth*scale);
+      const top=bounds.y+90+slot.y*Math.max(0,bounds.height-120-node.offsetHeight*scale);
+      positions.set(sticker.id,{x:clamp((left-40)/max.x),y:clamp((top-40)/max.y),angle:sticker.angle});
     }
     return positions.get(sticker.id);
   }
@@ -114,6 +141,7 @@ export function renderPage(host) {
     node.style.setProperty('--foil-duration',`${7+index*.6}s`);
     node.style.setProperty('--foil-delay',`${-index*1.3}s`);
     node.dataset.sticker=sticker.id;node.dataset.selected=String(sticker.id===selected);
+    node.dataset.region=placement[sticker.id].region;
     if(sticker.url){
       node.href=sticker.url;node.target='_blank';node.rel='noopener noreferrer';
       node.draggable=false;
@@ -206,6 +234,7 @@ export function renderPage(host) {
       if(Math.hypot(event.clientX-drag.screenX,event.clientY-drag.screenY)<6&&!drag.moved)return;
       drag.moved=true;node.classList.add('is-dragging');
       const max=limits(node),value=state(sticker);
+      value.moved=true;
       // Convert screen coordinates into the fixed board's logical coordinates.
       const rect=canvas.getBoundingClientRect();
       value.x=clamp((drag.left+(event.clientX-rect.left)/boardScale-drag.x)/max.x);
@@ -239,6 +268,7 @@ export function renderPage(host) {
       if(!direction)return;
       event.preventDefault();select(sticker,node);
       const max=limits(node),value=state(sticker),step=(event.shiftKey?40:10)/boardScale;
+      value.moved=true;
       value.x=clamp(value.x+direction[0]*step/max.x);
       value.y=clamp(value.y+direction[1]*step/max.y);
       paint(sticker,node);
@@ -248,18 +278,36 @@ export function renderPage(host) {
   function fitBoard(){
     const {width,height}=viewport.getBoundingClientRect();
     if(!width||!height)return;
-    boardScale=Math.min(width/boardSize.width,height/boardSize.height);
+    boardScale=Math.min(width/boardSize.width,height/boardSize.height,
+      Math.max(1,height-header.offsetHeight-24)/760);
     // Expand logical bounds to cover the full viewport, including the title.
     canvas.style.width=`${width/boardScale}px`;
     canvas.style.height=`${height/boardScale}px`;
     canvas.style.transform=`scale(${boardScale})`;
     canvas.style.left='0';
     canvas.style.top='0';
+    const top=Math.max(160,header.offsetHeight/boardScale+24),gap=24,padding=32;
+    const fullWidth=canvas.clientWidth-padding*2;
+    const upperWidth=(fullWidth-gap)/2;
+    const availableHeight=canvas.clientHeight-top-padding-gap;
+    const upperHeight=availableHeight*.48;
+    regions.forEach(region=>{
+      const bottom=region.id==='bench';
+      const bounds={
+        x:region.id==='fresh'?padding+upperWidth+gap:padding,
+        y:bottom?top+upperHeight+gap:top,
+        width:bottom?fullWidth:upperWidth,
+        height:bottom?availableHeight-upperHeight:upperHeight
+      };
+      regionBounds.set(region.id,bounds);
+      const area=regionNodes.get(region.id);
+      Object.assign(area.style,{left:`${bounds.x}px`,top:`${bounds.y}px`,
+        width:`${bounds.width}px`,height:`${bounds.height}px`});
+    });
     stickers.forEach(sticker=>paint(sticker,nodes.get(sticker.id)));
   }
   const resize=new ResizeObserver(fitBoard);
   resize.observe(viewport);
-  stickers.forEach(sticker=>paint(sticker,nodes.get(sticker.id)));
   fitBoard();
   const motionChange=()=>hoverCleanups.forEach(cleanup=>cleanup());
   reducedMotion.addEventListener('change',motionChange);
