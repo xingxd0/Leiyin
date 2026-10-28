@@ -44,3 +44,21 @@ main.workshop-workspace { grid-template-rows: minmax(0,1fr); padding: 0; }
 
 .hex-workshop .hex-viewport { cursor: grab; user-select: none; }
 .hex-workshop .hex-viewport.is-dragging, .hex-workshop .hex-viewport.is-dragging .hex-filled { cursor: grabbing; }
+/* MAP: background annotations live below the independently movable tiles. */
+.map-workspace { position: relative; }
+.map-workspace .hex-viewport { border: 0; touch-action: none; }
+.map-workspace .hex-canvas { width: 8000px; height: 8000px; }
+.map-workspace .hex-header { position: absolute; width: 720px; z-index: 0; padding: 0; pointer-events: none; }
+.map-workspace .hex-header h2 { font-size: 44px; }
+.map-workspace .map-region-layer { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.map-workspace .hex-regions { width: 8000px; height: 8000px; z-index: 0; }
+.map-workspace .hex-region-label { z-index: 0; font-size: 18px; background: transparent; border: 0; }
+.map-workspace .map-land { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+.map-workspace .hex-empty { opacity: .45; }
+.map-workspace .map-content { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+.map-workspace .hex-filled { pointer-events: auto; cursor: grab; }
+.map-workspace [data-id="me"] { cursor: pointer; }
+.map-workspace .map-tile-dragging { z-index: 4; cursor: grabbing; transform: none; filter: drop-shadow(0 8px 8px var(--workshop-tape)); }
+.map-workspace .map-drop-invalid { opacity: .55; }
+.map-workspace > .hex-controls { position: absolute; right: 18px; bottom: 22px; z-index: 3; padding: 6px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-control); }
+.map-workspace .map-feedback { position: absolute; left: 20px; bottom: 20px; max-width: min(480px,calc(100% - 210px)); margin: 0; font-size: 10px; pointer-events: none; z-index: 3; background: var(--workshop-board); }

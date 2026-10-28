@@ -1,0 +1,18 @@
+import assert from 'node:assert/strict';
+import {distance,territory,connected,canMove,nearestHex} from '../modules/hex-map.js';
+const nodes=[{id:'me',q:0,r:0},{id:'bridge',q:2,r:0},{id:'leaf',q:4,r:0}];
+assert(connected(nodes));
+assert(!canMove(nodes,'bridge',{q:0,r:2}),'Moving a bridge must not strand its branch');
+assert(!canMove(nodes,'leaf',{q:6,r:0}),'The moving tile cannot extend from its own old position');
+assert(canMove(nodes,'leaf',{q:3,r:1}),'A connected empty destination within two steps is allowed');
+assert(!canMove(nodes,'leaf',{q:2,r:0}),'Occupied destinations are rejected');
+assert(!canMove(nodes,'me',{q:1,r:0}),'ME is fixed');
+assert(!canMove(nodes,'leaf',{q:1.5,r:0}),'Destinations must be grid cells');
+const land=territory(nodes);
+assert.equal(territory([nodes[0]]).length,19);
+assert.equal(new Set(land.map(n=>`${n.q},${n.r}`)).size,land.length);
+assert(land.every(cell=>nodes.some(n=>distance(n,cell)<=2)));
+assert(!connected([...nodes,{id:'island',q:20,r:0}]));
+assert(connected([...nodes,{id:'coded-island',q:20,r:0,allowDisconnected:true}]));
+for(let q=-5;q<=5;q++)for(let r=-5;r<=5;r++)assert.deepEqual(nearestHex(Math.sqrt(3)*76*(q+r/2),114*r),{q,r});
+console.log('PASS MAP geometry, expansion, fixed origin, collision, self-leap and branch connectivity rules');
