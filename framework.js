@@ -9,8 +9,11 @@ function element(tag,cls,text){
 }
 let view='identity',filter='all',trigger=null,renderRequest=0;
 const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)');
-let identityController=null,loginTimer=null,loginStep=0,loggedIn=false;
-function stopWelcome(){identityController?.destroy();identityController=null;}
+let identityController=null,pageController=null,loginTimer=null,loginStep=0,loggedIn=false;
+function stopWelcome(){
+  identityController?.destroy();identityController=null;
+  pageController?.destroy();pageController=null;
+}
 const routes=Object.fromEntries(Object.entries(views).map(([key,data])=>[key,data.route]));
 let activeRoute=null;
 function routeView(){
@@ -156,11 +159,12 @@ function render(){
     ? 'PRODUCT DESIGN LEADER / ALWAYS BECOMING':'PERSONAL TERMINAL / GUEST ONLINE';
   $('workspace').classList.toggle('identity-workspace',view==='identity');
   $('workspace').classList.toggle('roadmap-workspace',view==='todo');
+  $('workspace').classList.toggle('workshop-workspace',view==='model');
   $('viewTitle').replaceChildren(document.createTextNode(data.title),element('small','',data.subtitle));
   $('viewDescription').textContent=data.description;
   const isTodo=view==='todo';
   document.querySelector('.filters').hidden=!isTodo;
-  $('columnCount').textContent=isTodo?'04 COLUMNS':view==='identity'?'CLI':view==='model'?'CAPABILITY MODEL':'UNDEFINED';
+  $('columnCount').textContent=isTodo?'04 COLUMNS':view==='identity'?'CLI':view==='model'?'STICKER BOARD':'UNDEFINED';
   $('footerNote').textContent='Always Becoming.';
   $('boardPanel').setAttribute('aria-labelledby',`nav-${view}`);
   const image=tabImages[view];
@@ -174,7 +178,7 @@ function render(){
     // Ignore imports resolved after a later navigation, including login.
     if(request!==renderRequest||view!==target)return;
     const mount=target==='todo'?module.renderRoadmap:module.renderPage;
-    mount($('boardPanel'));
+    pageController=mount($('boardPanel'));
   }).catch(error=>{
     if(request!==renderRequest)return;
     $('boardPanel').append(element('p','module-error','页面暂时无法加载，请刷新后重试。'));

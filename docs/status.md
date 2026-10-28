@@ -10,7 +10,7 @@
 - 奖项按赛事合并，标题无年份，红色数量气泡，作品行含年份与名称，链接待补充。
 - 当前奖项记录：Red Dot ×2（2026 Tmates、2025 SoulNest）；iF ×2（2026 Semi Design System、TikTok Customer Service Platform）；A' ×1（2026 CollabAgents）；MUSE ×1（2025 SoulNest）；London ×1（2025 CollabAgents）；NY ×1（2025 SoulNest）。共 8 项。
 - Logo 原图：`logo/if.png`、`reddot.png`、`adesign.png`、`muse.png`、`london.png`、`ny.png`。
-- 第三个 Tab 已由用户改名 Workshop / Work & Experiments，路由仍为 `#/capabilities`，当前内容仍是能力维度页；第四个 Tab 仍未定义。
+- 第三个 Tab 为 Workshop / Work & Experiments，路由仍为 `#/capabilities`；本地已替换成白边贴纸画板原型，六张演示贴纸支持拖拽、键盘移动、选中旋转与重置，切页保留布局，刷新重置，不代表真实作品集。第四个 Tab 仍未定义。
 - 深色冷炭灰与绿色 UI，乌鸦保持原色。84 姿态素材为用户授权暂用，不代表最终绘制质量验收。
 
 ## 讨论中的方向，尚未实施

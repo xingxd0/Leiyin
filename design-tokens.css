@@ -51,6 +51,17 @@
   --size-icon-button: 36px;
   --width-reading: 1200px;
 
+  /* Workshop's paper and print palette is independent of terminal syntax. */
+  --workshop-paper: #f7f5ef;
+  --workshop-ink: #20252c;
+  --workshop-board: #121a1c;
+  --workshop-grid: #334145;
+  --workshop-lime: #d9f27e;
+  --workshop-pink: #f1b8cf;
+  --workshop-lilac: #c6b7ed;
+  --workshop-tape: #eddeb1b8;
+  --workshop-shadow: 0 12px 24px #0005, 0 2px 3px #0004;
+
   /* Brand and artwork palettes deliberately do not follow the UI accent. */
   --brand-if: #ed1725;
   --brand-adesign: #d90000;

@@ -17,7 +17,7 @@ export const growthRoadmap=[
       task('chinese-patents','11 Chinese Patents','done','Completed',[],{logo:'IP',subtitle:'3 invention patents · 8 design patents',note:'Patent records are separate from international design-award wins.'})
     ]}
   ]},
-  {id:'influence',name:'Design Influence',kicker:'02 / MAKE AN IMPACT',desc:'Share useful design experience and broaden my professional perspective.',icon:'award',cards:[
+  {id:'influence',name:'Design Influence',kicker:'02 / MAKE AN IMPACT',desc:'Share experience. Broaden perspective.',icon:'award',cards:[
     {id:'awards',category:'RECOGNITION',title:'International Design Awards',desc:'8 award wins across 6 award programs. Awarded works are listed below.',open:true,tasks:[
       task('reddot','Red Dot Award','done','Completed',[],{logo:'reddot',awardCount:2,works:[
         {year:2026,name:'Tmates',url:''},

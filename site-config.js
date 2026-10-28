@@ -3,14 +3,14 @@ const siteConfig = {
   views: {
     identity: {title:'身份认证',subtitle:'CLI / Identity',description:'Xudong Xing / Product Design Leader',route:'/identity'},
     todo: {title:'todolist',subtitle:'Always Becoming',description:'A work in progress, by design.',route:'/todol'},
-    model: {title:'Workshop',subtitle:'Work & Experiments',description:'能力、方法与作品。',route:'/capabilities'},
+    model: {title:'Workshop',subtitle:'Work & Experiments',description:'A space to make, test, and play.',route:'/capabilities'},
     pending: {title:'待定',subtitle:'Undefined',description:'',route:'/pending'}
   },
   aliases: {'/roadmap':'todo'},
   images: {identity:null,todo:null,model:null,pending:null},
   modules: {
-    todo: './growth-roadmap-view.js?v=20261027-modules',
-    model: './modules/capabilities.js',
+    todo: './growth-roadmap-view.js?v=20261028-input',
+    model: './modules/capabilities.js?v=20261028-3d',
     pending: './modules/pending.js'
   }
 };

@@ -37,6 +37,11 @@ for (const [key, page] of Object.entries(config.views)) {
 }
 assert.equal(new Set(Object.values(config.views).map(page=>page.route)).size, Object.keys(config.views).length);
 assert(html.indexOf('site-config.js') < html.indexOf('framework.js'), 'Config must load before framework');
+assert(html.includes('ui-input.js') && html.indexOf('ui-input.js') < html.indexOf('identity-terminal.js'),
+  'Shared input must load before Identity');
+for (const path of ['identity-terminal.js', 'growth-roadmap-view.js']) {
+  assert(read(path).includes('globalThis.siteUI.createTerminalInput('), `Use the shared input: ${path}`);
+}
 for (const target of Object.values(config.aliases)) assert(config.views[target], 'Invalid route alias');
 
 const styles = [...html.matchAll(/href="\.\/([^"?]+\.css)/g)].map(match=>match[1]);

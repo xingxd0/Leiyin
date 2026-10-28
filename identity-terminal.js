@@ -85,16 +85,15 @@ function createIdentityTerminal(host, {navigate, reducedMotion, timing = {}}) {
   enter.hidden = true;
   enter.onclick = () => navigate('todo');
   controls.append(enter);
-  const form = make('form','terminal-form');
-  const label = make('label','','xudong:~ $');
-  const input = make('input');
-  input.id = 'commandInput';input.name='command';input.autocomplete='off';input.spellcheck=false;
-  input.setAttribute('aria-label','Identity command. Type help for available commands.');
-  label.htmlFor=input.id;
-  const submit = make('button','','Run');
-  submit.type='submit';
-  form.append(label,input,submit);
-  shell.append(header,output,controls,form,announcement);
+  const {form, input, syncValue} = globalThis.siteUI.createTerminalInput({
+    prompt:'xudong:~ $', placeholder:'Type help for commands',
+    label:'Identity command. Type help for available commands.',
+    submitLabel:'Run identity command', id:'commandInput'
+  });
+  input.name='command';
+  const dock = make('div','terminal-input-dock');
+  dock.append(form);
+  shell.append(header,output,controls,dock,announcement);
   host.append(shell);
 
   let session = null, destroyed = false, follow = true, scrollRequest = 0, lastScrollTime = 0;
@@ -242,7 +241,7 @@ function createIdentityTerminal(host, {navigate, reducedMotion, timing = {}}) {
     if (['2','portfolio'].includes(command)) {navigate('model');return;}
     if (command==='clear') {
       cancelSession();cancelScroll();transcript.replaceChildren();complete('skipped');
-      input.value='';return;
+      input.value='';syncValue();return;
     }
     if (!['completed','skipped'].includes(shell.dataset.state)) showAll();
     const aliases={whoami:'identity',profile:'profile',focus:'focus',experience:'career',expertise:'expertise',recognition:'recognition',principles:'manifesto'};
@@ -255,7 +254,7 @@ function createIdentityTerminal(host, {navigate, reducedMotion, timing = {}}) {
       : command==='help'
       ? 'Commands: whoami, about, profile, focus, experience, expertise, recognition, principles, clear. Type 1 for roadmap or 2 for portfolio.'
       : `Unknown command: ${command}. Type help for available commands.`));
-    input.value='';follow=true;followOutput();
+    input.value='';syncValue();follow=true;followOutput();
   };
   const motionChange = () => {if(reducedMotion.matches)showAll('completed');};
   reducedMotion.addEventListener('change',motionChange);

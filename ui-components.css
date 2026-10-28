@@ -28,7 +28,6 @@ dialog::backdrop { background: var(--color-backdrop); }
 .roadmap-workspace .roadmap-command,
 .roadmap-workspace .roadmap-filters,
 .roadmap-workspace .roadmap-filter,
-.roadmap-workspace .roadmap-search,
 .roadmap-workspace .roadmap-collapse,
 .roadmap-workspace .roadmap-column-glyph,
 .roadmap-workspace .roadmap-item-featured {
@@ -75,18 +74,89 @@ button:focus-visible, input:focus-visible, a:focus-visible,
   outline: var(--focus-width) solid var(--accent);
   outline-offset: var(--focus-offset);
 }
-/* Search focus is drawn around the enclosing control, not the text field. */
-.roadmap-workspace .roadmap-search:focus-within {
+/* The shared bottom input follows the Todolist control's layout. */
+.terminal-input-dock {
+  container-type: inline-size;
+  flex-shrink: 0;
+  min-width: 0;
+  padding: 12px 26px max(16px, env(safe-area-inset-bottom));
+  border-top: 1px solid var(--line);
+  background: var(--bg);
+}
+.terminal-input.terminal-input {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-width: 0;
+  min-height: 64px;
+  padding: 16px 18px;
+  gap: 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  background: var(--color-control);
+  color: var(--muted);
+  font: 13px/1.8 var(--font-mono);
+}
+.terminal-input-prompt { flex-shrink: 0; color: var(--accent); }
+.terminal-input-entry { position: relative; display: flex; flex: 1; min-width: 0; align-items: center; }
+.terminal-input input {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  padding: 2px 0;
+  border: 0;
+  background: transparent;
+  color: var(--bright);
+  caret-color: var(--accent);
+  font: inherit;
+}
+.terminal-input input::placeholder { color: var(--muted); }
+.terminal-input-cursor {
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  pointer-events: none;
+  animation: terminal-input-blink 1s steps(1,end) infinite;
+}
+.terminal-input:not(:focus-within):not(.has-value) input::placeholder { color: transparent; }
+.terminal-input:focus-within .terminal-input-cursor,
+.terminal-input.has-value .terminal-input-cursor { display: none; }
+.terminal-input .terminal-input-submit {
+  flex-shrink: 0;
+  padding: 5px 9px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  color: var(--accent);
+  background: transparent;
+  font: inherit;
+  transition: border-color var(--duration-ui), background-color var(--duration-ui);
+}
+.terminal-input-submit:hover { border-color: var(--accent); background: var(--surface-active); }
+.terminal-input:focus-within {
+  border-color: var(--accent);
   outline: var(--focus-width) solid var(--accent);
   outline-offset: var(--focus-offset);
 }
-.roadmap-workspace .roadmap-search input:focus-visible { outline: none; }
+.terminal-input input:focus,
+.terminal-input input:focus-visible { outline: none; }
+@keyframes terminal-input-blink { 0%,49% { opacity: 1; } 50%,100% { opacity: 0; } }
+@container (max-width: 600px) {
+  .terminal-input.terminal-input { flex-wrap: wrap; padding: 12px; gap: 4px; }
+  .terminal-input-entry { flex-basis: 100%; }
+  .terminal-input input { font-size: 16px; }
+}
+@media (max-width: 850px) {
+  .terminal-input-dock { padding: 10px 14px max(12px, env(safe-area-inset-bottom)); }
+}
 .task-card, .sidebar nav button, .dimension-button,
 .identity-enter, .identity-workspace .terminal-form button,
 .roadmap-workspace .roadmap-card, .roadmap-workspace .roadmap-filter {
   transition: border-color var(--duration-ui), background-color var(--duration-ui), color var(--duration-ui);
 }
 @media (prefers-reduced-motion: reduce) {
+  .terminal-input-cursor { animation: none; }
+  .terminal-input .terminal-input-submit { transition: none; }
   .task-card, .sidebar nav button, .dimension-button,
   .identity-enter, .identity-workspace .terminal-form button,
   .roadmap-workspace .roadmap-card, .roadmap-workspace .roadmap-filter {
