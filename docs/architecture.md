@@ -7,9 +7,9 @@
 | 路由 | 内部 key | 当前页面 | 实现 |
 | --- | --- | --- | --- |
 | `#/login` | 无 | 自动登录过场 | `framework.js` |
-| `#/identity` | `identity` | 七段身份终端 | `identity-terminal.js` |
+| `#/identity` | `identity` | 八段身份终端 | `identity-terminal.js` |
 | `#/todol` | `todo` | 四方向待办看板 | `growth-roadmap-view.js` |
-| `#/capabilities` | `model` | 能力维度占位内容 | `modules/capabilities.js` |
+| `#/capabilities` | `model` | Workshop（当前为能力维度内容） | `modules/capabilities.js` |
 | `#/pending` | `pending` | 未定义页 | `modules/pending.js` |
 
 `#/roadmap` 是旧链接别名，replace 到 `#/todol`。无 hash 进入登录，未知路由归一化为 Identity。直接进入某个 Tab 不播放登录。
@@ -39,7 +39,7 @@ index.html -> becoming.html
 ## 模块接口
 
 - Identity：`createIdentityTerminal(host, {navigate, reducedMotion, timing})`，返回 `destroy()`。切页必须取消异步流程、滚动、观察器和事件。
-- Todolist：`renderRoadmap(host)`，自身负责看板、筛选、详情弹窗；模块级筛选与展开状态在同一会话保留。
+- Todolist：`renderRoadmap(host)`，自身负责看板、底部搜索/命令、筛选、Show more 和详情弹窗；模块级筛选与展开状态在同一会话保留。自定义任务存于当前浏览器 localStorage，不同步到仓库。
 - 第三、第四个模块：ES module，导出 `renderPage(host)`，只更新给定容器，不能自动启动登录或重写导航。
 - 当前第三、第四个模块仅有容器内事件，没有外部观察器或计时器。如未来增加这些资源，须先扩展公共框架接收清理控制器，并在切页时调用 `destroy()`，不能只删除 DOM。
 - 公共框架以 `renderRequest` 拒绝过期动态导入结果；进入登录也会使旧请求失效。

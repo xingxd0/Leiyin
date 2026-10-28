@@ -55,12 +55,21 @@ for (const column of growthRoadmap) {
       assert(!ids.has(task.id), `Duplicate task: ${task.id}`);
       ids.add(task.id);
       if (task.status === 'done') assert.equal(task.progress, 100, task.id);
-      else assert.equal(task.progress, undefined, `Unverified percentage: ${task.id}`);
+      if (task.progress !== undefined) {
+        assert(Number.isFinite(task.progress) && task.progress >= 0 && task.progress <= 100,
+          `Invalid percentage: ${task.id}`);
+      }
       if (['if','reddot','muse','adesign','london','ny'].includes(task.logo)) checkAsset(`logo/${task.logo}.png`);
     }
   }
 }
 const awards = growthRoadmap.flatMap(column=>column.cards).find(card=>card.id==='awards');
-const total = awards.tasks.filter(task=>task.status==='done').reduce((sum,task)=>sum+(task.awardCount||0),0);
-assert(awards.desc.startsWith(`${total} international design awards`), 'Award summary does not match records');
+const wins = awards.tasks.filter(task=>task.status==='done');
+for (const task of wins) {
+  assert(Number.isInteger(task.awardCount) && task.awardCount > 0, `Invalid award count: ${task.id}`);
+  assert.equal(task.works.length, task.awardCount, `Award works do not match count: ${task.id}`);
+}
+const total = wins.reduce((sum,task)=>sum+task.awardCount,0);
+assert(awards.desc.startsWith(`${total} award wins across ${wins.length} award programs.`),
+  'Award summary does not match records');
 console.log(`Site checks passed: ${seen.size} assets, ${ids.size} tasks, ${total} awards.`);

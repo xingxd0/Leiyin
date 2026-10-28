@@ -22,12 +22,14 @@
 结构是 `方向 → 分组 → tasks`，不是把每条记录写进 HTML。
 
 - 每个 task 的 `id` 唯一且稳定，不因改标题而改 id。
-- `task(id,title,status,statusLabel,workflow,extra)` 仅给 `done` 自动添加 `progress:100`。其他状态不填推测百分比。
+- `task(id,title,status,statusLabel,workflow,extra)` 给 `done` 自动添加 `progress:100`。其他状态可通过 `extra.progress` 保留用户明确提供的真实进度，必须是 0–100 的有限数值；没有依据时不推测百分比。
 - `workflow` 是阶段列表；`nextStep` 是真实下一步；`detail` 是点击后的补充资料。
 - 奖项用 `awardCount` 表示数量，`works:[{year,name,url}]` 展示作品。没有链接时保留空字符串，不用 `#` 假链接；真实链接在新标签打开并保留 `noopener noreferrer`。
 - 各分组未完成项排在完成项之前，同类维持原数据顺序。Optional 是可选标签，不代表已完成。
 - 看板的 Items 统计是 task 条数；奖项数量是完成记录的 `awardCount` 总和，两者不能混用。
 - 奖项摘要须与明细同步，目前为 8 项；专利 11 项沿用用户提供的信息，不从奖项推导。
+- 底部输入支持搜索与 `/xd 增加到团队建设的todo为…` 命令；新增项只存于当前浏览器的 `leiyin.todol.custom.v1`，不会自动更新 GitHub。公开内容仍在数据文件维护。
+- 分组默认显示前四项，Show more 展开剩余项；筛选或搜索时显示全部匹配项。底部控件不随看板内容滚动。
 - 不发布内部公司数据，作品公开范围与具体链接由用户确认。
 
 ## Identity 时序
@@ -38,7 +40,7 @@
 最后一行类型等待 + 当前段 pauseAfter + speed.stage
 ```
 
-当前 `stage=250ms`，常规行 `100ms`，manifesto `550ms`。六次切换依次为 `800 / 1000 / 1700 / 1550 / 1250 / 900ms`。
+当前 `stage=250ms`，常规行 `100ms`，manifesto `550ms`。用户新增 focus 段后共八段，七次切换依次为 `800 / 1000 / 1000 / 1700 / 1550 / 1250 / 900ms`。
 
 命令逐字间隔 `28ms`，命令执行后等待 `200ms`，这些不包含在上述切换间隔中。Replay / Skip intro 按用户要求已删除；保留完成后的 Enter Workspace。
 
@@ -57,7 +59,7 @@ node scripts/check-site.mjs
 git diff --check
 ```
 
-检查覆盖本地资源存在、JS 语法、配置路由、唯一 task id、非虚构进度、奖项统计。它不验证渲染、动效或远程链接。
+检查覆盖本地资源存在、JS 语法、配置路由、唯一 task id、进度数值范围、奖项数量及作品数量。它不核实数据真实性，也不验证渲染、动效或远程链接。
 
 浏览器必查：登录与四条深链接；旧路由归一化；快速切 Tab；Identity 连续跟随 / 手动阅读 / reduced-motion；Todolist 搜索、状态筛选、详情关闭后焦点、作品链接；窄屏无横向溢出。
 
