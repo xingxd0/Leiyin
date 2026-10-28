@@ -10,7 +10,7 @@
 | Todolist 内容 | `growth-roadmap.js` | 数量、搜索、筛选、详情 |
 | Todolist 卡片和交互 | `growth-roadmap-view.js` | 待办优先、展开、链接、键盘 |
 | 奖项图片 | `logo/` + view 的品牌列表 + CSS | 两处用途：获奖记录与评委申请 |
-| Workshop 贴纸画板 | `modules/capabilities.js` / `modules/workshop.css` | 区域默认归属、跨区拖拽、键盘、翻面、镭射、详情、返回状态与缩放边界 |
+| Workshop 六边形棋盘 | `modules/capabilities.js` / `modules/workshop.css` | 全页面无分类、缩放和平移、键盘导航、详情、窄屏与销毁清理 |
 | Guestbook | `modules/guestbook.js` / `modules/guestbook-config.js` / `modules/guestbook.css` | Turnstile、待审核提交、列表翻页、失败重试与异步销毁 |
 | 公共色彩与尺寸 | `design-tokens.css` | 所有路由、手机、焦点对比度 |
 | 共享组件状态 | `ui-components.css` | 悬浮、选中、禁用、焦点 |

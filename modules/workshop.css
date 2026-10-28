@@ -1,237 +1,39 @@
 main.workshop-workspace { grid-template-rows: minmax(0,1fr); padding: 0; }
-.workshop-workspace > .board-header,
-.workshop-workspace > .toolbar,
-.workshop-workspace > footer { display: none; }
+.workshop-workspace > .board-header, .workshop-workspace > .toolbar, .workshop-workspace > footer { display: none; }
 .workshop-workspace #boardPanel { height: 100%; overflow: hidden; }
-.workshop-page {
-  position: relative;
-  min-width: 0;
-  height: 100%;
-  isolation: isolate;
-  background-color: var(--workshop-board);
-  background-image: radial-gradient(var(--workshop-grid) 1px, transparent 1px);
-  background-size: 22px 22px;
-}
-.workshop-header { position: absolute; inset: 0 0 auto; pointer-events: none; display: flex; align-items: end; justify-content: space-between; gap: 24px; padding: 32px 36px 16px; }
-.workshop-eyebrow { color: var(--accent); font: 10px/1.5 var(--font-sans); letter-spacing: 2px; }
-.workshop-intro h2 { color: var(--bright); font: 650 clamp(30px,4vw,52px)/1.15 var(--font-sans); letter-spacing: -1.8px; margin: 12px 0; }
-.workshop-intro p { color: var(--muted); font: 13px/1.6 var(--font-sans); }
-.workshop-canvas-viewport {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  min-width: 0;
-  min-height: 0;
-  overflow: hidden;
-}
-.workshop-canvas {
-  position: absolute;
-  isolation: isolate;
-  transform-origin: top left;
-}
-.workshop-region {
-  position: absolute;
-  z-index: -1;
-  pointer-events: none;
-  border: 1px dashed var(--color-border-hover);
-  border-radius: 24px;
-  padding: 24px;
-}
-.workshop-region h3 { margin: 0 0 8px; color: var(--ink); font: 600 22px/1.3 var(--font-sans); letter-spacing: -.5px; }
-.workshop-region p { margin: 0; max-width: 270px; color: var(--muted); font: 12px/1.5 var(--font-sans); }
-.workshop-sticker {
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  text-align: left;
-  width: 240px;
-  margin: 0;
-  padding: 0;
-  border: 0;
-  border-radius: 14px;
-  background: transparent;
-  color: var(--workshop-ink);
-  transform: rotate(var(--sticker-angle)) scale(var(--sticker-scale,1));
-  transform-origin: top left;
-  cursor: grab;
-  touch-action: none;
-  user-select: none;
-  --sticker-padding: 22px;
-  --sticker-surface: var(--workshop-paper);
-}
-.workshop-sticker * { pointer-events: none; }
-.sticker-visual {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: inherit;
-  min-height: inherit;
-  width: 100%;
-  padding: 0;
-  border: 0;
-  border-radius: inherit;
-  background: transparent;
-  transform-style: preserve-3d;
-  transform: perspective(900px) rotateX(var(--tilt-x,0deg)) rotateY(calc(var(--tilt-y,0deg) + var(--sticker-flip,0deg)));
-  transition: transform .45s cubic-bezier(.2,.7,.2,1), box-shadow .2s;
-}
-.workshop-sticker.is-pointing .sticker-front,
-.workshop-sticker.is-pointing .sticker-back { box-shadow: 0 22px 38px var(--color-backdrop); }
-.workshop-sticker.is-hovered { --sticker-flip: 180deg; }
-.workshop-sticker.is-dragging .sticker-visual { transition: none; }
-.sticker-front {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  justify-content: inherit;
-  padding: var(--sticker-padding);
-  border: 7px solid var(--workshop-paper);
-  border-radius: inherit;
-  background: var(--sticker-surface);
-  backface-visibility: hidden;
-  box-shadow: var(--workshop-shadow);
-}
-.sticker-back {
-  position: absolute;
-  inset: 0;
-  padding: 16px;
-  border: 7px solid var(--workshop-paper);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 10px;
-  border-radius: inherit;
-  background: var(--workshop-paper);
-  color: var(--workshop-ink);
-  transform: rotateY(180deg);
-  backface-visibility: hidden;
-  box-shadow: var(--workshop-shadow);
-  font: 12px/1.45 var(--font-sans);
-}
-.sticker-back strong { font-size: 15px; }
-.sticker-back .sticker-label { margin-bottom: 0; font-size: 8px; }
-.sticker-back-action { font-size: 10px; text-decoration: underline; }
-/* Original gradient foil treatment, independent of third-party card styles. */
-.sticker-holo .sticker-front { position: relative; isolation: isolate; overflow: hidden; }
-.sticker-holo .sticker-back { isolation: isolate; overflow: hidden; }
-.sticker-foil {
-  position: absolute;
-  /* Absolute bounds already exclude the face border; the face clips its inner curve. */
-  inset: 0;
-  z-index: 1;
-  border-radius: 0;
-  pointer-events: none;
-  background-image:
-    radial-gradient(ellipse at var(--foil-x,50%) var(--foil-y,50%), var(--brand-paper), transparent 55%),
-    var(--foil-pattern, repeating-linear-gradient(115deg,
-      var(--syntax-pink) 0%, var(--syntax-orange) 12%,
-      var(--syntax-yellow) 24%, var(--syntax-green) 36%,
-      var(--syntax-blue) 48%, var(--workshop-lilac) 60%, var(--syntax-pink) 72%));
-  background-size: 100% 100%, 250% 250%;
-  background-position: center, var(--foil-x,50%) var(--foil-y,50%);
-  mix-blend-mode: soft-light;
-  opacity: .55;
-  transition: opacity .2s;
-  animation: sticker-foil-idle var(--foil-duration,7s) ease-in-out var(--foil-delay,0s) infinite alternate;
-}
-.sticker-aurora {
-  --foil-pattern: repeating-linear-gradient(160deg, var(--syntax-blue) 0%, var(--syntax-green) 20%, var(--workshop-lilac) 40%, var(--syntax-blue) 60%);
-}
-.sticker-prism {
-  --foil-pattern: repeating-conic-gradient(from 35deg at 40% 60%, var(--syntax-pink) 0deg, var(--syntax-blue) 45deg, var(--syntax-yellow) 90deg, var(--syntax-pink) 135deg);
-}
-.sticker-sunset {
-  --foil-pattern: repeating-linear-gradient(35deg, var(--syntax-orange) 0%, var(--syntax-yellow) 15%, var(--syntax-pink) 35%, var(--workshop-lilac) 50%, var(--syntax-orange) 70%);
-}
-.sticker-pearl {
-  --foil-pattern: conic-gradient(from 140deg at 50% 50%, var(--workshop-paper), var(--workshop-pink), var(--syntax-blue), var(--workshop-paper), var(--workshop-lilac), var(--workshop-paper));
-}
-.sticker-sparkle {
-  --foil-pattern: repeating-radial-gradient(ellipse at 30% 40%, var(--syntax-yellow) 0 3px, var(--workshop-lilac) 5px 9px, var(--syntax-blue) 11px 16px, transparent 18px 24px);
-}
-.sticker-silver {
-  --foil-pattern: repeating-linear-gradient(75deg, var(--workshop-paper) 0%, var(--color-text-secondary) 15%, var(--syntax-blue) 23%, var(--workshop-paper) 30%, var(--workshop-pink) 38%, var(--workshop-paper) 50%);
-}
-.sticker-holo.is-pointing .sticker-foil { animation: none; }
-.sticker-holo.is-pointing .sticker-foil,
-.sticker-holo:focus-visible .sticker-foil { opacity: .85; }
-@keyframes sticker-foil-idle {
-  from { background-position: center, 10% 20%; opacity: .5; }
-  to { background-position: center, 90% 80%; opacity: .8; }
-}
-.workshop-sticker.is-dragging { --sticker-flip: 0deg; transition: none; }
-.workshop-sticker:hover { filter: brightness(1.03); }
-.workshop-sticker[data-selected=true] { outline: 2px dashed var(--accent); outline-offset: 6px; }
-.workshop-sticker.is-dragging { cursor: grabbing; box-shadow: 0 24px 40px var(--color-backdrop); }
-.workshop-sticker:focus-visible { outline: 3px solid var(--accent); outline-offset: 6px; }
-.sticker-label { font: 600 9px/1.5 var(--font-sans); letter-spacing: 1.5px; margin-bottom: 14px; }
-.sticker-title { white-space: pre-line; font: 700 28px/1.15 var(--font-sans); letter-spacing: -1px; }
-.sticker-note { width: 232px; --sticker-padding: 26px 18px; border-radius: 2px 2px 24px 2px; --sticker-surface: var(--workshop-lime); }
-.sticker-note .sticker-visual::before { content: ""; position: absolute; top: -19px; left: 60px; width: 90px; height: 28px; background: var(--workshop-tape); transform: rotate(-6deg) translateZ(1px); backface-visibility: hidden; }
-.sticker-word .sticker-back { padding: 14px 28px; gap: 5px; font-size: 10px; line-height: 1.35; }
-.sticker-word .sticker-back .sticker-label { margin-bottom: 0; }
-.sticker-word .sticker-back strong { font-size: 13px; }
-.sticker-badge .sticker-back { padding: 26px; gap: 6px; font-size: 10px; line-height: 1.4; }
-.sticker-badge .sticker-back strong { font-size: 12px; }
-.sticker-note .sticker-title { font: italic 29px/1.25 Georgia, serif; letter-spacing: -.8px; }
-.sticker-signature { margin-top: 22px; font: italic 13px/1.5 Georgia, serif; }
-.sticker-poster { width: 250px; --sticker-padding: 0 0 10px; }
-.sticker-poster-art { position: relative; display: block; height: 178px; border-radius: 7px; overflow: hidden; background: var(--workshop-lilac); }
-.poster-orbit { position: absolute; width: 140px; height: 140px; border: 28px solid var(--workshop-ink); border-radius: 50%; top: 25px; left: -25px; }
-.poster-dot { position: absolute; width: 82px; height: 82px; border-radius: 50%; background: var(--workshop-lime); right: 16px; top: 30px; }
-.poster-star { position: absolute; right: 5px; bottom: -30px; font: 150px/.9 var(--font-sans); color: var(--workshop-paper); transform: rotate(20deg); }
-.sticker-poster .sticker-label { margin: 15px 10px 7px; }
-.sticker-poster .sticker-title { margin: 0 10px; font-size: 36px; line-height: .98; }
-.sticker-word { width: 260px; --sticker-padding: 14px 18px; border-radius: 48% 28% 38% 22%; --sticker-surface: var(--workshop-pink); text-align: center; }
-.sticker-word .sticker-title { font: italic 700 48px/.95 Georgia, serif; letter-spacing: -2px; padding: 15px 0; }
-.sticker-sketch { width: 240px; --sticker-padding: 0 0 10px; border-radius: 5px; }
-.sticker-sketch-art { position: relative; height: 145px; display: block; background: var(--workshop-pink); border-radius: 2px; overflow: hidden; }
-.sticker-sketch-art span { position: absolute; width: 70px; height: 70px; border: 3px solid var(--workshop-ink); border-radius: 14px; transform: rotate(-14deg); top: 35px; left: 24px; }
-.sticker-sketch-art span:nth-child(2) { left: 90px; top: 50px; border-radius: 50%; background: var(--workshop-lime); }
-.sticker-sketch-art span:nth-child(3) { width: 65px; height: 3px; border: 0; background: var(--workshop-ink); left: 122px; top: 30px; transform: rotate(-40deg); }
-.sticker-sketch .sticker-label { margin: 15px 10px 8px; }
-.sticker-sketch .sticker-title { margin: 0 10px; font-size: 23px; }
-.sticker-badge { width: 210px; min-height: 210px; justify-content: center; border-radius: 50%; --sticker-surface: var(--workshop-lime); text-align: center; }
-.sticker-badge .sticker-title { font-size: 24px; letter-spacing: -1px; }
-.sticker-badge .sticker-label { font-size: 8px; margin-bottom: 10px; }
-.sticker-caption { width: 235px; --sticker-padding: 16px; --sticker-surface: var(--workshop-lilac); border-radius: 9px; }
-.sticker-caption .sticker-title { font: italic 25px/1.2 Georgia, serif; }
-.sticker-caption .sticker-back { padding: 10px 12px; gap: 4px; font-size: 10px; line-height: 1.4; }
-.sticker-caption .sticker-back .sticker-label { margin-bottom: 0; }
-.sticker-caption .sticker-back strong { font-size: 12px; }
-.sticker-caption .sticker-back-action { font-size: 9px; }
-.workshop-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
-.workshop-dialog { width: min(520px,calc(100vw - 32px)); padding: 30px; border: 7px solid var(--workshop-paper); background: var(--workshop-paper); color: var(--workshop-ink); box-shadow: var(--workshop-shadow); }
-.workshop-dialog h2 { color: var(--workshop-ink); font: 700 30px/1.2 var(--font-sans); letter-spacing: -1px; margin: 20px 0 16px; }
-.workshop-dialog p { color: var(--workshop-ink); font: 14px/1.7 var(--font-sans); }
-.workshop-dialog .workshop-detail-note { margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--workshop-ink); font-size: 11px; }
-.workshop-detail-close { display: block; margin: 0 0 18px auto; border: 1px solid var(--workshop-ink); border-radius: var(--radius-pill); background: transparent; color: var(--workshop-ink); padding: 8px 14px; }
-.workshop-detail-close:hover { background: var(--workshop-lime); }
-@media (max-width: 1100px) {
-  .workshop-header { align-items: start; flex-direction: column; gap: 16px; padding: 24px 24px 12px; }
-}
+.workshop-page.hex-workshop { display: flex; flex-direction: column; height: 100%; min-width: 0; background: var(--workshop-board); }
+.hex-workshop .hex-header { padding: 30px 30px 14px; }
+.hex-workshop .hex-header h2 { margin: 12px 0; color: var(--bright); font: 600 clamp(26px,3vw,42px)/1.2 var(--font-sans); letter-spacing: -1px; }
+.hex-workshop p { color: var(--muted); font: 12px/1.8 var(--font-sans); }
+.hex-workshop .hex-toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 0 30px 16px; }
+.hex-workshop .hex-controls { display: flex; align-items: center; gap: 7px; }
+.hex-workshop button:not(.hex-tile) { border: 1px solid var(--line); border-radius: var(--radius-control); background: var(--surface); color: var(--ink); min-width: 38px; min-height: 38px; cursor: pointer; }
+.hex-workshop .hex-scale { color: var(--muted); font: 11px var(--font-mono); min-width: 42px; text-align: right; }
+.hex-workshop .hex-viewport { position: relative; flex: 1; min-height: 180px; overflow: auto; overscroll-behavior: contain; border-block: 1px solid var(--line); background-image: radial-gradient(var(--workshop-grid) 1px, transparent 1px); background-size: 22px 22px; }
+.hex-workshop .hex-world { position: relative; margin: auto; }
+.hex-workshop .hex-canvas { position: absolute; width: 900px; height: 760px; transform-origin: top left; }
+.hex-workshop .hex-tile { --tile-surface: var(--surface); position: absolute; width: 132px; height: 152px; padding: 0; border: 0; background: var(--workshop-grid); clip-path: polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%); }
+.hex-workshop .hex-face { position: absolute; inset: 2px; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 7px; padding: 18px 12px; background: var(--tile-surface); clip-path: inherit; }
+.hex-workshop .hex-empty { opacity: .65; }
+.hex-workshop .hex-land-mark { color: var(--workshop-grid); font-size: 30px; }
+.hex-workshop .hex-filled { cursor: pointer; transition: filter .15s, transform .15s; color: var(--workshop-ink); }
+.hex-workshop .hex-filled:hover, .hex-workshop .hex-filled:focus-visible { z-index: 2; transform: translateY(-5px); background: var(--accent); filter: drop-shadow(0 4px 6px var(--workshop-tape)); outline: none; }
+.hex-workshop .hex-filled:focus-visible .hex-face { inset: 5px; }
+.hex-workshop .hex-filled strong { text-align: center; font: 650 13px/1.3 var(--font-sans); }
+.hex-workshop .hex-filled small { font: 7px/1.3 var(--font-mono); letter-spacing: .5px; }
+.hex-workshop .hex-symbol { font: 28px/1 var(--font-sans); }
+.hex-workshop .hex-lilac { --tile-surface: var(--workshop-lilac); }
+.hex-workshop .hex-pink { --tile-surface: var(--workshop-pink); }
+.hex-workshop .hex-lime, .hex-workshop .hex-green { --tile-surface: var(--workshop-lime); }
+.hex-workshop .hex-paper { --tile-surface: var(--workshop-paper); }
+.hex-workshop .hex-legend { padding: 12px 30px; font-size: 10px; }
+.hex-workshop .hex-dialog { color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-panel); padding: 28px; width: min(520px,calc(100vw - 32px)); }
+.hex-workshop .hex-close { display: block; margin-left: auto; padding: 6px 12px; }
+.hex-workshop .hex-dialog h2 { margin: 14px 0; color: var(--bright); }
+.hex-workshop .hex-link { display: inline-block; color: var(--accent); margin-top: 20px; }
 @media (max-width: 650px) {
-  .workshop-header { padding: 20px 16px 8px; gap: 10px; }
-  .workshop-eyebrow { font-size: 8px; letter-spacing: 1px; }
-  .workshop-intro p { font-size: 11px; }
-  .workshop-intro h2 { letter-spacing: -1px; }
+  .hex-workshop .hex-header { padding: 20px 16px 12px; }
+  .hex-workshop .hex-toolbar { padding: 0 16px 12px; }
+  .hex-workshop .hex-legend { padding: 10px 16px; }
 }
-.workshop-sticker.sticker-credit {
-  width: 158px;
-  --sticker-padding: 14px 10px;
-  --sticker-surface: var(--workshop-paper);
-  text-decoration: none;
-}
-.sticker-credit .sticker-front { min-height: 168px; justify-content: center; }
-.sticker-credit .sticker-title { font: italic 700 23px/1.15 Georgia, serif; letter-spacing: -.7px; }
-.sticker-credit .sticker-label { font-size: 7px; letter-spacing: .8px; margin-bottom: 10px; }
-.sticker-credit .sticker-back { padding: 10px; gap: 7px; font-size: 10px; }
-.sticker-credit .sticker-back strong { font-size: 13px; }
-.sticker-credit-url { overflow-wrap: anywhere; line-height: 1.4; text-decoration: underline; }
-.sticker-credit .sticker-back-action { font-size: 8px; }
-@media (prefers-reduced-motion: reduce) {
-  .workshop-sticker { transition: none; }
-  .sticker-visual { transition: none; --tilt-x: 0deg; --tilt-y: 0deg; }
-  .sticker-foil { animation: none; transition: none; background-position: center, 50% 50%; }
-}
+@media (prefers-reduced-motion: reduce) { .hex-workshop .hex-filled { transition: none; } }

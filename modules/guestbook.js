@@ -39,7 +39,7 @@ export function renderPage(host){
   const controllers=new Set(),seen=new Set();
   const page=element('section','guestbook-page');page.lang='en';
   const intro=element('header','guestbook-intro');
-  intro.append(element('span','eyebrow','04 / LEAVE A NOTE'),element('h2','','A little hello goes a long way.'),element('p','','A thought, a question, or just a hello. Leave something behind.'));
+  intro.append(element('span','eyebrow','04 / LEAVE A NOTE'),element('h2','','Leave a little piece of you.'),element('p','','A thought, a question, or just a hello. Leave something behind.'));
   const grid=element('div','guestbook-grid'),composer=element('section','guestbook-composer');
   composer.append(element('h3','','Leave a message'),element('p','guestbook-hint','Your note appears here right away for you. It becomes public after review. Please leave out private information.'));
   const form=element('form');
@@ -59,11 +59,17 @@ export function renderPage(host){
   const feedback=element('p','guestbook-feedback');feedback.setAttribute('role','status');feedback.hidden=true;
   form.append(nameLabel,name,contentLabel,content,count,verification,verifyStatus,retry,submit,feedback);composer.append(form);
   const messages=element('section','guestbook-messages');messages.setAttribute('aria-labelledby','guestbookMessagesTitle');
-  const listTitle=element('h3','','Notes from visitors');listTitle.id='guestbookMessagesTitle';
+  const listTitle=element('h3','','Notes on the wall');listTitle.id='guestbookMessagesTitle';
   const list=element('div','guestbook-list'),listStatus=element('p','guestbook-hint','Loading messages…');listStatus.setAttribute('role','status');
   const more=element('button','guestbook-secondary','Load more');more.type='button';more.hidden=true;
   const reload=element('button','guestbook-secondary','Try again');reload.type='button';reload.hidden=true;
   messages.append(listTitle,listStatus,list,reload,more);grid.append(composer,messages);page.append(intro,grid);host.replaceChildren(page);
+  const noteDialog=element('dialog','guestbook-note-dialog');noteDialog.setAttribute('aria-labelledby','guestbookNoteTitle');
+  const noteClose=element('button','guestbook-secondary','Close note');noteClose.type='button';noteClose.onclick=()=>noteDialog.close();
+  const noteTitle=element('h2');noteTitle.id='guestbookNoteTitle';
+  const noteBody=element('p','guestbook-note-full'),noteVisibility=element('p','guestbook-note-visibility');
+  let noteTrigger=null;noteDialog.addEventListener('close',()=>noteTrigger?.focus({preventScroll:true}));
+  noteDialog.append(noteClose,noteTitle,noteVisibility,noteBody);page.append(noteDialog);
   function showFeedback(text){feedback.textContent=text;feedback.hidden=false;}
   function syncSubmit(){submit.disabled=sending||!token;submit.textContent=sending?'Sending…':'Send message';}
   async function api(path,options={}){
@@ -79,14 +85,17 @@ export function renderPage(host){
   function renderMessage(message,prepend=false){
     if(!message||!Number.isSafeInteger(message.id)||typeof message.nickname!=='string'||typeof message.content!=='string'||seen.has(message.id))return;
     seen.add(message.id);
-    const entry=element('article','guestbook-message'),meta=element('div','guestbook-message-meta');
+    const entry=element('button','guestbook-message guestbook-sticker'),meta=element('span','guestbook-message-meta');
+    entry.type='button';entry.setAttribute('aria-haspopup','dialog');
+    entry.style.setProperty('--note-angle',`${(message.id%5-2)*1.3}deg`);entry.dataset.paper=String(message.id%3);
+    entry.onclick=()=>{noteTrigger=entry;noteTitle.textContent=message.nickname;noteBody.textContent=message.content;noteVisibility.textContent=message.visibility==='private'?'Only visible to you':'A public note';noteDialog.showModal();};
     meta.append(element('strong','',message.nickname));
     const date=new Date(`${String(message.created_at||'').replace(' ','T')}${/[zZ]|[+-]\d\d:\d\d$/.test(message.created_at)?'':'Z'}`);
     if(!Number.isNaN(date.valueOf())){
       const time=element('time','',new Intl.DateTimeFormat('en',{dateStyle:'medium'}).format(date));time.dateTime=date.toISOString();meta.append(time);
     }
     if(message.visibility==='private')meta.append(element('span','guestbook-private','Only visible to you'));
-    entry.dataset.messageId=String(message.id);entry.append(meta,element('p','',message.content));if(prepend)list.prepend(entry);else list.append(entry);
+    entry.dataset.messageId=String(message.id);entry.append(element('span','guestbook-tape'),meta,element('span','guestbook-note-preview',message.content),element('span','guestbook-note-action','Read note ↗'));if(prepend)list.prepend(entry);else list.append(entry);
   }
   async function loadMessages(append=false){
     if(loading)return;const request=++listRequest;loading=true;more.disabled=true;reload.hidden=true;
@@ -149,5 +158,5 @@ export function renderPage(host){
     }
   };
   loadMessages();setupVerification();
-  return {destroy(){active=false;verifyRequest++;controllers.forEach(controller=>controller.abort());if(widget!==null&&globalThis.turnstile)globalThis.turnstile.remove(widget);}};
+  return {destroy(){if(noteDialog.open)noteDialog.close();active=false;verifyRequest++;controllers.forEach(controller=>controller.abort());if(widget!==null&&globalThis.turnstile)globalThis.turnstile.remove(widget);}};
 }

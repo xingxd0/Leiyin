@@ -29,3 +29,21 @@
 }
 
 .guestbook-page .guestbook-private { padding: 2px 6px; border: 1px solid var(--line); border-radius: var(--radius-control); color: var(--muted); font-size: 10px; }
+
+/* Message stickers: a paper wall, independent of the Workshop map. */
+.guestbook-page .guestbook-messages { background-color: var(--workshop-board); background-image: radial-gradient(var(--workshop-grid) 1px, transparent 1px); background-size: 18px 18px; }
+.guestbook-page .guestbook-list { display: grid; grid-template-columns: repeat(auto-fit,minmax(min(180px,100%),1fr)); align-items: start; gap: 24px 18px; padding: 22px 5px; }
+.guestbook-page button.guestbook-sticker { position: relative; display: flex; flex-direction: column; gap: 15px; width: 100%; min-height: 180px; padding: 22px 17px 15px; border: 0; border-radius: 3px 3px 14px 3px; background: var(--workshop-paper); color: var(--workshop-ink); box-shadow: var(--workshop-shadow); transform: rotate(var(--note-angle)); text-align: left; transition: transform .15s; }
+.guestbook-page button.guestbook-sticker:hover, .guestbook-page button.guestbook-sticker:focus-visible { transform: rotate(0deg) translateY(-4px); color: var(--workshop-ink); z-index: 1; }
+.guestbook-page .guestbook-sticker[data-paper="1"] { background: var(--workshop-lilac); }
+.guestbook-page .guestbook-sticker[data-paper="2"] { background: var(--workshop-lime); }
+.guestbook-page .guestbook-tape { position: absolute; width: 60px; height: 17px; top: -8px; left: calc(50% - 30px); background: var(--workshop-tape); transform: rotate(-5deg); }
+.guestbook-page .guestbook-sticker .guestbook-message-meta { color: var(--workshop-ink); font-size: 12px; }
+.guestbook-page .guestbook-sticker time, .guestbook-page .guestbook-sticker .guestbook-private { color: var(--workshop-ink); font-size: 9px; }
+.guestbook-page .guestbook-note-preview { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 5; overflow: hidden; white-space: pre-wrap; overflow-wrap: anywhere; font: 14px/1.7 var(--font-sans); }
+.guestbook-page .guestbook-note-action { margin-top: auto; font: 10px var(--font-mono); }
+.guestbook-page .guestbook-note-dialog { background: var(--workshop-paper); color: var(--workshop-ink); border: 0; border-radius: var(--radius-panel); max-width: 520px; }
+.guestbook-page .guestbook-note-dialog h2, .guestbook-page .guestbook-note-dialog p { color: var(--workshop-ink); }
+.guestbook-page .guestbook-note-full { white-space: pre-wrap; overflow-wrap: anywhere; margin-top: 18px; }
+.guestbook-page .guestbook-note-dialog button { color: var(--workshop-ink); background: transparent; border-color: var(--workshop-ink); }
+@media (prefers-reduced-motion: reduce) { .guestbook-page button.guestbook-sticker { transition: none; } }

@@ -53,3 +53,7 @@ Changing IP has no effect. Clearing browser storage or using a different browser
 For a safe rollout: migrate D1, deploy the Worker, then publish the updated frontend. The Worker accepts older clients' verified submissions without a browser credential for backwards compatibility; such records cannot be privately retrieved and become visible only after approval. The newer frontend always supplies a credential. Keep existing DB, Turnstile secret and rate-limiter bindings. Never include the credential in URLs, public responses, diagnostic logs or analytics.
 
 Run `node scripts/test-guestbook-worker.mjs` (Node.js and Python 3 required) for real SQLite checks of migration, isolation, IP changes, moderation, hidden records, hashing, pagination and verification enforcement. Cloudflare's live bindings and Turnstile still require a production smoke test after the manual deployment.
+
+## Message sticker presentation
+
+Messages are displayed as paper stickers, each opening a full-text dialog with nickname and visibility label. Layout and colors are deterministic from message IDs. All user content uses textContent. Presentation does not change moderation, browser ownership, Turnstile or the Worker schema. The Workshop tab independently uses a curated hexagonal board with explicitly labeled visual demos; blank cells cannot be edited by visitors.
