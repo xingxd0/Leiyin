@@ -1,0 +1,85 @@
+/* Active site theme. Change semantic values here, not in page modules. */
+:root {
+  color-scheme: dark;
+  --color-bg: #0a0d10;
+  --color-surface: #16191f;
+  --color-surface-active: #20252c;
+  --color-surface-hover: #1b2125;
+  --color-surface-label: #191e26;
+  --color-control: #12161c;
+  --color-sidebar: #0c1110;
+  --color-text: #c3c8d0;
+  --color-text-secondary: #a0a8b4;
+  --color-text-muted: #959da8;
+  --color-heading: #e2e5e9;
+  --color-border: #2b333d;
+  --color-border-hover: #465260;
+  --color-accent: #2dd49b;
+  --color-accent-surface: #102d23;
+  --color-accent-border: #24533f;
+  --color-accent-track: #244c3d;
+  --color-accent-node: #527565;
+  --color-on-accent: #092017;
+  --color-warning: #f4bf36;
+  --color-warning-surface: #332a13;
+  --color-warning-halo: #f4bf3612;
+  --color-info: #8fbded;
+  --color-danger: #c92b38;
+  --color-on-danger: #fff;
+  --color-selection: #354153;
+  --color-backdrop: #0009;
+  --shadow-dialog: 0 24px 90px #0008;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", sans-serif;
+  --font-mono: Menlo, Consolas, "PingFang SC", monospace;
+  --radius-sm: 4px;
+  --radius-control: 6px;
+  --radius-card: 9px;
+  --radius-panel: 12px;
+  --radius-pill: 999px;
+  --border-width: 1px;
+  --focus-width: 2px;
+  --focus-offset: 3px;
+  --opacity-disabled: .5;
+  --duration-ui: .2s;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --size-logo: 30px;
+  --size-logo-art: 24px;
+  --size-icon-button: 36px;
+  --width-reading: 1200px;
+
+  /* Brand and artwork palettes deliberately do not follow the UI accent. */
+  --brand-if: #ed1725;
+  --brand-adesign: #d90000;
+  --brand-ny: #d90000;
+  --brand-london: #000;
+  --brand-paper: #fff;
+  --art-crow-text: #bbc4d2;
+  --art-crow-muted: #929ca9;
+  --art-crow-bright: #e0e5ed;
+  --art-crow-line: #2b333e;
+  --syntax-blue: #82b7f8;
+  --syntax-orange: #f3a27c;
+  --syntax-pink: #f2849e;
+  --syntax-yellow: #e5d779;
+  --syntax-green: #80cfa4;
+  --syntax-green-hover: #b4efce;
+
+  /* Compatibility aliases keep existing page styles on the same source. */
+  --bg: var(--color-bg);
+  --surface: var(--color-surface);
+  --surface-active: var(--color-surface-active);
+  --ink: var(--color-text);
+  --muted: var(--color-text-muted);
+  --line: var(--color-border);
+  --bright: var(--color-heading);
+  --accent: var(--color-accent);
+  --accent-surface: var(--color-accent-surface);
+  --accent-line: var(--color-accent-border);
+  --warning: var(--color-warning);
+  --purple: var(--color-accent);
+  --font: var(--font-sans);
+}

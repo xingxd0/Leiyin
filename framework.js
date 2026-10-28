@@ -1,17 +1,5 @@
-const tracks=[
-  {title:'Craft & Experience',code:'DESIGNING',color:'#8873b2'},
-  {title:'Systems & Scale',code:'SYSTEMIZING',color:'#7593aa'},
-  {title:'People & Leadership',code:'LEADING',color:'#a68e74'},
-  {title:"AI & What's Next",code:'EXPLORING',color:'#8a77c0'}
-];
-const views={
-  identity:{title:'身份认证',subtitle:'CLI / Identity',description:'Xudong Xing / Product Design Leader'},
-  todo:{title:'todolist',subtitle:'Always Becoming',description:'A work in progress, by design.'},
-  model:{title:'能力模型',subtitle:'Capabilities / Work',description:'能力、方法与作品。'},
-  pending:{title:'待定',subtitle:'Undefined',description:''}
-};
-// Configure each tab independently after image direction is confirmed.
-const tabImages={identity:null,todo:null,model:null,pending:null};
+const views=siteConfig.views;
+const tabImages=siteConfig.images;
 const $=id=>document.getElementById(id);
 function element(tag,cls,text){
   const n=document.createElement(tag);
@@ -19,14 +7,15 @@ function element(tag,cls,text){
   if(text!==undefined)n.textContent=text;
   return n;
 }
-let view='identity',filter='all',trigger=null,dimension=0;
+let view='identity',filter='all',trigger=null,renderRequest=0;
 const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)');
 let identityController=null,loginTimer=null,loginStep=0,loggedIn=false;
 function stopWelcome(){identityController?.destroy();identityController=null;}
-const routes={identity:'/identity',todo:'/todol',model:'/capabilities',pending:'/pending'};
+const routes=Object.fromEntries(Object.entries(views).map(([key,data])=>[key,data.route]));
 let activeRoute=null;
 function routeView(){
-  if(location.hash==='#/roadmap')return 'todo';
+  const alias=siteConfig.aliases[location.hash.slice(1)];
+  if(alias)return alias;
   return Object.keys(routes).find(key=>`#${routes[key]}`===location.hash)||'identity';
 }
 function syncRoute(){
@@ -65,6 +54,7 @@ function finishLogin(){
   syncRoute();$('boardPanel').focus({preventScroll:true});
 }
 function startLogin(){
+  renderRequest++;
   clearTimeout(loginTimer);stopWelcome();stopAscii();
   loggedIn=false;loginStep=0;
   $('loginLog').replaceChildren();$('loginProgress').value=0;
@@ -145,30 +135,14 @@ function renderTerminal(){
   identityController=createIdentityTerminal(body,{navigate,reducedMotion});
   syncAscii();
 }
-function renderModel(){
-  const layout=element('section','model-layout'),dimensions=element('div','model-dimensions');
-  dimensions.append(element('span','eyebrow','MODEL / 能力维度'),element('h2','','somebody 的能力模型'));
-  tracks.forEach((track,index)=>{
-    const button=element('button','dimension-button');
-    button.type='button';button.setAttribute('aria-pressed',String(index===dimension));
-    button.append(element('span','',`0${index+1}`),element('strong','',track.title),element('span','','→'));
-    button.onclick=()=>{dimension=index;renderModel();document.querySelectorAll('.dimension-button')[index].focus();};
-    dimensions.append(button);
-  });
-  const detail=element('div','model-detail');
-  detail.append(element('span','eyebrow','SELECTED DIMENSION'),element('h2','',tracks[dimension].title));
-  const connection=element('div','model-connection','能力维度 → 能做的事 → 作品证据');
-  detail.append(connection);layout.append(dimensions,detail);$('boardPanel').replaceChildren(layout);
-}
-function progress(value,title){
-  const wrapper=element('div','progress-wrapper'),label=element('span','progress-label');
-  label.append(element('span','','任务进度'),element('span','',`${value}%`));
-  const bar=element('progress','task-progress');bar.max=100;bar.value=value;
-  bar.setAttribute('aria-label',`${title}：任务进度`);
-  wrapper.append(label,bar);return wrapper;
-}
 function render(){
+  const request=++renderRequest;
   stopAscii();stopWelcome();
+  document.querySelectorAll('[data-view]').forEach(button=>{
+    const metadata=views[button.dataset.view];
+    button.querySelector('strong').textContent=metadata.title;
+    button.querySelector('small').textContent=metadata.subtitle;
+  });
   document.querySelectorAll('[data-view]').forEach(button=>{
     const active=button.dataset.view===view;
     button.setAttribute('aria-selected',String(active));button.tabIndex=active?0:-1;
@@ -195,15 +169,17 @@ function render(){
   else $('tabImage').removeAttribute('src');
   $('boardPanel').replaceChildren();
   if(view==='identity'){renderTerminal();return;}
-  if(view==='model'){renderModel();return;}
-  if(view==='pending'){
-    const empty=element('section','pending-page');
-    empty.append(element('span','eyebrow','04 / UNDEFINED'));
-    $('boardPanel').append(empty);return;
-  }
-  import('./growth-roadmap-view.js?v=20261027-ny-logo').then(({renderRoadmap})=>{
-    if(view==='todo')renderRoadmap($('boardPanel'));
-  }).catch(error=>console.error('Growth roadmap:',error));
+  const target=view;
+  import(siteConfig.modules[target]).then(module=>{
+    // Ignore imports resolved after a later navigation, including login.
+    if(request!==renderRequest||view!==target)return;
+    const mount=target==='todo'?module.renderRoadmap:module.renderPage;
+    mount($('boardPanel'));
+  }).catch(error=>{
+    if(request!==renderRequest)return;
+    $('boardPanel').append(element('p','module-error','页面暂时无法加载，请刷新后重试。'));
+    console.error('Page module:',error);
+  });
 }
 document.querySelectorAll('[data-view]').forEach(button=>{
   button.onclick=()=>navigate(button.dataset.view);

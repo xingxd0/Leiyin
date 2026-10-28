@@ -1,0 +1,95 @@
+/* Shared component recipes. Keep page-specific layout in module styles. */
+::selection { color: var(--bright); background: var(--color-selection); }
+* { scrollbar-color: var(--color-selection) var(--bg); }
+button, input, progress { accent-color: var(--accent); }
+
+.sidebar nav button,
+.task-card,
+.roadmap-workspace .roadmap-card {
+  border-radius: var(--radius-card);
+}
+.model-dimensions, .model-detail, .pending-page,
+#cardDialog, .roadmap-workspace .roadmap-dialog {
+  border-radius: var(--radius-panel);
+  border-color: var(--line);
+}
+#cardDialog, .roadmap-workspace .roadmap-dialog {
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: var(--shadow-dialog);
+}
+dialog::backdrop { background: var(--color-backdrop); }
+
+.sidebar nav button > span:first-child,
+.filters, .filters button,
+.dimension-button, .model-connection,
+.identity-enter,
+.identity-workspace .terminal-form button,
+.roadmap-workspace .roadmap-command,
+.roadmap-workspace .roadmap-filters,
+.roadmap-workspace .roadmap-filter,
+.roadmap-workspace .roadmap-search,
+.roadmap-workspace .roadmap-collapse,
+.roadmap-workspace .roadmap-column-glyph,
+.roadmap-workspace .roadmap-item-featured {
+  border-radius: var(--radius-control);
+}
+.sidebar nav button:not([aria-selected=true]):hover,
+.dimension-button:not([aria-pressed=true]):hover {
+  background: var(--surface-active);
+  border-color: var(--color-border-hover);
+}
+.sidebar nav [aria-selected=true],
+.dimension-button[aria-pressed=true],
+.roadmap-workspace .roadmap-filter[aria-pressed=true],
+.identity-enter {
+  color: var(--accent);
+  background: var(--accent-surface);
+  border-color: var(--accent-line);
+}
+.identity-shell, .terminal, .terminal-result,
+.roadmap-workspace .roadmap-logo,
+.sidebar nav button > span:first-child,
+.column-code, .card-meta > span:first-child {
+  font-family: var(--font-mono);
+}
+.roadmap-workspace .roadmap-dialog-top button,
+.dialog-top button {
+  width: var(--size-icon-button);
+  height: var(--size-icon-button);
+  padding: 0;
+  border-radius: var(--radius-sm);
+}
+.dialog-top button:hover { background: var(--surface-active); }
+
+button:disabled, input:disabled,
+.roadmap-workspace .roadmap-collapse:disabled {
+  opacity: var(--opacity-disabled);
+  cursor: not-allowed;
+}
+button:focus-visible, input:focus-visible, a:focus-visible,
+[tabindex]:focus-visible,
+.identity-workspace .identity-shell button:focus-visible,
+.identity-workspace .terminal-choice:focus-visible,
+.roadmap-workspace .roadmap-work-link:focus-visible {
+  outline: var(--focus-width) solid var(--accent);
+  outline-offset: var(--focus-offset);
+}
+/* Search focus is drawn around the enclosing control, not the text field. */
+.roadmap-workspace .roadmap-search:focus-within {
+  outline: var(--focus-width) solid var(--accent);
+  outline-offset: var(--focus-offset);
+}
+.roadmap-workspace .roadmap-search input:focus-visible { outline: none; }
+.task-card, .sidebar nav button, .dimension-button,
+.identity-enter, .identity-workspace .terminal-form button,
+.roadmap-workspace .roadmap-card, .roadmap-workspace .roadmap-filter {
+  transition: border-color var(--duration-ui), background-color var(--duration-ui), color var(--duration-ui);
+}
+@media (prefers-reduced-motion: reduce) {
+  .task-card, .sidebar nav button, .dimension-button,
+  .identity-enter, .identity-workspace .terminal-form button,
+  .roadmap-workspace .roadmap-card, .roadmap-workspace .roadmap-filter {
+    transition: none;
+  }
+}

@@ -5,7 +5,7 @@
   min-width: 0;
   display: grid;
   grid-template-rows: auto minmax(0, 1fr) auto auto;
-  font: 13px/1.8 Menlo, Consolas, monospace;
+  font: 13px/1.8 var(--font-mono);
   background: var(--bg);
 }
 .identity-shell .identity-terminal-header {
@@ -18,7 +18,7 @@
 .identity-shell .terminal-output { padding: 0; scroll-behavior: auto; }
 .identity-shell .terminal-output > .identity-transcript { padding: 0; max-width: none; }
 .identity-stage { padding: 20px 22px; border-bottom: 1px solid var(--line); }
-.identity-stage > * { max-width: 1156px; }
+.identity-stage > * { max-width: calc(var(--width-reading) - 44px); }
 .identity-command { color: var(--accent); margin-bottom: 10px; overflow-wrap: anywhere; font-size: 13px; line-height: 1.8; }
 .identity-prompt { color: var(--muted); }
 .identity-output-line { color: var(--ink); margin: 5px 0; line-height: 1.8; overflow-wrap: anywhere; }
@@ -41,14 +41,14 @@
 .identity-command-cursor { width: .6em; }
 .identity-shell[data-state="typing"] .identity-command-cursor { animation: none; }
 .identity-line-enter { animation: identity-output-reveal .22s ease-out both; }
-.identity-controls { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; padding: 10px 22px; max-width: 1200px; }
+.identity-controls { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; padding: 10px 22px; max-width: var(--width-reading); }
 .identity-controls[hidden] { display: none; }
 .identity-enter {
   border: 1px solid var(--line);
   background: transparent;
   padding: 7px 12px;
   color: var(--muted);
-  border-radius: 6px;
+  border-radius: var(--radius-control);
   font: inherit;
   font-size: 11px;
   min-height: 36px;
