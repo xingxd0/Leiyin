@@ -41,3 +41,6 @@ main.workshop-workspace { grid-template-rows: minmax(0,1fr); padding: 0; }
 .hex-workshop .hex-regions { position: absolute; inset: 0; width: 900px; height: 760px; pointer-events: none; z-index: 3; overflow: visible; }
 .hex-workshop .hex-regions path { fill: none; stroke: var(--muted); stroke-width: 1.5; stroke-dasharray: 6 6; stroke-linecap: round; opacity: .75; }
 .hex-workshop .hex-region-label { position: absolute; z-index: 4; transform: translate(-50%,-50%); padding: 8px 12px; border: 1px dashed var(--muted); border-radius: var(--radius-control); background: var(--workshop-board); color: var(--bright); font: 500 12px var(--font-sans); white-space: nowrap; pointer-events: none; }
+
+.hex-workshop .hex-viewport { cursor: grab; user-select: none; }
+.hex-workshop .hex-viewport.is-dragging, .hex-workshop .hex-viewport.is-dragging .hex-filled { cursor: grabbing; }
