@@ -160,6 +160,7 @@ function render(){
   $('workspace').classList.toggle('identity-workspace',view==='identity');
   $('workspace').classList.toggle('roadmap-workspace',view==='todo');
   $('workspace').classList.toggle('workshop-workspace',view==='model');
+  $('workspace').classList.toggle('guestbook-workspace',view==='pending');
   $('viewTitle').replaceChildren(document.createTextNode(data.title),element('small','',data.subtitle));
   $('viewDescription').textContent=data.description;
   const isTodo=view==='todo';
