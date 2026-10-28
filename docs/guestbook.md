@@ -41,3 +41,15 @@ Do not run both commands for the same intended operation. No public moderation e
 Run `node scripts/check-site.mjs` and `git diff --check`. Browser tests must cover untrusted text, pagination, failed verification, expired tokens, HTTP 429, preserving drafts after failed submissions, nickname persistence, narrow screens, and route cleanup.
 
 Local browser tests can mock the API and Turnstile for deterministic coverage; that does not validate the live Worker. After deployment, test a real submission at `https://leiyin.si/becoming.html#/guestbook`, confirm a pending row in D1, approve that row, and check that it then appears publicly. GitHub Pages previews or localhost cannot use the production-only Turnstile hostname and POST origin restriction.
+
+## Browser-owned unreviewed messages
+
+The upgraded Worker source is `workers/guestbook/worker.js`. Run `workers/guestbook/migration.sql` once in D1 before deploying that Worker. It adds nullable `owner_hash` and its index without changing existing messages. If D1 reports a duplicate column, inspect `PRAGMA table_info(messages)` before rerunning migrations.
+
+New clients create a cryptographically random 32-byte browser credential in `leiyin.guestbook.key.v1` localStorage and send it only as `X-Guestbook-Key` over HTTPS. The server stores a SHA-256 digest, never the raw credential or IP for message visibility. Queries return published records plus this credential's pending records; hidden records are excluded for everyone. POST returns the saved item so the submitting browser can show it immediately, labeled "Only visible to you". Approval changes the same row to public; IDs prevent duplicates.
+
+Changing IP has no effect. Clearing browser storage or using a different browser loses access to unreviewed messages. Shared browsers share the identity. Previously submitted pending messages without an owner hash remain private to moderation until approved; the new credential does not retroactively claim them. If storage is unavailable, a session-only in-memory credential is used and cannot be promised to survive reload.
+
+For a safe rollout: migrate D1, deploy the Worker, then publish the updated frontend. The Worker accepts older clients' verified submissions without a browser credential for backwards compatibility; such records cannot be privately retrieved and become visible only after approval. The newer frontend always supplies a credential. Keep existing DB, Turnstile secret and rate-limiter bindings. Never include the credential in URLs, public responses, diagnostic logs or analytics.
+
+Run `node scripts/test-guestbook-worker.mjs` (Node.js and Python 3 required) for real SQLite checks of migration, isolation, IP changes, moderation, hidden records, hashing, pagination and verification enforcement. Cloudflare's live bindings and Turnstile still require a production smoke test after the manual deployment.
