@@ -164,7 +164,7 @@ function render(){
   $('viewDescription').textContent=data.description;
   const isTodo=view==='todo';
   document.querySelector('.filters').hidden=!isTodo;
-  $('columnCount').textContent=isTodo?'04 COLUMNS':view==='identity'?'CLI':view==='model'?'STICKER BOARD':'UNDEFINED';
+  $('columnCount').textContent=isTodo?'04 COLUMNS':view==='identity'?'CLI':view==='model'?'STICKER BOARD':view==='pending'?'GUESTBOOK':'UNDEFINED';
   $('footerNote').textContent='Always Becoming.';
   $('boardPanel').setAttribute('aria-labelledby',`nav-${view}`);
   const image=tabImages[view];
