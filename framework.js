@@ -127,10 +127,6 @@ function renderTerminal(){
   const terminal=element('section','terminal');
   terminal.setAttribute('aria-label','Personal introduction terminal');
   const body=element('div','terminal-body');
-  const visual=element('div','ascii-panel');visual.id='asciiPanel';
-  const art=element('div','ascii-art identity-crow-placeholder');art.id='asciiArt';
-  art.setAttribute('aria-hidden','true');
-  visual.append(art);body.append(visual);
   terminal.append(body);$('boardPanel').replaceChildren(terminal);
   identityController=createIdentityTerminal(body,{navigate,reducedMotion});
   syncAscii();
