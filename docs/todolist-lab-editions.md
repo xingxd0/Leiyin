@@ -1,9 +1,9 @@
 # Todolist Lab layout studies
 
-V1 is the layout approved before the Chronicle experiment (source baseline: commit `8841ee8`). Its renderer is preserved in `modules/todolist-journal-v1.js`, with the existing `todolist-lab.css` base styles. It retains the dark, two-desk composition. Keep changes for the experiment scoped to `.journal-v2` rather than altering that base.
+V1 is the active layout and the basis for future iterations, restored at the user's request after evaluating V2. The production renderer is `modules/todolist-journal.js`, using `todolist-lab.css`. It retains the dark, two-desk composition, Design Influence lead, full-record search and section-header detail entry points.
 
-V2 is the default experiment, rendered by `modules/todolist-journal.js` and styled by `todolist-lab-v2.css`. It studies the supplied historical newspaper reference: the existing site theme, a strong masthead, narrow side columns around the wider Design Influence desk, continuous vertical rules and compact setting. The reference guides layout only: retain the shared dark palette and component system. Rules separate content rather than decorate it; the Design Influence heading has no additional top/bottom double borders. The site navigation remains unchanged. One font family, section-header detail links, real progress and full-record search are retained.
+The exact pre-experiment V1 renderer remains preserved in `modules/todolist-journal-v1.js` (source baseline: commit `8841ee8`). Iterate in the production module rather than altering this frozen reference.
 
-Use `?labEdition=v1#/tdl-lab` and `?labEdition=v2#/tdl-lab` to compare editions. The visible edition switch reloads the chosen renderer. `labSection` links and browser navigation continue to work in either edition. This is a layout comparison, not a second copy of the task data: both renderers read `growth-roadmap.js` and the same browser-local additions.
+The rejected Chronicle V2 is archived in `modules/todolist-journal-v2.js` and `todolist-lab-v2.css`. Neither is loaded on the live page. There is no edition switch; old `labEdition=v1` and `labEdition=v2` links resolve to the active V1 layout and remove the obsolete parameter. `labSection` links and browser navigation remain available.
 
-Check editions at desktop, tablet and 320px mobile widths; verify section details, search, browser Back and deep-link reload. No data migration or backend deployment is required.
+All iterations must preserve the site-wide design system described in `docs/design-system.md`. Do not restore V2 as the default without the user's request. Both snapshots read the same task source and browser-local additions; no data migration or backend deployment is needed.
