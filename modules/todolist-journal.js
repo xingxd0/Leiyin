@@ -141,15 +141,6 @@ export function renderPage(host){
     button.addEventListener('click',()=>openSection(column.id),{signal:events.signal});
     index.append(button);
   });
-  const tools=node('details','journal-tools');tools.append(node('summary','','Find a topic'));
-  const controls=node('div','journal-search-controls');
-  const label=node('label','','Search this journal'),input=node('input');
-  input.type='search';input.id='journal-search';input.placeholder='A project, a topic, a practice...';label.htmlFor=input.id;
-  const statusLabel=node('label','','Show'),select=node('select');select.id='journal-filter';statusLabel.htmlFor=select.id;
-  for(const [value,text] of [['all','All records'],['active','Current practices'],['done','Completed records'],['backlog','Not started']]){
-    const option=node('option','',text);option.value=value;select.append(option);
-  }
-  controls.append(label,input,statusLabel,select);tools.append(controls);
   const result=node('p','journal-result');result.setAttribute('role','status');result.hidden=true;
   const sections=node('div','journal-sections');
   const back=node('button','journal-back','← Front page');back.type='button';back.onclick=backToOverview;
@@ -161,8 +152,7 @@ export function renderPage(host){
   const maintenanceLink=node('a','journal-link','Open the original Todolist to add a local note');
   maintenanceLink.href='#/tdl';
   maintenance.append(node('p','','Additions are saved in this browser only, not published to GitHub.'),maintenanceLink);
-  const overview=node('div','journal-overview');overview.append(tools);
-  paper.append(masthead,index,overview,result,detailNav,sections,footer,maintenance);
+  paper.append(masthead,index,result,detailNav,sections,footer,maintenance);
   host.replaceChildren(paper);
   function matches(column,group,task){
     const statusMatches=filter==='all'||(filter==='active'&&!['done','notstarted'].includes(task.status))
@@ -229,8 +219,6 @@ export function renderPage(host){
     result.textContent=count?`${count} of ${allTasks.length} records match.`:'No records match. Try another topic or show all records.';
     [...index.children].forEach(button=>{button.disabled=false;});
   }
-  input.addEventListener('input',()=>{query=input.value.trim().toLocaleLowerCase();render();},{signal:events.signal});
-  select.addEventListener('change',()=>{filter=select.value;render();},{signal:events.signal});
   window.addEventListener('popstate',()=>{const id=new URL(location.href).searchParams.get('labSection');selected=columns.some(c=>c.id===id)?id:null;render();},{signal:events.signal});
   render();
   return {destroy(){events.abort();}};
