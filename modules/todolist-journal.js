@@ -1,3 +1,4 @@
+import {renderPage as renderV1} from './todolist-journal-v1.js?v=20261029-v1';
 import {growthRoadmap} from '../growth-roadmap.js?v=20261028-input';
 
 const storageKey='leiyin.todol.custom.v1';
@@ -110,7 +111,7 @@ function renderStory(task,group,{feature=false,query='',preview=false}={}){
   return article;
 }
 
-export function renderPage(host){
+function renderV2(host){
   const columns=records().sort((a,b)=>Number(b.id==='influence')-Number(a.id==='influence')),allTasks=columns.flatMap(column=>column.cards.flatMap(group=>group.tasks));
   const events=new AbortController();
   let query='',filter='all';
@@ -124,12 +125,14 @@ export function renderPage(host){
   }
   function backToOverview(){selected=null;const url=new URL(location.href);url.searchParams.delete('labSection');history.pushState(null,'',url);render();host.scrollTop=overviewScroll;index.querySelector('button')?.focus({preventScroll:true});}
 
-  const paper=node('div','todolist-journal');paper.lang='en';
+  const paper=node('div','todolist-journal journal-v2');paper.lang='en';
   const masthead=node('header','journal-masthead');
   const dateline=node('div','journal-dateline');
   dateline.append(node('span','','XUDONG XING / PRODUCT DESIGN LEADER'),node('span','','A PERSONAL JOURNAL'));
   const title=node('h1','journal-name','Always Becoming.');
-  masthead.append(dateline,title);
+  const strap=node('p','journal-strap','THE PERSONAL CHRONICLE / WORK, JUDGMENT & EXPLORATION');
+  const deck=node('p','journal-edition-line',`FOUR DIRECTIONS · ${allTasks.length} RECORDS · ALWAYS IN PROGRESS`);
+  masthead.append(strap,title,dateline,deck);
   const index=node('nav','journal-index');index.setAttribute('aria-label','Journal sections');
   columns.forEach((column,i)=>{
     const button=node('button','journal-index-link',`${String(i+1).padStart(2,'0')} ${column.name}`);
@@ -196,7 +199,7 @@ export function renderPage(host){
         const stories=groups.flatMap(({group,tasks})=>tasks.map(task=>({group,task})));
         const ranked=[...stories].sort((a,b)=>Number(b.task.id===featureId)-Number(a.task.id===featureId)||Number(['done','notstarted'].includes(a.task.status))-Number(['done','notstarted'].includes(b.task.status)));
         const previewLimits={influence:6,craft:4,people:6,ai:4};
-        const limit=previewLimits[column.id]||3,featured=[],chosen=new Set();
+        const limit=column.id==='influence'?12:previewLimits[column.id]||3,featured=[],chosen=new Set();
         for(const story of ranked)if(!chosen.has(story.group.id)&&featured.length<limit){featured.push(story);chosen.add(story.group.id);}
         for(const story of ranked)if(featured.length<limit&&!featured.includes(story))featured.push(story);
         for(const {group,task} of featured){
@@ -224,8 +227,9 @@ export function renderPage(host){
     if(front){
       // Independent editorial desks avoid reserving empty space below a short column.
       const items=[...sections.children],lead=node('div','journal-desk journal-desk-lead'),side=node('div','journal-desk journal-desk-side');
-      for(const section of items)(['influence','people'].includes(section.dataset.direction)?lead:side).append(section);
-      sections.append(lead,side);
+      const rail=node('div','journal-desk journal-desk-rail');
+      for(const section of items)(section.dataset.direction==='influence'?lead:['craft','ai'].includes(section.dataset.direction)?side:rail).append(section);
+      sections.append(side,lead,rail);
     }
     result.hidden=!searching;
     result.textContent=count?`${count} of ${allTasks.length} records match.`:'No records match. Try another topic or show all records.';
@@ -236,4 +240,18 @@ export function renderPage(host){
   window.addEventListener('popstate',()=>{const id=new URL(location.href).searchParams.get('labSection');selected=columns.some(c=>c.id===id)?id:null;render();},{signal:events.signal});
   render();
   return {destroy(){events.abort();}};
+}
+
+// V1 is a frozen layout snapshot; edition links keep the current section in the URL.
+export function renderPage(host){
+  const v1=new URL(location.href).searchParams.get('labEdition')==='v1';
+  const lifecycle=v1?renderV1(host):renderV2(host);
+  const editions=node('nav','journal-editions');editions.setAttribute('aria-label','Layout edition');
+  editions.append(node('span','','LAYOUT STUDY'));
+  for(const [value,label] of [['v1','V1 · Saved layout'],['v2','V2 · Chronicle']]){
+    const url=new URL(location.href);url.searchParams.set('labEdition',value);
+    const link=node('a','',label);link.href=url.href;if((v1?'v1':'v2')===value)link.setAttribute('aria-current','page');editions.append(link);
+  }
+  host.querySelector('.todolist-journal').prepend(editions);
+  return lifecycle;
 }
