@@ -1,18 +1,9 @@
-import {territory,connected,canMove,nearestHex} from './hex-map.js?v=20261028-map';
-// Map content remains explicitly labeled as demos until real projects are supplied.
-const tiles=[
-  {q:-1,r:-1,title:'Holographic foil',label:'VISUAL DEMO',symbol:'✦',text:'A study of spectrum, reflected light, and the holographic finish from the original Map board.',tone:'lilac'},
-  {q:1,r:1,title:'Typography play',label:'TYPE DEMO',symbol:'Aa',text:'An expressive typography study built around the reminder to stay curious.',tone:'pink'},
-  {q:0,r:2,title:'Small ideas',label:'SKETCH DEMO',symbol:'⌁',text:'A sketch-style composition exploring simple shapes and new visual directions.',tone:'lime'},
-  {q:-2,r:1,title:'Work in progress',label:'STATUS STUDY',symbol:'◌',text:'A status study for unfinished experiments. Real Skills and incubated projects will be added when they are ready to share.',tone:'green'},
-  {q:2,r:0,title:'A note to self',label:'PAPER DEMO',symbol:'↗',text:'Good things start with a little mess. A paper-note study of color and typography.',tone:'paper'},
-  {q:-2,r:2,title:'More possibilities',label:'EDITORIAL DEMO',symbol:'+',text:'Less polish. More possibilities. An editorial note about making room for early ideas.',tone:'lilac'},
-  {q:1,r:-1,title:'Credits & thanks',label:'INSPIRATION',symbol:'♡',text:'Thanks to simeydotme for the holographic inspiration behind the original sticker studies.',tone:'paper',url:'https://github.com/simeydotme/pokemon-cards-css'}
-];
+import {territory,connected,canMove,nearestHex,distance} from './hex-map.js?v=20261028-map';
+import {buildMapContent} from './map-content.js?v=20261029-todo-map';
 function element(tag,cls,text){const node=document.createElement(tag);if(cls)node.className=cls;if(text!==undefined)node.textContent=text;return node;}
 export function renderPage(host){
   const origin=4000,size=8000,key='leiyin.map.positions.v1';
-  const nodes=[{id:'me',q:0,r:0,title:'ME',label:'THE ORIGIN',symbol:'◎',tone:'lime',text:'Every exploration starts here. A growing map of ideas, experiments, and things made along the way.'},...tiles.map(tile=>({...tile,id:tile.title.toLowerCase().replace(/[^a-z]+/g,'-')}))];
+  const nodes=[{id:'me',q:0,r:0,title:'ME',label:'THE ORIGIN',symbol:'◎',tone:'lime',text:'Every exploration starts here. A growing map of ideas, experiments, and things made along the way.'},...buildMapContent()];
   try{
     const saved=JSON.parse(localStorage.getItem(key)||'{}');
     const restored=nodes.map(n=>n.id!=='me'&&Number.isSafeInteger(saved[n.id]?.q)&&Number.isSafeInteger(saved[n.id]?.r)?{...n,q:saved[n.id].q,r:saved[n.id].r}:n);
@@ -27,7 +18,7 @@ export function renderPage(host){
   controls.setAttribute('role','group');controls.setAttribute('aria-label','Zoom controls');
   const dialog=element('dialog','module-dialog hex-dialog');dialog.setAttribute('aria-labelledby','hexDetailTitle');
   const close=element('button','hex-close','Close');close.type='button';close.onclick=()=>dialog.close();
-  const label=element('p','eyebrow'),title=element('h2'),description=element('p'),link=element('a','hex-link','Open source inspiration ↗');title.id='hexDetailTitle';link.target='_blank';link.rel='noopener noreferrer';dialog.append(close,label,title,description,link);
+  const label=element('p','eyebrow'),title=element('h2'),description=element('div','map-detail-records'),link=element('a','hex-link','Explore this direction in Todolist Lab →');title.id='hexDetailTitle';dialog.append(close,label,title,description,link);
   let triggerId=null;dialog.addEventListener('close',()=>content.querySelector(`[data-id="${triggerId}"]`)?.focus({preventScroll:true}));
   let zoom=1,alive=true,frame=0,initialized=false,drag=null,suppressClick=false;
   const events=new AbortController();
@@ -44,20 +35,31 @@ export function renderPage(host){
     const cells=territory(nodes);land.replaceChildren();content.replaceChildren();regions.replaceChildren();
     for(const cell of cells){if(nodes.some(n=>n.q===cell.q&&n.r===cell.r))continue;const {el,face}=tileNode(cell,false);el.setAttribute('aria-hidden','true');face.append(element('span','hex-land-mark','+'));land.append(el);}
     const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('viewBox',`0 0 ${size} ${size}`);svg.setAttribute('aria-hidden','true');svg.classList.add('hex-regions');
-    const regionFor=n=>n.r<0?0:n.q<0?1:2;
-    ['🛠️ Tools','🚧 In the making','📦 Outputs'].forEach((name,index)=>{
+    const anchors=[{q:-2,r:-1},{q:2,r:-2},{q:-2,r:2},{q:1,r:2}];
+    const regionFor=n=>anchors.reduce((best,a,i)=>distance(n,a)<distance(n,anchors[best])?i:best,0);
+    ['Craft & Innovation','Design Influence','People & Leadership',"AI & What’s Next"].forEach((name,index)=>{
       const edges=new Map();
       for(const cell of cells.filter(c=>regionFor(c)===index)){
         const c=point(cell),points=Array.from({length:6},(_,i)=>{const a=(i*60-90)*Math.PI/180;return [c.x+76*Math.cos(a),c.y+76*Math.sin(a)];});
         points.forEach((a,i)=>{const b=points[(i+1)%6],key=[a,b].map(p=>p.map(v=>v.toFixed(2)).join(',')).sort().join(':');if(edges.has(key))edges.delete(key);else edges.set(key,[a,b]);});
       }
       const path=document.createElementNS(svg.namespaceURI,'path');path.setAttribute('d',[...edges.values()].map(([a,b])=>`M${a.join(',')}L${b.join(',')}`).join(' '));svg.append(path);
-      const text=element('span','hex-region-label',name);const anchors=[{q:1,r:-3},{q:-3,r:1},{q:3,r:0}],p=point(anchors[index]);text.style.left=`${p.x}px`;text.style.top=`${p.y}px`;regions.append(text);
+      const text=element('span','hex-region-label',name);const p=point([{q:-3,r:-2},{q:3,r:-4},{q:-4,r:3},{q:2,r:3}][index]);text.style.left=`${p.x}px`;text.style.top=`${p.y}px`;regions.append(text);
     });regions.append(svg);
     for(const n of nodes){
-      const {el,face}=tileNode(n,true);el.type='button';el.dataset.id=n.id;el.dataset.q=n.q;el.dataset.r=n.r;el.setAttribute('aria-label',`${n.title} — ${n.label}`);el.setAttribute('aria-haspopup','dialog');
-      face.append(element('span','hex-symbol',n.symbol),element('strong','',n.title),element('small','',n.label));
-      el.onclick=()=>{triggerId=n.id;label.textContent=n.label;title.textContent=n.title;description.textContent=n.text;link.hidden=!n.url;if(n.url)link.href=n.url;dialog.showModal();};
+      const {el,face}=tileNode(n,true);el.type='button';el.dataset.id=n.id;el.dataset.state=n.state||'origin';el.dataset.q=n.q;el.dataset.r=n.r;el.setAttribute('aria-label',`${n.title} — ${n.label}`);el.setAttribute('aria-haspopup','dialog');
+      face.append(element('span','hex-symbol',n.state==='done'?'✓':n.symbol),element('strong','',n.title),element('small','',n.label));
+      if(n.state){const outline=document.createElementNS('http://www.w3.org/2000/svg','svg');outline.classList.add('map-state-outline');outline.setAttribute('viewBox','0 0 132 152');outline.setAttribute('aria-hidden','true');const polygon=document.createElementNS(outline.namespaceURI,'polygon');polygon.setAttribute('points','66,3 129,39 129,113 66,149 3,113 3,39');outline.append(polygon);el.append(outline);}
+      el.onclick=()=>{
+        triggerId=n.id;label.textContent=n.label;title.textContent=n.title;description.replaceChildren(element('p','',n.text));
+        if(n.tasks){description.append(element('p','map-detail-count',`${n.completed} completed · ${n.total-n.completed} to do`));
+          for(const task of n.tasks){const record=element('section','map-detail-record');record.append(element('h3','',task.title),element('p','',`${task.status==='done'?'✓':'◌'} ${task.statusLabel}${Number.isFinite(task.progress)?` · ${task.progress}%`:''}${task.local?' · This browser only':''}`));
+            for(const text of [task.subtitle,task.why,task.nextStep?`Next: ${task.nextStep}`:null,task.note])if(text)record.append(element('p','',text));
+            for(const work of task.works||[])record.append(element('p','',`${work.year||''} ${work.name}`.trim()));description.append(record);
+          }
+        }
+        link.hidden=!n.columnId;if(n.columnId)link.href=`${location.pathname}?labSection=${encodeURIComponent(n.columnId)}#/tdl-lab`;dialog.showModal();
+      };
       el.onkeydown=event=>{const d={ArrowLeft:[-1,0],ArrowRight:[1,0],ArrowUp:[0,-1],ArrowDown:[0,1]}[event.key];if(event.altKey&&d&&n.id!=='me'){event.preventDefault();move(n,{q:n.q+d[0],r:n.r+d[1]});content.querySelector(`[data-id="${n.id}"]`)?.focus({preventScroll:true});}};
       content.append(el);
     }
@@ -92,7 +94,7 @@ export function renderPage(host){
   for(const name of ['pointerup','pointercancel','lostpointercapture'])window.addEventListener(name,stopDrag,{signal:events.signal});
   viewport.addEventListener('click',event=>{if(suppressClick&&event.detail!==0){event.preventDefault();event.stopPropagation();suppressClick=false;}},{capture:true,signal:events.signal});
   for(const [text,name,delta] of [['−','Zoom out',-.15],['+','Zoom in',.15],['◎','Center on ME',0]]){const button=element('button','',text);button.type='button';button.setAttribute('aria-label',name);button.onclick=()=>{zoom=Math.max(.45,Math.min(1.6,zoom+delta));fit(true);};controls.append(button);}
-  controls.append(scale);page.append(viewport,controls,feedback,dialog);host.replaceChildren(page);draw();
+  controls.append(scale);const legend=element('div','map-state-legend');legend.append(element('span','', '◌ Dashed · To do / In progress'),element('span','', '✓ Solid · Completed'));page.append(viewport,controls,feedback,legend,dialog);host.replaceChildren(page);draw();
   header.style.left=`${origin-360}px`;header.style.top=`${origin-540}px`;
   const resize=new ResizeObserver(()=>{if(!initialized&&viewport.clientWidth){initialized=true;zoom=viewport.clientWidth<600?.6:.8;fit(true);}else fit();});resize.observe(viewport);
   return {destroy(){alive=false;events.abort();drag=null;resize.disconnect();cancelAnimationFrame(frame);if(dialog.open)dialog.close();}};

@@ -9,3 +9,9 @@ Drag blank land to pan and use the wheel or controls to zoom. Click a filled til
 Positions are saved only in this browser at `leiyin.map.positions.v1`. Restored positions must have integer coordinates, no collisions and valid connectivity. Node identity and exceptions come from code, never browser storage. A deliberately isolated code-defined node may use `allowDisconnected: true` to seed an independent component; drag operations still require an occupied neighbor within distance two and must preserve connectivity to the defined roots.
 
 Run `node scripts/test-hex-map.mjs` and `node scripts/check-site.mjs`. Browser checks cover valid and invalid drags, click suppression, persistence, modal details, panning, zoom, mobile layout and route cleanup. No Playground API or database changes are needed.
+
+## Content from Todolist
+
+`modules/map-content.js` derives 13 curated nodes from `growth-roadmap.js`, covering all 33 source records once across Craft, Influence, People and AI. Browser-local task additions appear in their corresponding group. Award wins and award applications are split, so applications are never labeled achievements. A node is completed only if all its source tasks are done; other nodes retain pending styling. No progress is inferred. Completed nodes use solid accent borders and a checkmark; pending nodes use dashed outlines and a to-do count. Details expose source titles, status, supplied progress, context and next steps, with a link to the full journal section. The map refreshes its content when mounted, while drag positions remain local to the browser.
+
+Run `node scripts/test-map-content.mjs` to verify complete source coverage, status classification, exact award counts, local additions and initial connectivity.
