@@ -195,11 +195,13 @@ export function renderPage(host){
       if(front){
         const stories=groups.flatMap(({group,tasks})=>tasks.map(task=>({group,task})));
         const ranked=[...stories].sort((a,b)=>Number(b.task.id===featureId)-Number(a.task.id===featureId)||Number(['done','notstarted'].includes(a.task.status))-Number(['done','notstarted'].includes(b.task.status)));
-        const limit=column.id==='influence'?6:column.id==='craft'?3:2,featured=[],chosen=new Set();
+        const previewLimits={influence:6,craft:4,people:6,ai:4};
+        const limit=previewLimits[column.id]||3,featured=[],chosen=new Set();
         for(const story of ranked)if(!chosen.has(story.group.id)&&featured.length<limit){featured.push(story);chosen.add(story.group.id);}
         for(const story of ranked)if(featured.length<limit&&!featured.includes(story))featured.push(story);
         for(const {group,task} of featured){
           const story=renderStory(task,group,{preview:true});
+          if(column.id==='people'&&task.why&&task.nextStep)story.append(node('p','journal-story-copy',task.nextStep));
           if(Number.isFinite(task.progress))story.append(node('p','journal-story-meta',`Recorded progress: ${task.progress}%`));
           grid.append(story);
         }

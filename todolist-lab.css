@@ -248,7 +248,7 @@ main.todolist-lab-workspace {
   .journal-dateline { font-size: 9px; }
 }
 /* Editorial hierarchy: Design Influence leads; stories remain secondary. */
- .journal-front-page .journal-sections { display: grid; grid-template-columns: minmax(0,7fr) minmax(0,5fr); gap: 0 24px; align-items: start; padding-top: 24px; }
+ .journal-front-page .journal-sections { display: grid; grid-template-columns: minmax(0,7fr) minmax(0,5fr); gap: 0 24px; align-items: stretch; padding-top: 24px; }
 .journal-front-page .journal-desk { min-width: 0; }
 .journal-front-page .journal-desk-side { border-left: 1px solid var(--journal-rule); padding-left: 24px; }
 .journal-front-page .journal-section { padding: 0; border: 0; }
@@ -258,9 +258,10 @@ main.todolist-lab-workspace {
 .journal-front-page [data-direction="influence"] .journal-section-header h2 { font-size: clamp(30px,3vw,40px); }
 .journal-front-page .journal-section-number { font-size: 10px; white-space: nowrap; }
 .journal-front-page .journal-columns { display: block; }
-.journal-front-page .journal-desk-lead .journal-columns { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 16px 0; }
+.journal-front-page .journal-desk-lead .journal-columns { position: relative; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 16px 0; }
+.journal-front-page .journal-desk-lead .journal-columns::before { content: ""; position: absolute; top: 0; bottom: 0; left: 50%; border-left: 1px solid var(--journal-rule); pointer-events: none; }
 .journal-front-page .journal-desk-lead .journal-story:nth-child(odd) { padding-right: 18px; }
-.journal-front-page .journal-desk-lead .journal-story:nth-child(even) { padding-left: 18px; border-left: 1px solid var(--journal-rule); }
+.journal-front-page .journal-desk-lead .journal-story:nth-child(even) { padding-left: 18px; }
 .journal-front-page .journal-story:not(.journal-feature) { border: 0; padding: 0 0 18px; }
 .journal-front-page .journal-desk-lead .journal-story { padding-block: 0; }
 .todolist-journal .journal-story-title, .todolist-journal .journal-feature .journal-story-title { font: 600 18px/1.45 var(--font-sans); letter-spacing: -.01em; }
@@ -279,6 +280,7 @@ main.todolist-lab-workspace {
   .journal-front-page .journal-sections { grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 0 20px; }
   .journal-front-page .journal-desk-side { padding-left: 20px; }
   .journal-front-page .journal-desk-lead .journal-columns { display: block; }
+  .journal-front-page .journal-desk-lead .journal-columns::before { display: none; }
   .journal-front-page .journal-desk-lead .journal-story:nth-child(n) { border: 0; padding: 0 0 18px; }
 }
 @container (max-width: 480px) {
