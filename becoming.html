@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#0a0d10">
-  <meta name="description" content="somebody 的个人持续进化系统。已积累的能力、正在投入的方向，以及下一步的探索。">
-  <title>Always Becoming. / somebody</title>
+  <meta name="description" content="Xudong’s personal space for growth: experience, current pursuits, and what comes next.">
+  <title>Always Becoming. / Xudong</title>
   <link rel="stylesheet" href="./framework.css">
   <link rel="stylesheet" href="./terminal-crow.css?v=20261028-navigation">
   <link rel="stylesheet" href="./terminal-theme.css">
@@ -18,34 +18,34 @@
   <link rel="stylesheet" href="./modules/playground.css?v=20261028-zoom">
   <link rel="stylesheet" href="./ui-components.css?v=20261028-zoom">
   <script src="./ui-input.js?v=20261028-input" defer></script>
-  <script src="./identity-terminal.js?v=20261028-input" defer></script>
-  <script src="./site-config.js?v=20261028-press-grid" defer></script>
-  <script src="./framework.js?v=20261028-journal" defer></script>
+  <script src="./identity-terminal.js?v=20261029-english" defer></script>
+  <script src="./site-config.js?v=20261029-english" defer></script>
+  <script src="./framework.js?v=20261029-english" defer></script>
 </head>
 <body>
   <dialog id="loginScreen" class="login-screen" aria-labelledby="loginTitle">
     <div class="login-grid" aria-hidden="true"></div>
     <div class="login-art-panel">
-      <div id="loginCrow" role="img" aria-label="汉字乌鸦振翅，树林向左移动"></div>
+      <div id="loginCrow" role="img" aria-label="A character-art crow flapping its wings as trees scroll to the left"></div>
     </div>
     <section class="login-console">
-      <span class="login-code">SOMEBODY / PERSONAL TERMINAL</span>
-      <h1 id="loginTitle">接入个人终端<span>ESTABLISHING CONNECTION_</span></h1>
-      <p class="login-intro">欢迎来到 somebody 的个人终端。</p>
-      <div id="loginLog" class="login-log" role="log" aria-label="登录状态"></div>
-      <progress id="loginProgress" max="100" value="0" aria-label="自动登录进度"></progress>
-      <div class="login-bottom"><span id="loginStatus">初始化连接</span></div>
+      <span class="login-code">Xudong / PERSONAL TERMINAL</span>
+      <h1 id="loginTitle">Connect to Personal Terminal<span>ESTABLISHING CONNECTION_</span></h1>
+      <p class="login-intro">Welcome to Xudong’s personal terminal.</p>
+      <div id="loginLog" class="login-log" role="log" aria-label="Connection status"></div>
+      <progress id="loginProgress" max="100" value="0" aria-label="Connection progress"></progress>
+      <div class="login-bottom"><span id="loginStatus">Initializing connection</span></div>
     </section>
   </dialog>
-  <a class="skip" href="#workspace">跳到主要内容</a>
-  <aside class="sidebar" aria-label="个人与一级导航">
+  <a class="skip" href="#workspace">Skip to main content</a>
+  <aside class="sidebar" aria-label="Profile and primary navigation">
     <div class="picture">
       <img id="tabImage" alt="" hidden>
-      <div id="navigationCrow" class="navigation-crow" role="img" aria-label="汉字乌鸦振翅，树林向左移动"></div>
+      <div id="navigationCrow" class="navigation-crow" role="img" aria-label="A character-art crow flapping its wings as trees scroll to the left"></div>
     </div>
     <div class="sidebar-lower">
-      <div class="identity"><strong>somebody<span>.</span></strong><small>PERSONAL TERMINAL / GUEST ONLINE</small></div>
-      <nav role="tablist" aria-label="一级导航" aria-orientation="vertical">
+      <div class="identity"><strong>Xudong<span>.</span></strong><small>PERSONAL TERMINAL / GUEST ONLINE</small></div>
+      <nav role="tablist" aria-label="Primary navigation" aria-orientation="vertical">
         <button id="nav-identity" role="tab" data-view="identity" aria-selected="false" aria-controls="boardPanel" tabindex="-1"><span>01</span><span><strong>IDentity</strong><small>IDT / Identity</small></span><b>↗</b></button>
         <button id="nav-todo" role="tab" data-view="todo" aria-selected="false" aria-controls="boardPanel" tabindex="-1"><span>02</span><span><strong>Todolist</strong><small>TDL / Always Becoming</small></span><b>↗</b></button>
         <button id="nav-todoLab" role="tab" data-view="todoLab" aria-selected="false" aria-controls="boardPanel" tabindex="-1"><span>03</span><span><strong>Todolist Lab</strong><small>JOURNAL / Always Becoming</small></span><b>↗</b></button>
@@ -57,10 +57,10 @@
   </aside>
   <main id="workspace" tabindex="-1">
     <header class="board-header"><div><span class="eyebrow">PERSONAL TERMINAL / GUEST SESSION</span><h1 id="viewTitle">IDentity <small>IDT / Identity</small></h1></div></header>
-    <div class="toolbar"><p id="viewDescription"></p><div class="filters" aria-label="筛选任务状态"><button data-filter="all" aria-pressed="true">全部</button><button data-filter="active" aria-pressed="false">未完成</button><button data-filter="done" aria-pressed="false">已完成</button></div></div>
+    <div class="toolbar"><p id="viewDescription"></p><div class="filters" aria-label="Filter by task status"><button data-filter="all" aria-pressed="true">All</button><button data-filter="active" aria-pressed="false">Active</button><button data-filter="done" aria-pressed="false">Completed</button></div></div>
     <div id="boardPanel" role="tabpanel" aria-labelledby="nav-identity" tabindex="0"></div>
     <footer><span id="footerNote">Always Becoming.</span><span id="columnCount">04 COLUMNS</span></footer>
   </main>
-  <dialog id="cardDialog" aria-labelledby="dialogTitle"><div class="dialog-top"><span class="eyebrow">任务详情</span><button id="closeDialog" aria-label="关闭详情">×</button></div><h2 id="dialogTitle"></h2><p id="dialogText"></p><div id="dialogProgress"></div></dialog>
+  <dialog id="cardDialog" aria-labelledby="dialogTitle"><div class="dialog-top"><span class="eyebrow">Task details</span><button id="closeDialog" aria-label="Close details">×</button></div><h2 id="dialogTitle"></h2><p id="dialogText"></p><div id="dialogProgress"></div></dialog>
 </body>
 </html>

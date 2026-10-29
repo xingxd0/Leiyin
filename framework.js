@@ -25,7 +25,7 @@ function syncRoute(){
   activeRoute=route;
   if(!route){
     if($('cardDialog').open){trigger=null;$('cardDialog').close();}
-    document.title='登录 / Always Becoming';
+    document.title='Login / Always Becoming';
     startLogin();
     return;
   }
@@ -58,14 +58,14 @@ function startLogin(){
   clearTimeout(loginTimer);stopWelcome();stopAscii();
   loggedIn=false;loginStep=0;
   $('loginLog').replaceChildren();$('loginProgress').value=0;
-  $('loginStatus').textContent='初始化连接';
+  $('loginStatus').textContent='Initializing connection';
   if(!$('loginScreen').open)$('loginScreen').showModal();
   startLoginCrow();
-  const steps=['[ OK ] 终端信号已发现','[ OK ] 访客通道已开放','[ OK ] 身份档案已挂载','[ OK ] 任务与能力模块就绪'];
+  const steps=['[ OK ] Terminal signal detected','[ OK ] Guest channel open','[ OK ] Identity profile mounted','[ OK ] Task and map modules ready'];
   function advance(){
     $('loginLog').append(element('p','',steps[loginStep]));
     loginStep++;$('loginProgress').value=loginStep*25;
-    $('loginStatus').textContent=loginStep===4?'连接成功 / ACCESS GRANTED':'自动接入中';
+    $('loginStatus').textContent=loginStep===4?'Connected / ACCESS GRANTED':'Connecting automatically';
     loginTimer=setTimeout(loginStep===4?finishLogin:advance,reducedMotion.matches?0:650);
   }
   loginTimer=setTimeout(advance,reducedMotion.matches?0:400);
@@ -125,7 +125,7 @@ document.addEventListener('visibilitychange',syncAscii);
 function renderTerminal(){
   stopWelcome();
   const terminal=element('section','terminal');
-  terminal.setAttribute('aria-label','个人介绍终端');
+  terminal.setAttribute('aria-label','Personal introduction terminal');
   const body=element('div','terminal-body');
   const visual=element('div','ascii-panel');visual.id='asciiPanel';
   const art=element('div','ascii-art identity-crow-placeholder');art.id='asciiArt';
@@ -150,7 +150,7 @@ function render(){
   document.querySelectorAll('[data-filter]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.filter===filter)));
   const data=views[view];
   document.querySelector('.identity > strong').replaceChildren(
-    document.createTextNode(view==='identity'?'Xudong Xing':'somebody'),element('span','','.')
+    document.createTextNode(view==='identity'?'Xudong Xing':'Xudong'),element('span','','.')
   );
   document.querySelector('.identity > small').textContent=view==='identity'
     ? 'PRODUCT DESIGN LEADER / ALWAYS BECOMING':'PERSONAL TERMINAL / GUEST ONLINE';
@@ -181,7 +181,7 @@ function render(){
     pageController=mount($('boardPanel'));
   }).catch(error=>{
     if(request!==renderRequest)return;
-    $('boardPanel').append(element('p','module-error','页面暂时无法加载，请刷新后重试。'));
+    $('boardPanel').append(element('p','module-error','This page could not load. Please refresh and try again.'));
     console.error('Page module:',error);
   });
 }

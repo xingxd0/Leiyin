@@ -21,11 +21,11 @@ try{
 customTodoRecords.forEach(record=>roadmapCards.find(card=>card.id===record.cardId).tasks.push(customTodo(record)));
 const roadmapAliases={团队建设:'team',团队建设与协作:'team',作品与案例:'case-studies',专业探索:'case-studies',设计方法:'systems',专利:'patents',设计奖项:'awards',国际设计奖项:'awards',评委与分享:'talk-judge',人才成长:'mentoring',领导力:'leadership',AI设计观察:'ai-observation',下一代交互:'next-interface',持续学习:'learning'};
 function addRoadmapCommand(command){
-  const match=command.match(/^\/xd\s+增加到\s*(.+?)\s*的\s*todo\s*为\s*([\s\S]+)$/i);
-  if(!match)return {message:'Usage: /xd 增加到团队建设的todo为…',ok:false};
+  const match=command.match(/^\/xd\s+add\s+to\s+(.+?)\s*:\s*([\s\S]+)$/i)||command.match(/^\/xd\s+增加到\s*(.+?)\s*的\s*todo\s*为\s*([\s\S]+)$/i);
+  if(!match)return {message:'Usage: /xd add to team: Your todo',ok:false};
   const target=match[1].trim(),title=match[2].trim();
   const card=roadmapCards.find(card=>card.id===roadmapAliases[target]||card.id.toLowerCase()===target.toLowerCase()||card.title.toLowerCase()===target.toLowerCase());
-  if(!card)return {message:'Group not found. Use a card title or 团队建设.',ok:false};
+  if(!card)return {message:'Group not found. Use a card title or group ID.',ok:false};
   if(!title||title.length>500)return {message:'Enter a todo between 1 and 500 characters.',ok:false};
   if(customTodoRecords.length>=200)return {message:'This browser has reached the 200 custom-todo limit.',ok:false};
   const record={id:`local-${crypto.randomUUID()}`,cardId:card.id,title};
@@ -264,7 +264,7 @@ export function renderRoadmap(host){
   filters.setAttribute('role','group');filters.setAttribute('aria-label','Filter by status');
   const tools=element('div','roadmap-tools');
   const {form:search,input,syncValue}=globalThis.siteUI.createTerminalInput({
-    prompt:'somebody:~ $',placeholder:'Search or /xd …',type:'search',
+    prompt:'Xudong:~ $',placeholder:'Search or /xd …',type:'search',
     label:'Search groups or add a todo with /xd',submitLabel:'Submit XD command',
     value:roadmapState.query,className:'roadmap-search'
   });

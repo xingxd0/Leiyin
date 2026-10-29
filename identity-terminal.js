@@ -59,7 +59,7 @@ function createIdentityTerminal(host, {navigate, reducedMotion, timing = {}}) {
   const shell = make('section','identity-shell');
   shell.setAttribute('aria-label','Xudong Xing identity terminal');
   const header = make('header','identity-terminal-header');
-  const title = make('span','identity-session','xudong@always-becoming:~');
+  const title = make('span','identity-session','Xudong@always-becoming:~');
   const connected = make('span','identity-connected','● CONNECTED');
   header.append(title,connected);
   const output = make('div','terminal-output');
@@ -86,7 +86,7 @@ function createIdentityTerminal(host, {navigate, reducedMotion, timing = {}}) {
   enter.onclick = () => navigate('todo');
   controls.append(enter);
   const {form, input, syncValue} = globalThis.siteUI.createTerminalInput({
-    prompt:'xudong:~ $', placeholder:'Type help for commands',
+    prompt:'Xudong:~ $', placeholder:'Type help for commands',
     label:'Identity command. Type help for available commands.',
     submitLabel:'Run identity command', id:'commandInput'
   });
@@ -154,7 +154,7 @@ function createIdentityTerminal(host, {navigate, reducedMotion, timing = {}}) {
     const section=make('section',`identity-stage identity-${stage.id}`);
     section.dataset.stage=stage.id;
     const command=make('p','identity-command');
-    command.append(make('span','identity-prompt','xudong:~ $ '));
+    command.append(make('span','identity-prompt','Xudong:~ $ '));
     const text=make('span','identity-command-text');
     command.append(text);
     section.append(command);

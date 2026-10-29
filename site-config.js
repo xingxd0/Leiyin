@@ -9,7 +9,7 @@ const siteConfig = {
   },
   images: {identity:null,todo:null,todoLab:null,map:null,playground:null},
   modules: {
-    todo: './growth-roadmap-view.js?v=20261028-input',
+    todo: './growth-roadmap-view.js?v=20261029-english',
     todoLab: './modules/todolist-journal.js?v=20261028-press-grid',
     map: './modules/map.js?v=20261028-zoom',
     playground: './modules/playground.js?v=20261028-zoom'
