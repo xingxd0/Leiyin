@@ -77,3 +77,5 @@ main.map-workspace-shell { grid-template-rows: minmax(0,1fr); padding: 0; }
 .map-page .map-detail-record { padding: 14px 0; border-top: 1px solid var(--line); }
 .map-page .map-detail-record h3 { color: var(--bright); font: 600 15px/1.5 var(--font-sans); }
 .map-page .map-detail-record p { white-space: pre-wrap; overflow-wrap: anywhere; }
+
+.map-page .map-award-logo { width: 34px; height: 34px; object-fit: contain; flex-shrink: 0; user-select: none; pointer-events: none; }

@@ -1,5 +1,5 @@
 import {territory,connected,canMove,nearestHex,distance} from './hex-map.js?v=20261028-map';
-import {buildMapContent} from './map-content.js?v=20261029-todo-map';
+import {buildMapContent} from './map-content.js?v=20261029-award-logos';
 function element(tag,cls,text){const node=document.createElement(tag);if(cls)node.className=cls;if(text!==undefined)node.textContent=text;return node;}
 export function renderPage(host){
   const origin=4000,size=8000,key='leiyin.map.positions.v1';
@@ -48,7 +48,10 @@ export function renderPage(host){
     });regions.append(svg);
     for(const n of nodes){
       const {el,face}=tileNode(n,true);el.type='button';el.dataset.id=n.id;el.dataset.state=n.state||'origin';el.dataset.q=n.q;el.dataset.r=n.r;el.setAttribute('aria-label',`${n.title} — ${n.label}`);el.setAttribute('aria-haspopup','dialog');
-      face.append(element('span','hex-symbol',n.state==='done'?'✓':n.symbol),element('strong','',n.title),element('small','',n.label));
+      if(['reddot','if','adesign','muse','london','ny'].includes(n.logo)){
+        const logo=element('img','map-award-logo');logo.src=new URL(`../logo/${n.logo}.png`,import.meta.url).href;logo.alt=`${n.title} logo`;logo.width=34;logo.height=34;logo.draggable=false;face.append(logo);
+      }else face.append(element('span','hex-symbol',n.state==='done'?'✓':n.symbol));
+      face.append(element('strong','',n.title),element('small','',n.label));
       if(n.state){const outline=document.createElementNS('http://www.w3.org/2000/svg','svg');outline.classList.add('map-state-outline');outline.setAttribute('viewBox','0 0 132 152');outline.setAttribute('aria-hidden','true');const polygon=document.createElementNS(outline.namespaceURI,'polygon');polygon.setAttribute('points','66,3 129,39 129,113 66,149 3,113 3,39');outline.append(polygon);el.append(outline);}
       el.onclick=()=>{
         triggerId=n.id;label.textContent=n.label;title.textContent=n.title;description.replaceChildren(element('p','',n.text));

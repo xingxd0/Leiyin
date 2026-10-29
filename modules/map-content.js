@@ -4,9 +4,17 @@ const recipes=[
   ['cui-gui','craft','CUI × GUI Exploration',-2,-1,['interaction-study'],'C2'],
   ['design-methods','craft','Design Systems & Methods',-1,-2,['systems'],'UI'],
   ['patents','craft','11 Chinese Patents',-2,-2,['patents'],'IP'],
-  ['award-wins','influence','International Award Wins',1,-1,['awards'],'★','done'],
-  ['award-entries','influence','Team Award Applications',2,-2,['awards'],'↗','pending'],
-  ['talk-judge','influence','Talk & Judge',3,-2,['talk-judge'],'T'],
+  ['award-reddot','influence','Red Dot Award',1,-1,['reddot'],''],
+  ['award-if','influence','iF Design Award',2,-1,['if'],''],
+  ['award-adesign','influence',"A’ Design Award",3,-1,['a-design'],''],
+  ['award-muse','influence','MUSE Design Awards',1,-2,['muse-2025'],''],
+  ['award-london','influence','London Design Awards',2,-2,['london-2025'],''],
+  ['award-ny','influence','NY Product Design Awards',3,-2,['ny-2025'],''],
+  ['entry-if','influence','Team iF Application',4,-2,['if-team'],''],
+  ['entry-reddot','influence','Red Dot 2027 Application',4,-3,['reddot-2027'],''],
+  ['entry-muse','influence','MUSE Application',3,-3,['muse-entry'],''],
+  ['award-local','influence','Award Notes',5,-2,['local-awards'],'+'],
+  ['talk-judge','influence','Talk & Judge',4,-1,['talk-judge'],'T'],
   ['mentorship','people','Mentoring & Talent Growth',-1,1,['mentoring'],'1:1'],
   ['team-building','people','Team Building & Reviews',-2,2,['team'],'TM'],
   ['leadership','people','Leadership Practice',-3,2,['leadership'],'L'],
@@ -23,9 +31,11 @@ export function buildMapContent(storage){
   }}catch{}
   return recipes.map(([id,columnId,title,q,r,sources,symbol,kind])=>{
     const column=columns.find(c=>c.id===columnId);
-    const tasks=column.cards.flatMap(g=>g.tasks.filter(t=>sources.includes(g.id)||sources.includes(t.id)||(id==='workbench'&&g.id==='case-studies'&&t.local))).filter(t=>!kind||(kind==='done')===(t.status==='done'));
+    const tasks=column.cards.flatMap(g=>g.tasks.filter(t=>sources.includes(g.id)||sources.includes(t.id)||(id==='workbench'&&g.id==='case-studies'&&t.local)||(id==='award-local'&&g.id==='awards'&&t.local))).filter(t=>!kind||(kind==='done')===(t.status==='done'));
     const completed=tasks.filter(t=>t.status==='done').length,done=tasks.length>0&&completed===tasks.length;
-    const displayTitle=id==='award-wins'?`${tasks.reduce((sum,t)=>sum+(t.awardCount||0),0)} Design Award Wins`:title;
-    return {id,columnId,title:displayTitle,q,r,symbol,tasks,completed,total:tasks.length,state:done?'done':'pending',label:done?'COMPLETED':`${tasks.length-completed} TO DO`,text:column.desc};
+    const displayTitle=title;
+    const logo=id.startsWith('award-')||id.startsWith('entry-')?tasks[0]?.logo:null;
+    const wins=tasks.reduce((sum,t)=>sum+(t.awardCount||0),0);
+    return {id,columnId,title:displayTitle,q,r,symbol,logo,tasks,completed,total:tasks.length,state:done?'done':'pending',label:done?`✓ COMPLETED${wins?` · ×${wins}`:''}`:`${tasks.length-completed} TO DO`,text:column.desc};
   }).filter(n=>n.total);
 }
