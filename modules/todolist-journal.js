@@ -111,7 +111,7 @@ function renderStory(task,group,{feature=false,query='',preview=false}={}){
 }
 
 export function renderPage(host){
-  const columns=records(),allTasks=columns.flatMap(column=>column.cards.flatMap(group=>group.tasks));
+  const columns=records().sort((a,b)=>Number(b.id==='influence')-Number(a.id==='influence')),allTasks=columns.flatMap(column=>column.cards.flatMap(group=>group.tasks));
   const events=new AbortController();
   let query='',filter='all';
   let selected=columns.some(c=>c.id===new URL(location.href).searchParams.get('labSection'))?new URL(location.href).searchParams.get('labSection'):null;
@@ -188,21 +188,23 @@ export function renderPage(host){
       section.dataset.direction=column.id;
       section.setAttribute('aria-labelledby',`${section.id}-title`);
       const header=node('header','journal-section-header');
-      const title=node('h2','',column.name);title.id=`${section.id}-title`;
+      const title=node('h2');title.id=`${section.id}-title`;
+      if(!selected){const open=node('button','journal-section-link',`${column.name} →`);open.type='button';open.setAttribute('aria-label',`Explore ${column.name}`);open.onclick=()=>openSection(column.id);title.append(open);}else title.textContent=column.name;
       header.append(node('span','journal-section-number',String(index+1).padStart(2,'0')),title,node('p','',column.desc));
       const grid=node('div','journal-columns');
       if(front){
         const stories=groups.flatMap(({group,tasks})=>tasks.map(task=>({group,task})));
         const ranked=[...stories].sort((a,b)=>Number(b.task.id===featureId)-Number(a.task.id===featureId)||Number(['done','notstarted'].includes(a.task.status))-Number(['done','notstarted'].includes(b.task.status)));
-        const limit=index<2?3:2,featured=[],chosen=new Set();
+        const limit=column.id==='influence'?6:column.id==='craft'?3:2,featured=[],chosen=new Set();
         for(const story of ranked)if(!chosen.has(story.group.id)&&featured.length<limit){featured.push(story);chosen.add(story.group.id);}
         for(const story of ranked)if(featured.length<limit&&!featured.includes(story))featured.push(story);
         for(const {group,task} of featured){
-          const story=renderStory(task,group,{feature:task.id===featureId,preview:true});
-          const read=node('button','journal-read-story','Read story ↗');read.type='button';read.setAttribute('aria-label',`Read ${task.title}`);read.onclick=()=>openSection(column.id,task.id);story.append(read);grid.append(story);
+          const story=renderStory(task,group,{preview:true});
+          if(Number.isFinite(task.progress))story.append(node('p','journal-story-meta',`Recorded progress: ${task.progress}%`));
+          grid.append(story);
         }
-        const full=node('button','journal-open-section',`Explore ${column.name} · ${stories.length} records →`);full.type='button';full.onclick=()=>openSection(column.id);
-        section.append(header,grid,full);sections.append(section);count+=stories.length;continue;
+        header.querySelector('.journal-section-number').textContent=`${stories.length} records`;
+        section.append(header,grid);sections.append(section);count+=stories.length;continue;
       }
       grid.dataset.groups=String(groups.length);
       for(const {group,tasks} of groups){
