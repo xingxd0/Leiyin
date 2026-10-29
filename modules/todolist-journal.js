@@ -141,12 +141,6 @@ export function renderPage(host){
     button.addEventListener('click',()=>openSection(column.id),{signal:events.signal});
     index.append(button);
   });
-  const record=node('aside','journal-record');record.setAttribute('aria-label','Completed achievements');
-  const awards=allTasks.filter(task=>task.status==='done'&&task.awardCount);
-  const awardCount=awards.reduce((sum,task)=>sum+task.awardCount,0);
-  const patents=allTasks.find(task=>task.id==='chinese-patents');
-  record.append(node('p','',`${awardCount} international design award wins / ${awards.length} programs`));
-  if(patents)record.append(node('p','',patents.title));
   const tools=node('details','journal-tools');tools.append(node('summary','','Find a topic'));
   const controls=node('div','journal-search-controls');
   const label=node('label','','Search this journal'),input=node('input');
@@ -167,7 +161,7 @@ export function renderPage(host){
   const maintenanceLink=node('a','journal-link','Open the original Todolist to add a local note');
   maintenanceLink.href='#/tdl';
   maintenance.append(node('p','','Additions are saved in this browser only, not published to GitHub.'),maintenanceLink);
-  const overview=node('div','journal-overview');overview.append(record,tools);
+  const overview=node('div','journal-overview');overview.append(tools);
   paper.append(masthead,index,overview,result,detailNav,sections,footer,maintenance);
   host.replaceChildren(paper);
   function matches(column,group,task){
