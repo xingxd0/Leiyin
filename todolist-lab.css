@@ -248,20 +248,21 @@ main.todolist-lab-workspace {
   .journal-dateline { font-size: 9px; }
 }
 /* Editorial hierarchy: Design Influence leads; stories remain secondary. */
-.journal-front-page .journal-sections { display: grid; grid-template-columns: repeat(12,minmax(0,1fr)); gap: 40px 28px; align-items: start; padding-top: 30px; }
+ .journal-front-page .journal-sections { display: grid; grid-template-columns: minmax(0,7fr) minmax(0,5fr); gap: 0 24px; align-items: start; padding-top: 24px; }
+.journal-front-page .journal-desk { min-width: 0; }
+.journal-front-page .journal-desk-side { border-left: 1px solid var(--journal-rule); padding-left: 24px; }
 .journal-front-page .journal-section { padding: 0; border: 0; }
-.journal-front-page .journal-section:nth-child(1) { grid-column: 1 / 8; grid-row: 1; }
-.journal-front-page .journal-section:nth-child(2) { grid-column: 8 / 13; grid-row: 1 / 3; padding-left: 28px; border-left: 1px solid var(--journal-rule); }
-.journal-front-page .journal-section:nth-child(3) { grid-column: 1 / 4; grid-row: 2; }
-.journal-front-page .journal-section:nth-child(4) { grid-column: 4 / 8; grid-row: 2; }
+.journal-front-page .journal-desk > .journal-section + .journal-section { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--journal-rule); }
 .journal-front-page .journal-section-header { border: 0; padding: 0 0 22px; }
 .journal-front-page .journal-section-header h2 { font-size: 26px; line-height: 1.25; }
-.journal-front-page .journal-section:first-child .journal-section-header h2 { font-size: clamp(30px,3vw,40px); }
+.journal-front-page [data-direction="influence"] .journal-section-header h2 { font-size: clamp(30px,3vw,40px); }
 .journal-front-page .journal-section-number { font-size: 10px; white-space: nowrap; }
 .journal-front-page .journal-columns { display: block; }
-.journal-front-page .journal-section:first-child .journal-columns { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 24px; }
-.journal-front-page .journal-story:not(.journal-feature) { border: 0; padding: 0 0 24px; }
-.journal-front-page .journal-section:first-child .journal-story { padding: 0; }
+.journal-front-page .journal-desk-lead .journal-columns { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 16px 0; }
+.journal-front-page .journal-desk-lead .journal-story:nth-child(odd) { padding-right: 18px; }
+.journal-front-page .journal-desk-lead .journal-story:nth-child(even) { padding-left: 18px; border-left: 1px solid var(--journal-rule); }
+.journal-front-page .journal-story:not(.journal-feature) { border: 0; padding: 0 0 18px; }
+.journal-front-page .journal-desk-lead .journal-story { padding-block: 0; }
 .todolist-journal .journal-story-title, .todolist-journal .journal-feature .journal-story-title { font: 600 18px/1.45 var(--font-sans); letter-spacing: -.01em; }
 .journal-front-page .journal-story-copy, .journal-front-page .journal-deck { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; font: 14px/1.7 var(--font-sans); }
 .todolist-journal .journal-section-link { display: inline; padding: 0; border: 0; border-radius: 0; background: transparent; color: inherit; font: inherit; letter-spacing: inherit; text-align: left; cursor: pointer; }
@@ -275,15 +276,19 @@ main.todolist-lab-workspace {
 .journal-index { border-block: 1px solid var(--journal-rule); }
 .journal-colophon { border-top: 1px solid var(--journal-rule); }
 @container (max-width: 850px) {
-  .journal-front-page .journal-sections { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 32px 24px; }
-  .journal-front-page .journal-section:nth-child(1) { grid-column: 1 / -1; grid-row: 1; }
-  .journal-front-page .journal-section:nth-child(2) { grid-column: 2; grid-row: 2 / 4; padding-left: 24px; }
-  .journal-front-page .journal-section:nth-child(3) { grid-column: 1; grid-row: 2; }
-  .journal-front-page .journal-section:nth-child(4) { grid-column: 1; grid-row: 3; }
+  .journal-front-page .journal-sections { grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 0 20px; }
+  .journal-front-page .journal-desk-side { padding-left: 20px; }
+  .journal-front-page .journal-desk-lead .journal-columns { display: block; }
+  .journal-front-page .journal-desk-lead .journal-story:nth-child(n) { border: 0; padding: 0 0 18px; }
 }
 @container (max-width: 480px) {
-  .journal-front-page .journal-sections { display: block; }
-  .journal-front-page .journal-section:nth-child(n) { border: 0; padding: 0 0 30px; }
-  .journal-front-page .journal-section:first-child .journal-columns { display: block; }
-  .journal-front-page .journal-section:first-child .journal-story { padding-bottom: 24px; }
+  .journal-front-page .journal-sections { display: flex; flex-direction: column; }
+  .journal-front-page .journal-desk { display: contents; }
+  .journal-front-page .journal-section { width: 100%; }
+  .journal-front-page [data-direction="influence"] { order: 1; }
+  .journal-front-page [data-direction="craft"] { order: 2; }
+  .journal-front-page [data-direction="people"] { order: 3; }
+  .journal-front-page [data-direction="ai"] { order: 4; }
+  .journal-front-page .journal-desk > .journal-section + .journal-section,
+  .journal-front-page .journal-section { margin: 0 0 24px; padding: 0; border: 0; }
 }

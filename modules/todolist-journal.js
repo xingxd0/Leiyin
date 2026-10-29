@@ -219,6 +219,12 @@ export function renderPage(host){
       }
       section.append(header,grid);sections.append(section);
     }
+    if(front){
+      // Independent editorial desks avoid reserving empty space below a short column.
+      const items=[...sections.children],lead=node('div','journal-desk journal-desk-lead'),side=node('div','journal-desk journal-desk-side');
+      for(const section of items)(['influence','people'].includes(section.dataset.direction)?lead:side).append(section);
+      sections.append(lead,side);
+    }
     result.hidden=!searching;
     result.textContent=count?`${count} of ${allTasks.length} records match.`:'No records match. Try another topic or show all records.';
     [...index.children].forEach(button=>{button.disabled=false;});
