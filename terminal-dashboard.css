@@ -211,3 +211,12 @@ footer { font-size: 9px; }
   .board-header h1 { font-size: 22px; }
   footer { font-size: 7px; }
 }
+
+/* Give the content 85% of the desktop viewport; retain narrow-screen navigation. */
+@media (min-width: 851px) {
+  body { grid-template-columns: minmax(0,15%) minmax(0,85%); }
+  .sidebar-lower { padding-inline: 12px; }
+  .sidebar nav button { gap: 8px; padding-inline: 8px; }
+  .sidebar nav button > span:nth-child(2) { min-width: 0; overflow-wrap: anywhere; }
+  .sidebar nav b { display: none; }
+}
