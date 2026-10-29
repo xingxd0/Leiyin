@@ -11,7 +11,7 @@ const siteConfig = {
   modules: {
     todo: './growth-roadmap-view.js?v=20261029-english',
     todoLab: './modules/todolist-journal.js?v=20261029-no-search-row',
-    map: './modules/map.js?v=20261029-award-logos',
+    map: './modules/map.js?v=20261029-shared-edges',
     playground: './modules/playground.js?v=20261028-zoom'
   }
 };

@@ -78,13 +78,6 @@ function createIdentityTerminal(host, {navigate, reducedMotion, timing = {}}) {
   output.append(staticCopy,transcript);
   const announcement = make('span','identity-static-copy');
   announcement.setAttribute('role','status');
-  const controls = make('div','identity-controls');
-  const enter = make('button','identity-enter','[ ENTER WORKSPACE → ]');
-  enter.type='button';
-  controls.hidden = true;
-  enter.hidden = true;
-  enter.onclick = () => navigate('todo');
-  controls.append(enter);
   const {form, input, syncValue} = globalThis.siteUI.createTerminalInput({
     prompt:'Xudong:~ $', placeholder:'Type help for commands',
     label:'Identity command. Type help for available commands.',
@@ -93,7 +86,7 @@ function createIdentityTerminal(host, {navigate, reducedMotion, timing = {}}) {
   input.name='command';
   const dock = make('div','terminal-input-dock');
   dock.append(form);
-  shell.append(header,output,controls,dock,announcement);
+  shell.append(header,output,dock,announcement);
   host.append(shell);
 
   let session = null, destroyed = false, follow = true, scrollRequest = 0, lastScrollTime = 0;
@@ -179,8 +172,8 @@ function createIdentityTerminal(host, {navigate, reducedMotion, timing = {}}) {
     return node;
   }
   function complete(state) {
-    setState(state);controls.hidden=false;enter.hidden=false;
-    announcement.textContent='Identity introduction complete. Enter workspace is available.';
+    setState(state);
+    announcement.textContent='Identity introduction complete.';
     followOutput();
   }
   function showAll(state='skipped') {
@@ -228,7 +221,7 @@ function createIdentityTerminal(host, {navigate, reducedMotion, timing = {}}) {
     if (destroyed) return;
     cancelSession();cancelScroll();
     transcript.replaceChildren();output.scrollTop=0;follow=true;
-    announcement.textContent='';controls.hidden=true;enter.hidden=true;setState('idle');
+    announcement.textContent='';setState('idle');
     if (reducedMotion.matches) {showAll('completed');follow=false;output.scrollTop=0;return;}
     session=new AbortController();
     run(session.signal);

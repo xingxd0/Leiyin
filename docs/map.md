@@ -2,7 +2,9 @@
 
 The third tab uses `#/map` with the internal view key `map`. Legacy aliases are intentionally unsupported. Map is curated content, with visual studies explicitly marked as demos.
 
-`modules/map.js` defines ME at axial coordinate (0, 0) and the content nodes. `modules/hex-map.js` generates the union of the nodes' two-ring neighborhoods. Outside this territory, only the dotted background is shown. Titles, region labels and dashed outlines are canvas background annotations; content tiles have their own higher layer.
+`modules/map.js` defines ME at axial coordinate (0, 0) and the content nodes. `modules/hex-map.js` generates the union of the nodes' two-ring neighborhoods. Outside this territory, only the dotted background is shown. Titles and region labels are canvas background annotations; content tiles have their own higher layer.
+
+All geometry uses radius 76, width `sqrt(3) * 76`, height 152 and row step 114. Fills extend to the cell boundary without inset borders. A pointer-transparent SVG above the fills draws each shared edge exactly once, keyed by integer lattice vertices rather than rounded pixel coordinates. Edge priority is completed solid accent, pending dashed, origin, region boundary, then empty land. Region boundaries join this same edge layer rather than adding a second outline. Round line caps close vertex junctions; pending dashes start and finish at the endpoints. Hover and keyboard focus never move tiles out of the grid. During dragging the original cell becomes empty and the floating tile gets a temporary outline; drop, cancellation and keyboard moves rebuild the shared grid.
 
 Drag blank land to pan and use the wheel or controls to zoom. Click a filled tile for details. Drag a content tile to snap to an empty cell; ME cannot move. A destination must be within hex distance two of another node, excluding the dragged node. The final graph, with edges between nodes within distance two, must remain connected to ME. Invalid drops and pointer cancellations restore the old position. Alt + arrow keys provide keyboard tile movement with the same validation.
 

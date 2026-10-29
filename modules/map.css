@@ -10,13 +10,13 @@ main.map-workspace-shell { grid-template-rows: minmax(0,1fr); padding: 0; }
 .hex-map .hex-viewport { position: relative; flex: 1; min-height: 180px; overflow: auto; overscroll-behavior: contain; border-block: 1px solid var(--line); background-image: radial-gradient(var(--workshop-grid) 1px, transparent 1px); background-size: 22px 22px; }
 .hex-map .hex-world { position: relative; margin: auto; }
 .hex-map .hex-canvas { position: absolute; width: 900px; height: 760px; transform-origin: top left; }
-.hex-map .hex-tile { --tile-surface: var(--surface); position: absolute; width: 132px; height: 152px; padding: 0; border: 0; background: var(--workshop-grid); clip-path: polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%); }
-.hex-map .hex-face { position: absolute; inset: 2px; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 7px; padding: 18px 12px; background: var(--tile-surface); clip-path: inherit; }
+.hex-map .hex-tile { --tile-surface: var(--surface); position: absolute; width: var(--hex-width); height: var(--hex-height); padding: 0; border: 0; border-radius: 0; background: transparent; clip-path: polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%); }
+.hex-map .hex-face { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 7px; padding: 18px 12px; background: var(--tile-surface); clip-path: inherit; }
 .hex-map .hex-empty { opacity: .65; }
 .hex-map .hex-land-mark { color: var(--workshop-grid); font-size: 30px; }
-.hex-map .hex-filled { cursor: pointer; transition: filter .15s, transform .15s; color: var(--workshop-ink); }
-.hex-map .hex-filled:hover, .hex-map .hex-filled:focus-visible { z-index: 2; transform: translateY(-5px); background: var(--accent); filter: drop-shadow(0 4px 6px var(--workshop-tape)); outline: none; }
-.hex-map .hex-filled:focus-visible .hex-face { inset: 5px; }
+.hex-map .hex-filled { cursor: pointer; transition: filter var(--duration-ui); color: var(--workshop-ink); }
+.hex-map .hex-filled:hover, .hex-map .hex-filled:focus-visible { filter: brightness(1.2); outline: none; }
+.hex-map .hex-filled:focus-visible strong { text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: var(--focus-width); text-underline-offset: 4px; }
 .hex-map .hex-filled strong { text-align: center; font: 650 13px/1.3 var(--font-sans); }
 .hex-map .hex-filled small { font: 7px/1.3 var(--font-mono); letter-spacing: .5px; }
 .hex-map .hex-symbol { font: 28px/1 var(--font-sans); }
@@ -36,8 +36,6 @@ main.map-workspace-shell { grid-template-rows: minmax(0,1fr); padding: 0; }
 }
 @media (prefers-reduced-motion: reduce) { .hex-map .hex-filled { transition: none; } }
 
-.hex-map .hex-regions { position: absolute; inset: 0; width: 900px; height: 760px; pointer-events: none; z-index: 3; overflow: visible; }
-.hex-map .hex-regions path { fill: none; stroke: var(--muted); stroke-width: 1.5; stroke-dasharray: 6 6; stroke-linecap: round; opacity: .75; }
 .hex-map .hex-region-label { position: absolute; z-index: 4; transform: translate(-50%,-50%); padding: 8px 12px; border: 1px dashed var(--muted); border-radius: var(--radius-control); background: var(--workshop-board); color: var(--bright); font: 500 12px var(--font-sans); white-space: nowrap; pointer-events: none; }
 
 .hex-map .hex-viewport { cursor: grab; user-select: none; }
@@ -49,7 +47,6 @@ main.map-workspace-shell { grid-template-rows: minmax(0,1fr); padding: 0; }
 .map-page .hex-header { position: absolute; width: 720px; z-index: 0; padding: 0; pointer-events: none; }
 .map-page .hex-header h2 { font-size: 44px; }
 .map-page .map-region-layer { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
-.map-page .hex-regions { width: 8000px; height: 8000px; z-index: 0; }
 .map-page .hex-region-label { z-index: 0; font-size: 18px; background: transparent; border: 0; }
 .map-page .map-land { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
 .map-page .hex-empty { opacity: .45; }
@@ -66,12 +63,17 @@ main.map-workspace-shell { grid-template-rows: minmax(0,1fr); padding: 0; }
 /* Work in progress and achieved results share the site's semantic palette. */
 .map-page .hex-filled[data-state="pending"] { background: transparent; color: var(--ink); }
 .map-page .hex-filled[data-state="pending"] .hex-face { background: var(--surface); }
-.map-page .hex-filled[data-state="done"] { background: var(--accent); color: var(--bright); }
+.map-page .hex-filled[data-state="done"] { color: var(--bright); }
 .map-page .hex-filled[data-state="done"] .hex-face { background: var(--accent-surface); }
 .map-page .hex-filled[data-state="done"] .hex-symbol, .map-page .hex-filled[data-state="done"] small { color: var(--accent); }
-.map-page .map-state-outline { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
-.map-page .map-state-outline polygon { fill: none; stroke: var(--muted); stroke-width: 2; stroke-dasharray: 5 5; }
-.map-page [data-state="done"] .map-state-outline polygon { stroke: var(--accent); stroke-dasharray: none; }
+/* One canonical edge above both fills hides clipping antialiasing at every seam. */
+.map-page .map-shared-edges { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 3; pointer-events: none; overflow: visible; }
+.map-page .map-shared-edges path, .map-page .map-drag-outline polygon { fill: none; stroke: var(--workshop-grid); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.map-page .map-shared-edges [data-state="empty"] { stroke-opacity: .45; }
+.map-page .map-shared-edges [data-state="region"] { stroke: var(--muted); stroke-opacity: .75; }
+.map-page .map-shared-edges [data-state="pending"], .map-page .map-shared-edges [data-state="region"], .map-page [data-state="pending"] .map-drag-outline polygon { stroke: var(--muted); stroke-dasharray: var(--hex-edge-dash) var(--hex-edge-dash); }
+.map-page .map-shared-edges [data-state="done"], .map-page [data-state="done"] .map-drag-outline polygon { stroke: var(--accent); stroke-width: 3; }
+.map-page .map-drag-outline { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 .map-page .map-state-legend { position: absolute; top: 16px; left: 20px; display: flex; flex-wrap: wrap; gap: 8px 18px; max-width: calc(100% - 40px); padding: 8px 12px; background: var(--surface); color: var(--ink); font: 11px/1.6 var(--font-sans); z-index: 3; pointer-events: none; }
 .map-page .map-detail-records { max-height: 55dvh; overflow: auto; }
 .map-page .map-detail-record { padding: 14px 0; border-top: 1px solid var(--line); }
