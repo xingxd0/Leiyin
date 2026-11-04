@@ -1,0 +1,1523 @@
+[
+  {
+    "index": 3,
+    "home": "https://clairsun.design/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 6,
+    "home": "https://dribbble.com/mannili",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 7,
+    "home": "https://dribbble.com/peidi22",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 13,
+    "home": "https://www.yuwen-li.com/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:muzlee1113@gmail.com",
+    "error": ""
+  },
+  {
+    "index": 15,
+    "home": "https://dribbble.com/yiren",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 18,
+    "home": "https://atom63.io/",
+    "target": "https://atom63.io/projects/wip11-wallpaper",
+    "clicked": true,
+    "returned": true,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 19,
+    "home": "https://janum.co/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 20,
+    "home": "https://rauno.me/craft",
+    "target": "https://rauno.me/craft/interaction-design",
+    "clicked": true,
+    "returned": true,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 21,
+    "home": "https://www.jonnyczar.com/project/n26",
+    "target": "https://www.jonnyczar.com/work",
+    "clicked": true,
+    "returned": true,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 22,
+    "home": "https://www.haolunyang.com/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:lifeindividual12@gmail.com",
+    "error": ""
+  },
+  {
+    "index": 23,
+    "home": "https://www.shaunmpost.com/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:shaunmpost@gmail.com",
+    "error": ""
+  },
+  {
+    "index": 24,
+    "home": "https://felasquez.haus/",
+    "target": "https://felasquez.haus/musixmatch",
+    "clicked": true,
+    "returned": true,
+    "contact": "mailto:ciao@felasquez.haus",
+    "error": ""
+  },
+  {
+    "index": 25,
+    "home": "https://www.narrowdesign.com/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:nick@narrowdesign.com?subject=So, I was on your site and...",
+    "error": ""
+  },
+  {
+    "index": 27,
+    "home": "https://www.muyitao.com/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 28,
+    "home": "https://belleduffner.com/headspace",
+    "target": "https://belleduffner.com/#work",
+    "clicked": true,
+    "returned": true,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 30,
+    "home": "https://laurent.fyi/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 31,
+    "home": "https://www.philipcdavis.com/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 32,
+    "home": "https://tash.work/",
+    "target": "https://tash.work/figma-buzz",
+    "clicked": true,
+    "returned": true,
+    "contact": "mailto:hello@tash.work",
+    "error": ""
+  },
+  {
+    "index": 33,
+    "home": "https://petro.design/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 34,
+    "home": "https://spencergabor.work/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:spencergabor9@gmail.com",
+    "error": ""
+  },
+  {
+    "index": 35,
+    "home": "https://nuageboi.fr/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:nuageboi.contact@gmail.com",
+    "error": ""
+  },
+  {
+    "index": 36,
+    "home": "https://ryanstephen.co/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:rstephenpdx@gmail.com",
+    "error": ""
+  },
+  {
+    "index": 37,
+    "home": "https://liumichelle.com/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:studio@liumichelle.com",
+    "error": ""
+  },
+  {
+    "index": 38,
+    "home": "https://www.jjnold.com/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 39,
+    "home": "https://dousanmiao.com/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 40,
+    "home": "https://www.ziaoh.com/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:ziaohdesign@gmail.com",
+    "error": ""
+  },
+  {
+    "index": 41,
+    "home": "https://xiuxiuyuan.com/",
+    "target": "https://xiuxiuyuan.com/work/",
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:yuanxiuxiu2013@gmail.com",
+    "error": "locator.click: Timeout 6000ms exceeded."
+  },
+  {
+    "index": 42,
+    "home": "https://emilyyj.com/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:emilyyj@umich.edu",
+    "error": ""
+  },
+  {
+    "index": 44,
+    "home": "https://www.daeunyoo.com/portfolio/routinebuilder",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 45,
+    "home": "https://portfolio.godiva.reisen/",
+    "target": "https://portfolio.godiva.reisen/IBM-Cloud-Pak-for-Data",
+    "clicked": true,
+    "returned": true,
+    "contact": "mailto:godivareisen@gmail.com",
+    "error": ""
+  },
+  {
+    "index": 46,
+    "home": "https://www.siladityaa.com/",
+    "target": "https://www.siladityaa.com/work/meta-ai-wearables",
+    "clicked": false,
+    "returned": true,
+    "contact": "mailto:siladityaa@gmail.com",
+    "error": ""
+  },
+  {
+    "index": 47,
+    "home": "https://jyang.io/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:hi@jyang.io",
+    "error": ""
+  },
+  {
+    "index": 49,
+    "home": "https://www.rohailkhan.com/",
+    "target": "https://www.rohailkhan.com/project/dawson-management",
+    "clicked": true,
+    "returned": true,
+    "contact": "mailto:hello@rohailkhan.com",
+    "error": ""
+  },
+  {
+    "index": 50,
+    "home": "https://sooj.in/",
+    "target": "https://sooj.in/projects",
+    "clicked": false,
+    "returned": false,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 51,
+    "home": "https://www.xujiazhao.com/zh",
+    "target": "https://www.xujiazhao.com/zh/project/copilot-content-ecosystem",
+    "clicked": true,
+    "returned": true,
+    "contact": "mailto:hello@xujiazhao.com",
+    "error": ""
+  },
+  {
+    "index": 52,
+    "home": "https://www.iamkoko.me/",
+    "target": "https://www.iamkoko.me/howiwork",
+    "clicked": true,
+    "returned": true,
+    "contact": "mailto:lvling1992@gmail.com?subject=Hey, koko",
+    "error": ""
+  },
+  {
+    "index": 53,
+    "home": "https://yutongzhang.me/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 54,
+    "home": "https://www.lisasuefischer.com/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:lisasuefischer@gmail.com",
+    "error": ""
+  },
+  {
+    "index": 55,
+    "home": "https://www.nicolaspellegrino.com/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 56,
+    "home": "https://joshglucas.com/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 57,
+    "home": "https://generousyeh.com/",
+    "target": "https://generousyeh.com/work",
+    "clicked": true,
+    "returned": true,
+    "contact": "mailto:yehgen000@gmail.com",
+    "error": ""
+  },
+  {
+    "index": 58,
+    "home": "https://www.ethanchng.com/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:ethanch2@gmail.com",
+    "error": ""
+  },
+  {
+    "index": 59,
+    "home": "https://www.chloefan.com/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 60,
+    "home": "https://jayvee.me/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:jeromevillagracia@gmail.com",
+    "error": ""
+  },
+  {
+    "index": 61,
+    "home": "https://deepakmallya.com/",
+    "target": "https://deepakmallya.com/all-work",
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:deepakmallya@gmail.com?subject=Hello!%20I%20got%20your%20email%20from%20your",
+    "error": "locator.click: Timeout 6000ms exceeded."
+  },
+  {
+    "index": 62,
+    "home": "https://www.marcocoppeto.com/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 63,
+    "home": "https://www.designisfunny.co/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:hello@designisfunny.co",
+    "error": ""
+  },
+  {
+    "index": 64,
+    "home": "https://emmiwu.com/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 65,
+    "home": "https://ggkim.com/",
+    "target": "https://ggkim.com/handshake",
+    "clicked": true,
+    "returned": true,
+    "contact": "mailto:ggkim0614@gmail.com",
+    "error": ""
+  },
+  {
+    "index": 66,
+    "home": "https://kaijordan.com/cash-app",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:kaijordan.design@gmail.com?",
+    "error": ""
+  },
+  {
+    "index": 67,
+    "home": "https://yikodesign.com/#/almadengenomics/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 68,
+    "home": "https://oluwatosin.io/portfolio",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 69,
+    "home": "https://gracemmaa.com/index.html",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:gracemmaa@gmail.com",
+    "error": ""
+  },
+  {
+    "index": 70,
+    "home": "https://www.jessicakwon.me/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:jessicakwon@mde.harvard.edu",
+    "error": ""
+  },
+  {
+    "index": 71,
+    "home": "https://nayoungk.com/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 73,
+    "home": "https://www.adropofsunny.com/",
+    "target": "https://www.adropofsunny.com/kindlescribe",
+    "clicked": true,
+    "returned": true,
+    "contact": "mailto:minseonkim94@gmail.com?subject=Hello%2C%20I'd%20like%20to%20work%20with%20you.",
+    "error": ""
+  },
+  {
+    "index": 74,
+    "home": "https://www.shujdesign.com/about-me",
+    "target": "https://www.shujdesign.com/ai-portfolio",
+    "clicked": true,
+    "returned": true,
+    "contact": "mailto:yobi321info@gmail.com",
+    "error": ""
+  },
+  {
+    "index": 76,
+    "home": "https://beiwang.info/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 78,
+    "home": "https://unikolas.com/",
+    "target": "https://unikolas.com/projects/precious-payload",
+    "clicked": true,
+    "returned": true,
+    "contact": "mailto:mail@unikolas.com",
+    "error": ""
+  },
+  {
+    "index": 79,
+    "home": "https://elissamartial.com/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:elissafied@gmail.com",
+    "error": ""
+  },
+  {
+    "index": 80,
+    "home": "https://jacquelineguo.framer.website/",
+    "target": "https://jacquelineguo.framer.website/xcode",
+    "clicked": true,
+    "returned": true,
+    "contact": "mailto:jacquelineguo7@gmail.com",
+    "error": ""
+  },
+  {
+    "index": 81,
+    "home": "https://williamle.design/soundcloud",
+    "target": "https://williamle.design/#:Mp8fQXZB8",
+    "clicked": true,
+    "returned": true,
+    "contact": "mailto:williamle2021@gmail.com",
+    "error": ""
+  },
+  {
+    "index": 82,
+    "home": "https://www.kaiwenliu.com/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 83,
+    "home": "https://mona-li.com/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:monali14520@gmail.com",
+    "error": ""
+  },
+  {
+    "index": 84,
+    "home": "https://www.lunawangzhiyue.com/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:lunazhiyuewang@gmail.com",
+    "error": ""
+  },
+  {
+    "index": 85,
+    "home": "https://www.nessiepan.com/",
+    "target": "https://www.nessiepan.com/",
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:ruoxuannessie.pan@gmail.com",
+    "error": ""
+  },
+  {
+    "index": 86,
+    "home": "https://www.guruduttperi.com/#side",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 87,
+    "home": "https://www.mayachen.me/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:mayachen@berkeley.edu",
+    "error": ""
+  },
+  {
+    "index": 88,
+    "home": "https://www.tcgong.com/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:tgong1@sva.edu",
+    "error": ""
+  },
+  {
+    "index": 89,
+    "home": "https://tushar.work/",
+    "target": "https://tushar.work/design/cowork",
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:t2gupta@outlook.com",
+    "error": ""
+  },
+  {
+    "index": 90,
+    "home": "https://www.yixiliu.design/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:yixiliu@uw.edu",
+    "error": ""
+  },
+  {
+    "index": 91,
+    "home": "https://shenyu-sun.github.io/portfolio/",
+    "target": "https://shenyu-sun.github.io/portfolio/index.html",
+    "clicked": true,
+    "returned": true,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 92,
+    "home": "https://gudesign.nl/",
+    "target": "https://gudesign.nl/designs",
+    "clicked": false,
+    "returned": false,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 93,
+    "home": "https://www.brilevin.com/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:briana.levin4@gmail.com",
+    "error": ""
+  },
+  {
+    "index": 94,
+    "home": "https://ux.benshishko.eu/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 97,
+    "home": "https://www.irodneyedwards.com/",
+    "target": "https://www.irodneyedwards.com/work/lumon-os",
+    "clicked": true,
+    "returned": true,
+    "contact": "mailto:studio@irodneyedwards.com?subject=Hello.%20",
+    "error": ""
+  },
+  {
+    "index": 98,
+    "home": "https://www.rauldronca.com/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:rauldronk@gmail.com",
+    "error": ""
+  },
+  {
+    "index": 99,
+    "home": "https://tantannguyen.com/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 100,
+    "home": "https://dslavovna.tilda.ws/product",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 101,
+    "home": "https://alpine-scapula-f0c.notion.site/Alina-Scheck-11ad6f5efb83804bb67bf1d5addbc2a1",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 102,
+    "home": "https://www.chrissywelsh.com/portfolio",
+    "target": "https://www.chrissywelsh.com/portfolio",
+    "clicked": true,
+    "returned": false,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 103,
+    "home": "https://charlsyang.com/work",
+    "target": "https://charlsyang.com/work",
+    "clicked": true,
+    "returned": false,
+    "contact": "mailto:hi@charlsy.me",
+    "error": ""
+  },
+  {
+    "index": 104,
+    "home": "https://kirtikaarora-portfolio.framer.website/#uxprojects",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 105,
+    "home": "https://thatethan.framer.website/",
+    "target": "https://thatethan.framer.website/projects/design-system",
+    "clicked": true,
+    "returned": true,
+    "contact": "mailto:locateethan@gmail.com",
+    "error": ""
+  },
+  {
+    "index": 106,
+    "home": "https://shawnajdavis.com/",
+    "target": "https://shawnajdavis.com/projects/",
+    "clicked": false,
+    "returned": false,
+    "contact": null,
+    "error": "locator.click: Timeout 6000ms exceeded."
+  },
+  {
+    "index": 107,
+    "home": "https://hasque.com/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 108,
+    "home": "http://iamheng.com/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:guheng825@gmail.com",
+    "error": ""
+  },
+  {
+    "index": 109,
+    "home": "https://jasoncho.ca/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:jason@jasoncho.ca",
+    "error": ""
+  },
+  {
+    "index": 117,
+    "home": "https://interface-lab.vercel.app/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 118,
+    "home": "https://joseph.cv/",
+    "target": "https://joseph.cv/reading",
+    "clicked": true,
+    "returned": true,
+    "contact": "mailto:jxsephz@gmail.com",
+    "error": ""
+  },
+  {
+    "index": 119,
+    "home": "https://yannglt.com/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 128,
+    "home": "https://www.annieluo.me/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:jluo44@hotmail.com",
+    "error": ""
+  },
+  {
+    "index": 137,
+    "home": "https://ryo.lu/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:me@ryo.lu",
+    "error": ""
+  },
+  {
+    "index": 138,
+    "home": "https://henryheffernan.com/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 139,
+    "home": "https://finethought.com.au/",
+    "target": "https://finethought.com.au/project/arthur-g",
+    "clicked": false,
+    "returned": false,
+    "contact": null,
+    "error": "locator.click: Timeout 6000ms exceeded."
+  },
+  {
+    "index": 140,
+    "home": "https://www.robertkan.com/projects/udemy?from=all-works",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:therobkan@gmail.com",
+    "error": ""
+  },
+  {
+    "index": 154,
+    "home": "https://www.wzhudesign.com/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 158,
+    "home": "http://yaojxworks.com/.well-known/sgcaptcha/?r=%2Findex.html&y=ipr:52.27.11.166:1792799129.731",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:yaojxjason@gmail.com",
+    "error": ""
+  },
+  {
+    "index": 160,
+    "home": "https://yichenxie.com/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 170,
+    "home": "https://kaitinghuang.com/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:kightingh@gmail.com",
+    "error": ""
+  },
+  {
+    "index": 183,
+    "home": "https://www.durojaiyes.design/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:ds@durojaiyes.design",
+    "error": ""
+  },
+  {
+    "index": 184,
+    "home": "https://buzzusborne.com/",
+    "target": "https://buzzusborne.com/work/inbox/",
+    "clicked": true,
+    "returned": true,
+    "contact": "mailto:hello@buzzusborne.com",
+    "error": ""
+  },
+  {
+    "index": 186,
+    "home": "https://kritikakushwaha.com/",
+    "target": "https://kritikakushwaha.com/project/safer",
+    "clicked": false,
+    "returned": false,
+    "contact": null,
+    "error": "locator.click: Timeout 6000ms exceeded."
+  },
+  {
+    "index": 187,
+    "home": "https://www.sohajbrar.com/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 189,
+    "home": "https://casestudybites.com/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:eduardo.mtz1@gmail.com",
+    "error": ""
+  },
+  {
+    "index": 190,
+    "home": "https://www.lehuagray.com/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:lehua.gray@gmail.com",
+    "error": ""
+  },
+  {
+    "index": 191,
+    "home": "https://www.jasonzhouzilin.com/",
+    "target": "https://www.jasonzhouzilin.com/syracuse-university-mobile-app-redesign",
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:zhouzilin1997@gmail.com",
+    "error": "locator.click: Timeout 6000ms exceeded."
+  },
+  {
+    "index": 192,
+    "home": "https://www.poncedesign.com/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:luisponcedesign@gmail.com",
+    "error": ""
+  },
+  {
+    "index": 193,
+    "home": "https://www.meenakaushik.com/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 194,
+    "home": "https://peterbiekarck.com/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:peterbiekarck@proton.me",
+    "error": ""
+  },
+  {
+    "index": 196,
+    "home": "https://www.monikamahor.com/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:monikamahore@gmail.com",
+    "error": ""
+  },
+  {
+    "index": 197,
+    "home": "https://minzhou.me/",
+    "target": "https://minzhou.me/work",
+    "clicked": true,
+    "returned": true,
+    "contact": "mailto:minzhou.design@gmail.com",
+    "error": ""
+  },
+  {
+    "index": 198,
+    "home": "https://philipsamarets.com/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:hi@philipsamarets.com",
+    "error": ""
+  },
+  {
+    "index": 199,
+    "home": "https://www.melaniedrx.com/home",
+    "target": "https://www.melaniedrx.com/autogenai-design-led-vision",
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:melaniedrx@gmail.com?subject=Hi%20Melanie%2C%20contact%20from%20your%20portfolio",
+    "error": "locator.click: Timeout 6000ms exceeded."
+  },
+  {
+    "index": 200,
+    "home": "https://edwson.com/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:ed@edwson.com",
+    "error": ""
+  },
+  {
+    "index": 201,
+    "home": "https://www.aditimagal.com/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:aditi.magal@gmail.com",
+    "error": ""
+  },
+  {
+    "index": 202,
+    "home": "https://matthewmang.com/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:matthew.mang@gmail.com?Subject=Hey%20there!",
+    "error": ""
+  },
+  {
+    "index": 203,
+    "home": "https://vicdearanzeta.com/",
+    "target": "https://vicdearanzeta.com/work",
+    "clicked": false,
+    "returned": true,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 204,
+    "home": "https://www.linzhao15.com/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:linzhao0324@gmail.com",
+    "error": ""
+  },
+  {
+    "index": 205,
+    "home": "https://jfears.com/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:jaz@jfears.com",
+    "error": ""
+  },
+  {
+    "index": 206,
+    "home": "https://caioresende.com/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 208,
+    "home": "https://nabauer.com/",
+    "target": "https://nabauer.com/work",
+    "clicked": true,
+    "returned": true,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 209,
+    "home": "https://www.iraklis.work/",
+    "target": "https://www.iraklis.work/projects/hashbank",
+    "clicked": true,
+    "returned": true,
+    "contact": "mailto:hello@iraklis.work",
+    "error": ""
+  },
+  {
+    "index": 210,
+    "home": "https://www.glorialo.design/",
+    "target": "https://www.glorialo.design/work/rokt",
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:gloria.lo@live.com.au?subject=Hello!",
+    "error": "locator.click: Timeout 6000ms exceeded."
+  },
+  {
+    "index": 211,
+    "home": "https://www.liiidesign.com/",
+    "target": "https://www.liiidesign.com/side-work",
+    "clicked": true,
+    "returned": true,
+    "contact": "mailto:designer.chenli@gmail.com",
+    "error": ""
+  },
+  {
+    "index": 212,
+    "home": "https://www.darshitapatankar.com/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:dpatankar21@gmail.com",
+    "error": ""
+  },
+  {
+    "index": 214,
+    "home": "https://janire.me/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:janire@janire.me",
+    "error": ""
+  },
+  {
+    "index": 215,
+    "home": "https://alborz.design/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:Hello@Alborz.Design?subject=Hello!",
+    "error": ""
+  },
+  {
+    "index": 217,
+    "home": "https://danielautry.com/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 218,
+    "home": "https://www.xhulia.com/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 219,
+    "home": "https://www.dianarenko.com/",
+    "target": "https://www.dianarenko.com/work/wixel-mobile",
+    "clicked": true,
+    "returned": true,
+    "contact": "mailto:dianaagronov@gmail.com",
+    "error": ""
+  },
+  {
+    "index": 220,
+    "home": "https://www.msilvestre.com/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 221,
+    "home": "https://samsmall.design/",
+    "target": "https://samsmall.design/work/visa-case-study",
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:info@samsmall.design?subject=Hey!&body=What%27s%20up%3F!",
+    "error": "locator.click: Timeout 6000ms exceeded."
+  },
+  {
+    "index": 222,
+    "home": "https://www.tannerchristensen.com/",
+    "target": "https://www.tannerchristensen.com/work/lyft/",
+    "clicked": true,
+    "returned": true,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 223,
+    "home": "https://www.andrewcoyle.com/",
+    "target": "https://www.andrewcoyle.com/distro",
+    "clicked": true,
+    "returned": true,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 224,
+    "home": "https://terrywu-design.framer.website/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 225,
+    "home": "https://amirmohseni.com/",
+    "target": "https://amirmohseni.com/portfolio",
+    "clicked": true,
+    "returned": true,
+    "contact": "mailto:A95Mohseni@gmail.com",
+    "error": ""
+  },
+  {
+    "index": 226,
+    "home": "https://www.rachelschmitz.design/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 227,
+    "home": "http://schraeder.work/index.html",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:hello@schraeder.work?subject=Project%20inquiry",
+    "error": ""
+  },
+  {
+    "index": 228,
+    "home": "https://christines-portfolio-0850cb.webflow.io/",
+    "target": "https://christines-portfolio-0850cb.webflow.io/work/vsco-capture",
+    "clicked": true,
+    "returned": true,
+    "contact": "mailto:imhuiye@gmail.com",
+    "error": ""
+  },
+  {
+    "index": 229,
+    "home": "https://www.jianingwei.net/",
+    "target": "https://www.jianingwei.net/work/agent-opus",
+    "clicked": true,
+    "returned": true,
+    "contact": "mailto:Wei_jianing@outlook.com?",
+    "error": ""
+  },
+  {
+    "index": 230,
+    "home": "https://lolajiang.com/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:lolajiang.ux@gmail.com",
+    "error": ""
+  },
+  {
+    "index": 231,
+    "home": "https://babich.biz/portfolio/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 232,
+    "home": "https://designbyjohnwayne.com/resume/",
+    "target": "https://designbyjohnwayne.com/#case-studies",
+    "clicked": true,
+    "returned": true,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 233,
+    "home": "https://repponen.com/",
+    "target": "https://repponen.com/work",
+    "clicked": true,
+    "returned": true,
+    "contact": "mailto:repponen@gmail.com",
+    "error": ""
+  },
+  {
+    "index": 235,
+    "home": "https://www.bettinabergendahl.com/",
+    "target": "https://www.bettinabergendahl.com/work/little-otter-health-a-pediatric-mental-health-platform",
+    "clicked": true,
+    "returned": true,
+    "contact": "mailto:bettina.bergendahl@gmail.com",
+    "error": ""
+  },
+  {
+    "index": 236,
+    "home": "https://carlapan.work/",
+    "target": "https://carlapan.work/Projects",
+    "clicked": true,
+    "returned": true,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 237,
+    "home": "https://yuhuiqi.com/",
+    "target": "https://yuhuiqi.com/index.html",
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:yuhui.qi@outlook.com",
+    "error": "locator.click: Timeout 6000ms exceeded."
+  },
+  {
+    "index": 238,
+    "home": "https://www.grym.design/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:grayam@grym.design",
+    "error": ""
+  },
+  {
+    "index": 239,
+    "home": "https://ruiyizhou.design/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:workaholic@example.com",
+    "error": ""
+  },
+  {
+    "index": 240,
+    "home": "https://jasonspielman.com/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 241,
+    "home": "https://bryangarage.dev/",
+    "target": "https://bryangarage.dev/core-motion",
+    "clicked": true,
+    "returned": true,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 242,
+    "home": "https://rafa.design/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 243,
+    "home": "https://maielamin.com/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:maielamin@hotmail.com",
+    "error": ""
+  },
+  {
+    "index": 245,
+    "home": "https://www.nicolearoberts.com/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:naroberts27@gmail.com",
+    "error": ""
+  },
+  {
+    "index": 246,
+    "home": "https://ryanbreaultux.com/",
+    "target": "https://ryanbreaultux.com/",
+    "clicked": false,
+    "returned": false,
+    "contact": null,
+    "error": "locator.click: Timeout 6000ms exceeded."
+  },
+  {
+    "index": 247,
+    "home": "https://j-alyavdin.com/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:mail@j-alyavdin.com?cc=mail@jalyavdin.ru&subject=Product%20Designer",
+    "error": ""
+  },
+  {
+    "index": 248,
+    "home": "https://www.marco.fyi/",
+    "target": "https://www.marco.fyi/work",
+    "clicked": true,
+    "returned": true,
+    "contact": "mailto:hi@marco.fyi",
+    "error": ""
+  },
+  {
+    "index": 249,
+    "home": "https://amara.design/",
+    "target": "https://amara.design/amazon-alexa-ai-studio",
+    "clicked": false,
+    "returned": false,
+    "contact": null,
+    "error": "locator.click: Timeout 6000ms exceeded."
+  },
+  {
+    "index": 250,
+    "home": "https://www.olhabahaieva.com/",
+    "target": "https://www.olhabahaieva.com/work",
+    "clicked": true,
+    "returned": true,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 251,
+    "home": "https://www.soniasong.com/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:ys999@cornell.edu",
+    "error": ""
+  },
+  {
+    "index": 252,
+    "home": "https://www.ccdmm.net/",
+    "target": "https://www.ccdmm.net/project-02.html",
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:chenmengm19@gmail.com",
+    "error": "locator.click: Timeout 6000ms exceeded."
+  },
+  {
+    "index": 253,
+    "home": "https://www.irene-butenko.com/",
+    "target": "https://www.irene-butenko.com/work",
+    "clicked": true,
+    "returned": true,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 254,
+    "home": "https://meet.framer.media/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": "mailto:meet.vora.work@gmail.com",
+    "error": ""
+  },
+  {
+    "index": 255,
+    "home": "https://www.mathewlejeune.com/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 257,
+    "home": "https://yanishi.design/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 258,
+    "home": "https://tonyyanchen.com/",
+    "target": null,
+    "clicked": false,
+    "returned": false,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 259,
+    "home": "https://appsandfrappes.com/",
+    "target": "https://appsandfrappes.com/new-way-to-work",
+    "clicked": true,
+    "returned": true,
+    "contact": null,
+    "error": ""
+  },
+  {
+    "index": 260,
+    "home": "https://www.adnan.design/",
+    "target": "https://www.adnan.design/workplace-events",
+    "clicked": true,
+    "returned": true,
+    "contact": "mailto:adnan959@gmail.com",
+    "error": ""
+  }
+]
